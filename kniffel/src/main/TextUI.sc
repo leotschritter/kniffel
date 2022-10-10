@@ -1,9 +1,6 @@
-//import scala.::
 
 val f_column: List[String] =
   List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
-
-val builder = List.newBuilder[String]
 
 val number_of_players: Int = 3
 
@@ -15,11 +12,18 @@ def header(cellWidth: Int = 3): Unit = {
   (for (n <- List.range(1, number_of_players + 1)) print("|" + ("P" + n).padTo(3, ' ')))
   println("|")
 }
+// old variant
+/*val builder = List.newBuilder[String]
 def mesh(cellWidth: Int = 3, cellNum: Int = 3): String = {
   for (s: String <- f_column)
     builder += (bar(cellWidth) + cells(cellWidth, s.padTo(3, ' ')))
   builder += bar(cellWidth)
   builder.toString.replace("ListBuffer(", "").replace(", ", "").replace(")", "")
+}*/
+def mesh(cellWidth: Int = 3): Unit = {
+  header()
+  for (s <- f_column) print(bar(cellWidth) + cells(cellWidth, s.padTo(3, ' ')))
+  print(bar(cellWidth))
 }
-header()
-println(mesh())
+//println(mesh())
+mesh()
