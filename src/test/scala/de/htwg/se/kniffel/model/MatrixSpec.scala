@@ -1,4 +1,7 @@
 package de.htwg.se.kniffel.model
-class MatrixSpec {
+
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.matchers.should.Matchers._
+class MatrixSpec extends AnyWordSpec {
 
 }
