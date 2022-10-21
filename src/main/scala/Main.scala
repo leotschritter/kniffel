@@ -3,8 +3,6 @@ val f_column: List[String] =
 
 val number_of_players: Int = 4
 
-val j = 2
-
 def cells(cellWidth: Int = 3, desc: String) = "|" + desc + ("|" + " " * cellWidth) * (number_of_players) + "|" + '\n'
 
 def bar(cellWidth: Int = 3) = (("+" + ("-") * cellWidth) * (number_of_players + 1)) + "+" + '\n'
