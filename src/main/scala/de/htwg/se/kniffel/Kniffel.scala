@@ -1,3 +1,5 @@
+package de.htwg.se.kniffel
+
 val f_column: List[String] =
   List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
 
@@ -17,4 +19,4 @@ def mesh(cellWidth: Int = 3): String = {
 }
 
 @main def main: Unit =
-  println(mesh())
+  println(mesh()
