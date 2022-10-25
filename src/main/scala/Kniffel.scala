@@ -21,6 +21,4 @@ def mesh(cellWidth: Int = 3, numberOfPlayers: Int = 4): String = {
 }
 
 @main def main(): Unit =
-//  println(mesh())
- println(cells(2,1))
-  //println(bar(2,1))
+ println(mesh())
