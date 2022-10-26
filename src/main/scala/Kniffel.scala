@@ -1,8 +1,7 @@
-val f_column: List[String] =
+val first_column: List[String] =
   List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
 
 
-val cellWidth: Int = 4
 def cells(cellWidth: Int = 3, numberOfPlayers: Int = 4, desc: String = ""): String = "|"
   + desc.padTo(cellWidth,' ') + ("|" + " " * cellWidth) * numberOfPlayers + "|" + '\n'
 
@@ -16,7 +15,7 @@ def header(cellWidth: Int = 3, numberOfPlayers: Int = 4): List[String] = {
 }
 
 def mesh(cellWidth: Int = 3, numberOfPlayers: Int = 4): String = {
-  (header() :+ "\n" :+ (for (s <- f_column) yield bar(cellWidth)
+  (header() :+ "\n" :+ (for (s <- first_column) yield bar(cellWidth)
     + cells(cellWidth, numberOfPlayers, s)).mkString("") :+ bar(cellWidth)).mkString("")
 }
 
