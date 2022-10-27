@@ -6,10 +6,10 @@ class KniffelSpec extends AnyWordSpec {
     "have a bar as String of form '+---+---+---+---+---+'" in {
       bar() should be("+---+---+---+---+---+" + '\n')
     }
-    "list should contain" in {
+    /*"list should contain" in {
       first_column.length should be(19)
       first_column should contain theSameElementsInOrderAs List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
-    }
+    }*/
     "have a scalable bar" in {
       bar(1, 1) should be("+-+-+" + '\n')
       bar(1, 2) should be("+-+-+-+" + '\n')

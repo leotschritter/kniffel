@@ -19,5 +19,6 @@ def mesh(cellWidth: Int = 3, numberOfPlayers: Int = 4): String = {
     + cells(cellWidth, numberOfPlayers, s)).mkString("") :+ bar(cellWidth)).mkString("")
 }
 
+/*
 @main def main(): Unit =
- println(mesh())
+ println(mesh())*/
