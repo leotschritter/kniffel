@@ -30,14 +30,26 @@ class DiceCupSpec extends AnyWordSpec {
         }
       }
     }
-    "dices are put out of the Dice Cup" should {
+    "dices are put out the Dice Cup or in" should {
       val diceCup: DiceCup = new DiceCup()
-      "should be inserted into the locked list of a new DiceCup Object" in {
-        val sortOut: DiceCup = diceCup.putDicesOut(diceCup.inCup.take(2))
+      val sortOut: DiceCup = diceCup.putDicesOut(diceCup.inCup.take(2))
+      "be inserted into the locked list of a new DiceCup Object" in {
         sortOut.lockedSize should be(2)
         sortOut.inCupSize should be(3)
       }
+      "be inserted into the inCup list of a new DiceCup Object" in {
+        val putIn: DiceCup = sortOut.putDicesIn(sortOut.locked.take(2))
+        putIn.lockedSize should be(0)
+        putIn.inCupSize should be(5)
+      }
+    }
+    "list Entries are dropped from another list" should {
+      val diceCup: DiceCup = new DiceCup()
+      val list:List[Int] = List.range(1, 6)
+      "contain" in {
+        val emptyList:List[Int] = diceCup.dropListEntriesFromList(list, list)
+        emptyList.size should be(0)
+      }
     }
   }
-
 }
