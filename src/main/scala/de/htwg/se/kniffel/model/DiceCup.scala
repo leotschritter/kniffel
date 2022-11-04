@@ -7,7 +7,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) {
 
   def newThrow(): DiceCup = {
     assert(remDices > 0)
-    DiceCup(locked, List.fill(5 - lockedSize)(Random.between(1, 7)), remDices - 1)
+    DiceCup(locked, List.fill(5 - locked.size)(Random.between(1, 7)), remDices - 1)
   }
 
   def dropListEntriesFromList(entriesToDelete:List[Int], shortenedList:List[Int], n:Int = 0): List[Int] = {
@@ -24,6 +24,4 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) {
 
   def putDicesOut(sortOut: List[Int]): DiceCup = DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
 
-  val inCupSize: Int = inCup.size
-  val lockedSize: Int = locked.size
 }
