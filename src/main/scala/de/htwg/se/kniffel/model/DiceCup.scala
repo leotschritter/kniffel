@@ -1,4 +1,5 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel
+package model
 
 import scala.util.Random
 
