@@ -7,7 +7,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) {
   def this() = this(List.fill(0)(0), List.fill(5)(Random.between(1, 7)), 2)
 
   def newThrow(): DiceCup = {
-    assert(remDices > 0)
+    //assert(remDices > 0)
     DiceCup(locked, List.fill(5 - locked.size)(Random.between(1, 7)), remDices - 1)
   }
 

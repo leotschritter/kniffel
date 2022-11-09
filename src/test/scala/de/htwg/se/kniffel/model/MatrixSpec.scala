@@ -19,6 +19,7 @@ class MatrixSpec extends AnyWordSpec {
       val matrix = new Matrix(2)
       "contain value" in {
         matrix.cell(0, 0) should be(0)
+        matrix.col(0)
       }
       "value should be insertable" in {
         val returnedMatrix = matrix.fill(0, 0, 73)

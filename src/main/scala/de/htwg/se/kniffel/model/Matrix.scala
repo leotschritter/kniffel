@@ -5,3 +5,4 @@ case class Matrix[T](columns: Vector[Vector[Int]]):
   val size:Int = columns.size
   def cell(col:Int, row:Int):Int = columns(col)(row)
   def fill(col:Int, row:Int, value:Int):Matrix[T] = copy(columns.updated(col, columns(col).updated(row, value)))
+  def col(col: Int) = columns(col)
