@@ -25,4 +25,25 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) {
 
   def putDicesOut(sortOut: List[Int]): DiceCup = DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
 
+  def mergeLists(list1: List[Int], list2: List[Int]): List[Int] = list1 ::: list2
+
+  def getResult(list: List[Int], index: Int): Int = index match {
+    case 0 | 1 | 2 | 3 | 4 | 5 => list.filter(_ == index + 1).sum
+    case 9 => getSum(list, checkThreeOfAKind(list))
+    case 10 => getSum(list, checkFourOfAKind(list))
+    case 11 => getSum(list, checkFullHouse(list))
+    case 12 => if checkSmallStreet(list) then 30 else 0
+    case 13 => if checkBigStreet(list) then 40 else 0
+    case 14 => if checkKniffel(list) then 50 else 0
+    case 15 => list.sum
+  }
+
+  def mapToFrequency(list: List[Int]): List[Int] = list.map(x => list.count(_ == x))
+  def checkThreeOfAKind(list: List[Int]): Boolean = mapToFrequency(list).max >=3
+  def checkFourOfAKind(list: List[Int]): Boolean = mapToFrequency(list).max >= 4
+  def checkFullHouse(list: List[Int]): Boolean = mapToFrequency(list).max == 3 & mapToFrequency(list).min == 2
+  def checkBigStreet(list: List[Int]): Boolean = mapToFrequency(list).max == 1 & list.max - list.min == 4
+  def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3
+  def checkKniffel(list: List[Int]): Boolean = mapToFrequency(list).max == 5
+  def getSum(list: List[Int], exp: Boolean): Int = if (exp) list.sum else 0
 }

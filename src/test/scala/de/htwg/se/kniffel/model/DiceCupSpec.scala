@@ -51,5 +51,24 @@ class DiceCupSpec extends AnyWordSpec {
         emptyList.size should be(0)
       }
     }
+    "To evaluate the result of each throw get result" should {
+      val diceCup = new DiceCup()
+      val list: List[Int] = List(2,2)
+      val list2: List[Int] = List(2,2,2)
+      val list3: List[Int] = List(2,3,4,5,6)
+      "return the right value" in{
+        diceCup.getResult(diceCup.mergeLists(list,list2),1) should be(10)
+        diceCup.getResult(diceCup.mergeLists(list,list2),9) should be(10)
+        diceCup.getResult(diceCup.mergeLists(list,list2),10) should be(10)
+        diceCup.getResult(diceCup.mergeLists(list,list2),11) should be(0)
+        diceCup.getResult(list3,12) should be(30)
+        diceCup.getResult(diceCup.mergeLists(list,list2),12) should be(0)
+        diceCup.getResult(list3,13) should be(40)
+        diceCup.getResult(diceCup.mergeLists(list,list2),13) should be(0)
+        diceCup.getResult(diceCup.mergeLists(list,list2),14) should be(50)
+        diceCup.getResult(list3,14) should be(0)
+        diceCup.getResult(diceCup.mergeLists(list,list2),15) should be(10)
+      }
+    }
   }
 }
