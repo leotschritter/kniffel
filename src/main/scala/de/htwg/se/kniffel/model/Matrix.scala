@@ -1,8 +1,8 @@
 package de.htwg.se.kniffel.model
 
-case class Matrix[T](columns: Vector[Vector[Int]]):
-  def this(cols:Int, rows:Int = 19) = this(Vector.tabulate(cols, rows) { (rows, cols) => 0})
-  val size:Int = columns.size
-  def cell(col:Int, row:Int):Int = columns(col)(row)
-  def fill(col:Int, row:Int, value:Int):Matrix[T] = copy(columns.updated(col, columns(col).updated(row, value)))
-  def col(col: Int) = columns(col)
+case class Matrix[T](rows: Vector[Vector[String]]):
+  def this(cols: Int, row_s: Int = 19) = this(Vector.tabulate(row_s, cols) { (cols, row_s) => "" })
+
+  def cell(col: Int, row: Int): String = rows(row)(col)
+
+  def fill(col: Int, row: Int, value: String): Matrix[T] = copy(rows.updated(row, rows(row).updated(col, value)))

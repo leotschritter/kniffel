@@ -18,9 +18,9 @@ class FieldSpec extends AnyWordSpec {
       field1.cells() should be("|   |   |   |   |   |" + '\n')
     }
     "have scalable cells" in {
-      field1.cells(1, 1) should be("| | |" + '\n')
-      field1.cells(1, 2) should be("| | | |" + '\n')
-      field1.cells(2, 1) should be("|  |  |" + '\n')
+      field1.cells(1, 1, "", List.fill(1)("")) should be("| | |" + '\n')
+      field1.cells(1, 2, "", List.fill(2)("")) should be("| | | |" + '\n')
+      field1.cells(2, 1, "", List.fill(1)("")) should be("|  |  |" + '\n')
     }
     "have a header as List in Form of'List(    , |P1 , |P2 , |P3 , |P4 )'" in {
       field1.header() shouldBe a[List[String]]
@@ -33,6 +33,53 @@ class FieldSpec extends AnyWordSpec {
       "    |P1 |P2 |P3 |P4 \n" +
         "+---+---+---+---+---+\n" +
         "|1  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|2  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|3  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|4  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|5  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|6  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|G  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|B  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|O  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|3x |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|4x |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|FH |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|KS |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|GS |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|KN |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|CH |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|U  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|O  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n" +
+        "|E  |   |   |   |   |\n" +
+        "+---+---+---+---+---+\n")
+      field2.toString should be (field2.mesh())
+  }
+
+  "hava a Number in a custom field" in {
+    val field3 = new Field(4)
+    val field3Copy = field3.put("73", 1, 0)
+    field3Copy.mesh() should be (
+      "    |P1 |P2 |P3 |P4 \n" +
+        "+---+---+---+---+---+\n" +
+        "|1  |   |73 |   |   |\n" +
         "+---+---+---+---+---+\n" +
         "|2  |   |   |   |   |\n" +
         "+---+---+---+---+---+\n" +
