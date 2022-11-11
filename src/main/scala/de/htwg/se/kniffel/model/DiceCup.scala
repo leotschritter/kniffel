@@ -27,7 +27,9 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) {
 
   def mergeLists(list1: List[Int], list2: List[Int]): List[Int] = list1 ::: list2
 
-  def getResult(list: List[Int], index: Int): Int = index match {
+  def getResult(index: Int): Int =
+    val list: List[Int] = mergeLists(inCup,locked)
+    index match {
     case 0 | 1 | 2 | 3 | 4 | 5 => list.filter(_ == index + 1).sum
     case 9 => getSum(list, checkThreeOfAKind(list))
     case 10 => getSum(list, checkFourOfAKind(list))
@@ -46,4 +48,8 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) {
   def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3
   def checkKniffel(list: List[Int]): Boolean = mapToFrequency(list).max == 5
   def getSum(list: List[Int], exp: Boolean): Int = if (exp) list.sum else 0
+
+  override def toString() = "Im Becher: " + inCup.mkString(" ")
+    + "\nRausgenommen: " + locked.mkString(" ")
+    + "\nVerbleibende Würfe: " + remDices
 }

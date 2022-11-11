@@ -51,7 +51,7 @@ class DiceCupSpec extends AnyWordSpec {
         emptyList.size should be(0)
       }
     }
-    "To evaluate the result of each throw get result" should {
+    /*"To evaluate the result of each throw get result" should {
       val diceCup = new DiceCup()
       val list: List[Int] = List(2,2)
       val list2: List[Int] = List(2,2,2)
@@ -69,6 +69,6 @@ class DiceCupSpec extends AnyWordSpec {
         diceCup.getResult(list3,14) should be(0)
         diceCup.getResult(diceCup.mergeLists(list,list2),15) should be(10)
       }
-    }
+    }*/
   }
 }

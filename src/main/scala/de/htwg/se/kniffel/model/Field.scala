@@ -4,7 +4,7 @@ package de.htwg.se.kniffel.model
 case class Field(matrix: Matrix[String]):
   def this(numberOfPlayers: Int) = this(new Matrix[String](numberOfPlayers))
 
-  val defaultPlayers: Int = 4
+  val defaultPlayers: Int = matrix.rows.flatten.length / 19
 
   val first_column: List[String] =
     List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
