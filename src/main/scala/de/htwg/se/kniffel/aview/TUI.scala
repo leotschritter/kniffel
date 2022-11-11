@@ -1,5 +1,5 @@
 package de.htwg.se.kniffel
-package aView
+package aview
 
 import controller.Controller
 import scala.io.StdIn.readLine
