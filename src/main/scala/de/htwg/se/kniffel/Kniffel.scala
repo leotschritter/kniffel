@@ -13,8 +13,8 @@ import model.{DiceCup, Field, Matrix}
   val field = new Field(7)
   val dc = new DiceCup()
   val controller = Controller(field, dc)
-  controller.putValToField("73", 6, 7)
+  // controller.putValToField("73", 6, 7)
   // println(controller.field.matrix.cell(6, 7))
   val tui = TUI(controller)
-  tui.run()
+  tui.run
 //  println(mesh())

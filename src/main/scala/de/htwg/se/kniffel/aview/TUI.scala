@@ -10,22 +10,18 @@ import util.Observer
 class TUI(controller: Controller) extends Observer :
   controller.add(this)
 
-  def run() =
+  def run =
     println(controller.field.toString)
-    getInputAndPrintLoop()
+    inputLoop()
 
   override def update = println(controller.field.toString)
 
-  def getInputAndPrintLoop(): Unit =
-    val input = readLine
-    input match
-      case "q" =>
-      case _ =>
-        val value = "2"
-        val x = 2
-        val y = 2
-        controller.putValToField(value, x, y)
-        getInputAndPrintLoop()
+  def inputLoop(): Unit =
+    analyseInput(readLine) match
+      case None =>
+      case Some(move) => controller.doAndPublish(controller.putValToField, move)
+    inputLoop()
+
 
   def analyseInput(input: String): Option[Move] =
     val list = input.split("\\s").toList

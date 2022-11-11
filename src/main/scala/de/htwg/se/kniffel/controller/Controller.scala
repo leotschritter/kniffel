@@ -22,7 +22,7 @@ case class Controller(var field: Field, var diceCup: DiceCup) extends Observable
   def dice(): DiceCup =
     diceCup.newThrow()
 
-  def putValToField(value: String, x: Int, y: Int): Field =
-    field.put(value, x, y)
+  def putValToField(move: Move): Field =
+    field.put(move.value, move.x, move.y)
 
   override def toString: String = field.toString
