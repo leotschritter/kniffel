@@ -68,5 +68,13 @@ class DiceCupSpec extends AnyWordSpec {
         diceCup.getResult(15) should be(10)
       }
     }
+    "when displayed" should {
+      "have a specific format" in {
+        val diceCup:DiceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
+        diceCup.toString() should be (
+          "Im Becher: 2 2 2\nRausgenommen: 2 2\nVerbleibende Würfe: 2"
+        )
+      }
+    }
   }
 }

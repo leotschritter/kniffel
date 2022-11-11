@@ -7,7 +7,7 @@ import model.DiceCup
 import model.Move
 import util.Observable
 
-case class Controller(var field: Field, var diceCup: DiceCup) extends Observable :
+case class Controller(var field: Field, var diceCup: DiceCup) extends Observable:
 
   def doAndPublish(doThis: Move => Field, move: Move): Unit =
     field = doThis(move)
