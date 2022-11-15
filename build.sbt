@@ -15,3 +15,4 @@ lazy val root = project
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
     // libraryDependencies += "org.scoverage" % "sbt-scoverage" % "2.0.5"
   )
+  .enablePlugins(JacocoCoverallsPlugin)
