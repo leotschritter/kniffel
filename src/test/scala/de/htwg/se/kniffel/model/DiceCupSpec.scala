@@ -51,5 +51,30 @@ class DiceCupSpec extends AnyWordSpec {
         emptyList.size should be(0)
       }
     }
+    "To evaluate the result of each throw get result" should {
+      val diceCup = new DiceCup(List(2,2), List(2,2,2),2)
+      val diceCup2 = new DiceCup(List(2,3), List(4,5,6),2)
+      "return the right value" in{
+        diceCup.getResult(1) should be(10)
+        diceCup.getResult(9) should be(10)
+        diceCup.getResult(10) should be(10)
+        diceCup.getResult(11) should be(0)
+        diceCup2.getResult(12) should be(30)
+        diceCup.getResult(12) should be(0)
+        diceCup2.getResult(13) should be(40)
+        diceCup.getResult(13) should be(0)
+        diceCup.getResult(14) should be(50)
+        diceCup2.getResult(14) should be(0)
+        diceCup.getResult(15) should be(10)
+      }
+    }
+    "when displayed" should {
+      "have a specific format" in {
+        val diceCup:DiceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
+        diceCup.toString() should be (
+          "Im Becher: 2 2 2\nRausgenommen: 2 2\nVerbleibende Würfe: 2"
+        )
+      }
+    }
   }
 }
