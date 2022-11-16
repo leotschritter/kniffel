@@ -31,9 +31,6 @@ class TUI(controller: Controller) extends Observer :
       case "po" => controller.doAndPublish(controller.putOut, list.tail.map(_.toInt)); None
       case "pi" => controller.doAndPublish(controller.putIn, list.tail.map(_.toInt)); None
       case "d" => controller.doAndPublish(controller.dice()); None
-      // case "po" => controller.putOut(list.tail.map(_.toInt)); None
-      // case "pi" => controller.putIn(list.tail.map(_.toInt)); None
-      // case "d" => controller.dice(); None //implement dice throw
       case "wd" => {
         val posAndDesc = list.tail.head
         val index:Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
@@ -43,7 +40,4 @@ class TUI(controller: Controller) extends Observer :
           println("Falsche Eingabe!"); None
       }
       case _ =>
-        println("Falsche Eingabe! Bitte versuchen Sie es erneut!!!!!"); None
-
-
-
+        println("Falsche Eingabe!"); None

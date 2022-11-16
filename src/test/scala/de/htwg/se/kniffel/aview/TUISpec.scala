@@ -18,5 +18,8 @@ class TUISpec extends AnyWordSpec {
     "recognize the input o00 as move of stone O to field (0,0)" in {
       tui.analyseInput("po 1 2 3 4 5") should be(None)
     }
+    "dice the DiceCup when input is d" in {
+      tui.analyseInput("d") should be (None)
+    }
   }
 }
