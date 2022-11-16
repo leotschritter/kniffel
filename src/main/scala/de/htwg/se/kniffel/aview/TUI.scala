@@ -14,11 +14,12 @@ class TUI(controller: Controller) extends Observer :
     println(controller.field.toString)
     inputLoop()
 
-  override def update = println(controller.field.toString)
+  override def update = println(controller.field.toString + "\n" + controller.diceCup.toString())
 
   def inputLoop(): Unit =
     analyseInput(readLine) match
       case None =>
+      //case Some(diceMove) => controller.doAndPublish(controller.putIn, diceMove)
       case Some(move) => controller.doAndPublish(controller.putValToField, move)
     inputLoop()
 
@@ -27,12 +28,22 @@ class TUI(controller: Controller) extends Observer :
     val list = input.split("\\s").toList
     list.head match
       case "q" => None
-      case "po" => controller.putOut(list.tail.map(_.toInt)); None
-      case "pi" => controller.putIn(list.tail.map(_.toInt)); None
-      case "d" => controller.dice(); None //implement dice throw
-      case "wd" =>
-        Some(Move(list.tail.head, list.tail.apply(1).toInt , list.tail.apply(2).toInt))
-
+      case "po" => controller.doAndPublish(controller.putOut, list.tail.map(_.toInt)); None
+      case "pi" => controller.doAndPublish(controller.putIn, list.tail.map(_.toInt)); None
+      case "d" => controller.doAndPublish(controller.dice()); None
+      // case "po" => controller.putOut(list.tail.map(_.toInt)); None
+      // case "pi" => controller.putIn(list.tail.map(_.toInt)); None
+      // case "d" => controller.dice(); None //implement dice throw
+      case "wd" => {
+        val posAndDesc = list.tail.head
+        val index:Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
+        if (index.isDefined)
+          Some(Move(controller.diceCup.getResult(index.get).toString, list.tail.apply(1).toInt, index.get))
+        else
+          println("Falsche Eingabe!"); None
+      }
+      case _ =>
+        println("Falsche Eingabe! Bitte versuchen Sie es erneut!!!!!"); None
 
 
 
