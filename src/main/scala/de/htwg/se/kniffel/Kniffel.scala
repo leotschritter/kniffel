@@ -10,7 +10,6 @@ import model.{DiceCup, Field, Matrix}
 
 @main def main(): Unit =
   println("Welcome to Kniffel")
-  println("Test purposes only")
   val field = new Field(7)
   val dc = new DiceCup()
   val controller = Controller(field, dc)

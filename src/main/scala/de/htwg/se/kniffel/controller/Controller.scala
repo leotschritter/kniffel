@@ -13,6 +13,14 @@ case class Controller(var field: Field, var diceCup: DiceCup) extends Observable
     field = doThis(move)
     notifyObservers
 
+  def doAndPublish(doThis: List[Int] => DiceCup, list: List[Int]): Unit =
+    diceCup = doThis(list)
+    notifyObservers
+
+  def doAndPublish(doThis: => DiceCup): Unit =
+    diceCup = doThis
+    notifyObservers
+
   def putOut(list: List[Int]): DiceCup =
     diceCup.putDicesOut(list)
 
