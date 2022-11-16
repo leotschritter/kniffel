@@ -72,7 +72,8 @@ class DiceCupSpec extends AnyWordSpec {
       "have a specific format" in {
         val diceCup:DiceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
         diceCup.toString() should be (
-          "Im Becher: 2 2 2\nRausgenommen: 2 2\nVerbleibende Würfe: 2"
+          "Im Becher: 2 2 2\nRausgenommen: 2 2\nVerbleibende Würfe: 3\n"
+          + "Bitte wählen Sie aus: " + diceCup.indexOfField.keys.mkString(" ") + "\n"
         )
       }
     }
