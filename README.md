@@ -1,6 +1,6 @@
 ## sbt project compiled with Scala 3
 
-[![Coverage Status](https://coveralls.io/repos/github/leotschritter/kniffel/badge.svg?branch=main)](https://coveralls.io/github/leotschritter/kniffel?branch=main)
+
 
 ### Usage
 
