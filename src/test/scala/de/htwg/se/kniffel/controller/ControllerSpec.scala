@@ -26,6 +26,8 @@ class ControllerSpec extends AnyWordSpec {
       testObserver.bing should be(false)
       controller.doAndPublish(controller.putValToField, Move("73", 1, 2))
       testObserver.bing should be(true)
+      controller.doAndPublish(controller.dice())
+      testObserver.bing should be(true)
     }
     "dices are put out the Dice Cup or in" should {
       val sortOut: DiceCup = controller.putOut(controller.diceCup.inCup.take(2))
