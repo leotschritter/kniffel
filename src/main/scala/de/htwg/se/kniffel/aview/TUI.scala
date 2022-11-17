@@ -18,8 +18,7 @@ class TUI(controller: Controller) extends Observer :
 
   def inputLoop(): Unit =
     analyseInput(readLine) match
-      case None =>
-      //case Some(diceMove) => controller.doAndPublish(controller.putIn, diceMove)
+      case None => return
       case Some(move) => controller.doAndPublish(controller.putValToField, move)
     inputLoop()
 
@@ -33,11 +32,12 @@ class TUI(controller: Controller) extends Observer :
       case "d" => controller.doAndPublish(controller.dice()); None
       case "wd" => {
         val posAndDesc = list.tail.head
-        val index:Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
+        val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
         if (index.isDefined)
           Some(Move(controller.diceCup.getResult(index.get).toString, list.tail.apply(1).toInt, index.get))
         else
-          println("Falsche Eingabe!"); None
+          println("Falsche Eingabe!");
+          None
       }
       case _ =>
         println("Falsche Eingabe!"); None

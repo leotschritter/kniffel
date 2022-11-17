@@ -21,5 +21,8 @@ class TUISpec extends AnyWordSpec {
     "dice the DiceCup when input is d" in {
       tui.analyseInput("d") should be (None)
     }
+    "quit" in {
+      tui.analyseInput("q") should be (None)
+    }
   }
 }
