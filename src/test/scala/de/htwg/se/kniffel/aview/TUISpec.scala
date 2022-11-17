@@ -19,7 +19,7 @@ class TUISpec extends AnyWordSpec {
       tui.analyseInput("po 1 2 3 4 5") should be(None)
     }
     "dice the DiceCup when input is d" in {
-      tui.analyseInput("d") should be (None)
+      tui.analyseInput("wd käsekuchen") should be (None)
     }
     "quit" in {
       tui.analyseInput("q") should be (None)
