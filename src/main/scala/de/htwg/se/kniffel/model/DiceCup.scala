@@ -40,9 +40,8 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
       case 13 => if checkBigStreet(list) then 40 else 0
       case 14 => if checkKniffel(list) then 50 else 0
       case 15 => list.sum
+      case _ => 0
     }
-
-  0
 
   val indexOfField: ListMap[String, Int] =
     ListMap("1" -> 0, "2" -> 1, "3" -> 2, "4" -> 3, "5" -> 4, "6" -> 5,
