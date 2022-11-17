@@ -9,10 +9,7 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 ### Test commands
 
 ```
-sbt clean coverage test
-```
-```
-sbt coverageReport
+sbt jacoco
 ```
 
 For more information on the sbt-dotty plugin, see the
