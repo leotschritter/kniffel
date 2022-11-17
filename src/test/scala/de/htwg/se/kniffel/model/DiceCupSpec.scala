@@ -66,6 +66,7 @@ class DiceCupSpec extends AnyWordSpec {
         diceCup.getResult(14) should be(50)
         diceCup2.getResult(14) should be(0)
         diceCup.getResult(15) should be(10)
+        diceCup.getResult(1998) should be (0)
       }
     }
     "when displayed" should {
