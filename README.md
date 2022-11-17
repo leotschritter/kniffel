@@ -9,6 +9,10 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 ### Test commands
 
 ```
+sbt clean test jacoco
+```
+
+```
 sbt jacoco
 ```
 
