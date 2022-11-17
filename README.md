@@ -1,5 +1,6 @@
 ## sbt project compiled with Scala 3
 
+![MAIN status](https://github.com/leotschritter/kniffel/actions/workflows/scala.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/leotschritter/kniffel/badge.svg)](https://coveralls.io/github/leotschritter/kniffel)
 
 ### Usage
