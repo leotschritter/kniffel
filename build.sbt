@@ -26,5 +26,6 @@ coverageMinimumStmtPerFile := 0
 coverageMinimumBranchPerFile := 0
 
 
+/*
 publishArtifact in Test := false
-parallelExecution in Test := false
+parallelExecution in Test := false*/
