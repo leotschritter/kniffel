@@ -21,8 +21,8 @@ class DiceCupSpec extends AnyWordSpec {
     "dices are thrown" should {
       val diceCup: DiceCup = new DiceCup()
       "contain two lists with all dices" in {
-        val thrownDiceCup:DiceCup = diceCup.newThrow()
-        thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be (5)
+        val thrownDiceCup: DiceCup = diceCup.newThrow()
+        thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be(5)
         thrownDiceCup.inCup.foreach {
           s =>
             s should be < 7
@@ -45,20 +45,22 @@ class DiceCupSpec extends AnyWordSpec {
     }
     "list Entries are dropped from another list" should {
       val diceCup: DiceCup = new DiceCup()
-      val list:List[Int] = List.range(1, 6)
+      val list: List[Int] = List.range(1, 6)
       "contain" in {
-        val emptyList:List[Int] = diceCup.dropListEntriesFromList(list, list)
+        val emptyList: List[Int] = diceCup.dropListEntriesFromList(list, list)
         emptyList.size should be(0)
       }
     }
     "To evaluate the result of each throw get result" should {
-      val diceCup = new DiceCup(List(2,2), List(2,2,2),2)
-      val diceCup2 = new DiceCup(List(2,3), List(4,5,6),2)
-      "return the right value" in{
+      val diceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
+      val diceCup2 = new DiceCup(List(2, 3), List(4, 5, 6), 2)
+      val diceCup3 = new DiceCup(List(2, 2), List(3, 3, 3), 2)
+      "return the right value" in {
         diceCup.getResult(1) should be(10)
         diceCup.getResult(9) should be(10)
         diceCup.getResult(10) should be(10)
         diceCup.getResult(11) should be(0)
+        diceCup3.getResult(11) should be(25)
         diceCup2.getResult(12) should be(30)
         diceCup.getResult(12) should be(0)
         diceCup2.getResult(13) should be(40)
@@ -66,16 +68,22 @@ class DiceCupSpec extends AnyWordSpec {
         diceCup.getResult(14) should be(50)
         diceCup2.getResult(14) should be(0)
         diceCup.getResult(15) should be(10)
-        diceCup.getResult(1998) should be (0)
+        diceCup.getResult(1998) should be(0)
       }
     }
     "when displayed" should {
       "have a specific format" in {
-        val diceCup:DiceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
-        diceCup.toString() should be (
+        val diceCup: DiceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
+        diceCup.toString() should be(
           "Im Becher: 2 2 2\nRausgenommen: 2 2\nVerbleibende Würfe: 3\n"
-          + "Bitte wählen Sie aus: " + diceCup.indexOfField.keys.mkString(" ") + "\n"
+            + "Bitte wählen Sie aus: " + diceCup.indexOfField.keys.mkString(" ") + "\n"
         )
+      }
+    }
+    "calculating a sum with a predicate" should {
+      "be 0" in {
+        val diceCup = new DiceCup(List(1, 2, 3, 4, 5), List(), 2)
+        diceCup.getSum(diceCup.locked, diceCup.checkKniffel(diceCup.locked)) should be(0)
       }
     }
   }
