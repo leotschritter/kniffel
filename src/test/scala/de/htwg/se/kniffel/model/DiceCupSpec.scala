@@ -83,7 +83,7 @@ class DiceCupSpec extends AnyWordSpec {
     "calculating a sum with a predicate" should {
       "be 0" in {
         val diceCup = new DiceCup(List(1, 2, 3, 4, 5), List(), 2)
-        diceCup.getSum(diceCup.locked, diceCup.checkKniffel(diceCup.mergeLists(diceCup.locked, diceCup.inCup))) should be(0)
+        diceCup.getSum(diceCup.locked, diceCup.checkKniffel(diceCup.locked)) should be(0)
       }
     }
   }
