@@ -57,6 +57,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
 
   def checkBigStreet(list: List[Int]): Boolean = mapToFrequency(list).max == 1 & list.max - list.min == 4
 
+  // TODO not working in this case List(6, 5, 4, 3, 1) because of the 1
   def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3
 
   def checkKniffel(list: List[Int]): Boolean = mapToFrequency(list).max == 5
