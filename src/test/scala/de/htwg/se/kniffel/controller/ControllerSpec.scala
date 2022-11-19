@@ -2,16 +2,13 @@ package de.htwg.se.kniffel
 package controller
 
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
-
-import model.Field
-import model.DiceCup
-import model.Move
+import org.scalatest.matchers.should.Matchers.*
+import model.{DiceCup, Field, Game, Move}
 import util.Observer
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
-    val controller = Controller(new Field(2), new DiceCup())
+    val controller = Controller(new Field(2), new DiceCup(), new Game(4))
     "put a stone on the field when a move is made" in {
       val fieldWithMove = controller.putValToField(Move("12", 1, 2))
       fieldWithMove.matrix.cell(1, 2) should be("12")

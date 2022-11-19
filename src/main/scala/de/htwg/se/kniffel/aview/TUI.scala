@@ -2,7 +2,7 @@ package de.htwg.se.kniffel
 package aview
 
 import controller.Controller
-import model.{DiceCup, Player, Move}
+import model.{DiceCup, Player, Move, Game}
 
 import scala.io.StdIn.readLine
 import util.Observer
@@ -18,8 +18,24 @@ class TUI(controller: Controller) extends Observer :
 
   def inputLoop(): Unit =
     analyseInput(readLine) match
-      case None => return
-      case Some(move) => controller.doAndPublish(controller.putValToField, move)
+      case None =>
+      case Some(move) =>
+        val currentPlayer: Player = controller.game.currentPlayer
+        val currentPlayerIndex: Int = controller.game.playersList.indexOf(currentPlayer)
+        val currentSumList: List[Int] =
+          controller.game.getCurrentList
+        val indexList: List[Int] = List(6, 7, 8, 16, 17, 18)
+        controller.doAndPublish(controller.putValToField, Move(move.value, currentPlayerIndex, move.y))
+        if (move.y < 6)
+          controller.doAndPublish(controller.sum, move.value.toInt + currentSumList.head, currentSumList(3))
+        else
+          controller.doAndPublish(controller.sum, currentSumList.head, move.value.toInt + currentSumList(3))
+        for (l <- indexList)
+          controller.doAndPublish(
+            controller.putValToField,
+            Move(controller.game.getCurrentList(indexList.indexOf(l)).toString, currentPlayerIndex, l)
+          )
+        controller.doAndPublish(controller.next().get)
     inputLoop()
 
 
@@ -34,10 +50,9 @@ class TUI(controller: Controller) extends Observer :
         val posAndDesc = list.tail.head
         val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
         if (index.isDefined)
-          Some(Move(controller.diceCup.getResult(index.get).toString, list.tail.apply(1).toInt, index.get))
+          Some(Move(controller.diceCup.getResult(index.get).toString, 0, index.get))
         else
-          println("Falsche Eingabe!");
-          None
+          println("Falsche Eingabe!"); None
       }
       case _ =>
         println("Falsche Eingabe!"); None
