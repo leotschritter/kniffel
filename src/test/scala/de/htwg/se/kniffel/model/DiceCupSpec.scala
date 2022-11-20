@@ -94,5 +94,13 @@ class DiceCupSpec extends AnyWordSpec {
         dc.locked.size should be(0)
       }
     }
+    "After 3 Throws newThrow" should {
+      "not return a different Dicecup" in {
+        var d = DiceCup(List(), List(0,0,0,0,0),-1)
+        d = d.newThrow()
+        d.remDices should be(-1)
+        d should be(DiceCup(List(), List(0,0,0,0,0),-1))
+      }
+    }
   }
 }
