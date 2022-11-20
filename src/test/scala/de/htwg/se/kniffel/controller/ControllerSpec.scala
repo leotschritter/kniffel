@@ -3,12 +3,13 @@ package controller
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import model.{DiceCup, Field, Game, Move}
+import model.{DiceCup, Field, Game, Move, Player}
 import util.Observer
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
     val controller = Controller(new Field(2), new DiceCup(), new Game(4))
+    val controller2 = Controller(new Field(1), new DiceCup(), new Game(1))
     "put a stone on the field when a move is made" in {
       val fieldWithMove = controller.putValToField(Move("12", 1, 2))
       fieldWithMove.matrix.cell(1, 2) should be("12")
@@ -24,6 +25,10 @@ class ControllerSpec extends AnyWordSpec {
       controller.doAndPublish(controller.putValToField, Move("73", 1, 2))
       testObserver.bing should be(true)
       controller.doAndPublish(controller.dice())
+      testObserver.bing should be(true)
+      controller.doAndPublish(controller.sum(62,0))
+      testObserver.bing should be(true)
+      controller.doAndPublish(controller.sum, controller.game.getCurrentList.head, 22 )
       testObserver.bing should be(true)
     }
     "dices are put out the Dice Cup or in" should {
@@ -47,6 +52,13 @@ class ControllerSpec extends AnyWordSpec {
             s should be < 7
             s should be > 0
         }
+      }
+    }
+    "return an new Game" when {
+      "finishing a move" in {
+        controller2.next() should be(Some(Game(List(Player(0,"Player 1")),Player(0,"Player 1"),12,List(List(0, 0, 0, 0, 0, 0)))))
+        controller2.sum(63, 0) should be(Game(List(Player(0,"Player 1")),Player(0,"Player 1"),13,List(List(63, 35, 98, 0, 98, 98))))
+        //controller2.
       }
     }
     "when toString is called" should {
