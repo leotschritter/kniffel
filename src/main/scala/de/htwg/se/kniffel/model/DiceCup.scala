@@ -24,7 +24,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
   }
 
   def nextRound(): DiceCup = DiceCup(List.fill(0)(0), List.fill(5)(0), 2)
-  
+
   def putDicesIn(sortIn: List[Int]): DiceCup = DiceCup(dropListEntriesFromList(sortIn, locked), inCup ++ sortIn, remDices)
 
   def putDicesOut(sortOut: List[Int]): DiceCup = DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
@@ -58,9 +58,8 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
   def checkFullHouse(list: List[Int]): Boolean = mapToFrequency(list).max == 3 & mapToFrequency(list).min == 2
 
   def checkBigStreet(list: List[Int]): Boolean = mapToFrequency(list).max == 1 & list.max - list.min == 4
-
-  // TODO not working in this case List(6, 5, 4, 3, 1) because of the 1
-  def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3
+  
+  def checkSmallStreet(list: List[Int]): Boolean = checkBigStreet(list) | list.distinct.size == 4 & list.distinct.max - list.distinct.min == 3 | list.distinct.sum.equals(19) | list.distinct.sum.equals(16)
 
   def checkKniffel(list: List[Int]): Boolean = mapToFrequency(list).max == 5
 
