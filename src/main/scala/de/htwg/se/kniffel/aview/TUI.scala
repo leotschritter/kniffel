@@ -50,7 +50,7 @@ class TUI(controller: Controller) extends Observer :
       case "wd" => {
         val posAndDesc = list.tail.head
         val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
-        if (index.isDefined)
+        if (index.isDefined && controller.field.matrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
           Some(Move(controller.diceCup.getResult(index.get).toString, 0, index.get))
         else
           println("Falsche Eingabe!"); None

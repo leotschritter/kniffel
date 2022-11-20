@@ -6,3 +6,5 @@ case class Matrix[T](rows: Vector[Vector[String]]):
   def cell(col: Int, row: Int): String = rows(row)(col)
 
   def fill(col: Int, row: Int, value: String): Matrix[T] = copy(rows.updated(row, rows(row).updated(col, value)))
+
+  def isEmpty(col: Int, row: Int): Boolean = cell(col, row).equals("")
