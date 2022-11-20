@@ -46,4 +46,5 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
   def putValToField(move: Move): Field =
     field.put(move.value, move.x, move.y)
 
+  def nextRound() = diceCup.nextRound() 
   override def toString: String = field.toString

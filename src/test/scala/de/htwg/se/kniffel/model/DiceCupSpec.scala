@@ -86,5 +86,13 @@ class DiceCupSpec extends AnyWordSpec {
         diceCup.getSum(diceCup.locked, diceCup.checkKniffel(diceCup.locked)) should be(0)
       }
     }
+    "nextRound" should {
+      "return a new DiceCup" in {
+        var dc = DiceCup(List(1, 2, 3, 4, 5), List(), 2)
+        dc = dc.nextRound()
+        dc.inCup should be(List(0,0,0,0,0))
+        dc.locked.size should be(0)
+      }
+    }
   }
 }

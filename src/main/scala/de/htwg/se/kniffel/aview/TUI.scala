@@ -51,6 +51,7 @@ class TUI(controller: Controller) extends Observer :
         val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
         if (index.isDefined)
           Some(Move(controller.diceCup.getResult(index.get).toString, 0, index.get))
+          controller.doAndPublish(controller.nextRound()); None
         else
           println("Falsche Eingabe!"); None
       }

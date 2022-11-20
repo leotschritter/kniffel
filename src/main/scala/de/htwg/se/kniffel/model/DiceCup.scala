@@ -23,6 +23,8 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
       shortenedList
   }
 
+  def nextRound(): DiceCup = DiceCup(List.fill(0)(0), List.fill(5)(0), 2)
+  
   def putDicesIn(sortIn: List[Int]): DiceCup = DiceCup(dropListEntriesFromList(sortIn, locked), inCup ++ sortIn, remDices)
 
   def putDicesOut(sortOut: List[Int]): DiceCup = DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
