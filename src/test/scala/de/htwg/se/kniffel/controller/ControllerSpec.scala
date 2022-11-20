@@ -61,6 +61,14 @@ class ControllerSpec extends AnyWordSpec {
         //controller2.
       }
     }
+    "after a Move" when {
+      "write down the result" in {
+        val con = controller.nextRound()
+        con.remDices should be(2)
+        con.inCup should be(List(0,0,0,0,0))
+        con.locked.size should be(0)
+      }
+    }
     "when toString is called" should {
       "toString" in {
         controller.toString should be(controller.field.mesh())

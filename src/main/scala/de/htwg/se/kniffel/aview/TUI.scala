@@ -35,6 +35,7 @@ class TUI(controller: Controller) extends Observer :
             controller.putValToField,
             Move(controller.game.getCurrentList(indexList.indexOf(l)).toString, currentPlayerIndex, l)
           )
+        controller.doAndPublish(controller.nextRound())
         controller.doAndPublish(controller.next().get)
     inputLoop()
 
