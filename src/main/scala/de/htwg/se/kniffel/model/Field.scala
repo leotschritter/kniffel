@@ -27,6 +27,12 @@ case class Field(matrix: Matrix[String]):
 
   def put(value: String, x: Int, y: Int): Field = copy(matrix.fill(x, y, value))
 
+  def putMulti(values: List[String], x: Int, y_coordinates: List[Int], currentField: Field = Field(matrix), n: Int = 0): Field =
+    if (n != values.length)
+      putMulti(values, x, y_coordinates, put(values(n), x, y_coordinates(n)), n + 1)
+    else
+      currentField
+
   override def toString = mesh()
 
 
