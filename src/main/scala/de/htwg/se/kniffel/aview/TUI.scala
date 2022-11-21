@@ -2,7 +2,7 @@ package de.htwg.se.kniffel
 package aview
 
 import controller.Controller
-import model.{DiceCup, Player, Move, Game}
+import model.{Player, Move, Game}
 
 import scala.io.StdIn.readLine
 import util.Observer

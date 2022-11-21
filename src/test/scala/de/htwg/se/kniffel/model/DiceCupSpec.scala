@@ -1,7 +1,9 @@
+/*
 package de.htwg.se.kniffel.model
 
+import de.htwg.se.kniffel.model.dicecup.DiceCup
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
+import org.scalatest.matchers.should.Matchers.*
 
 class DiceCupSpec extends AnyWordSpec {
   "Dice Cup" when {
@@ -104,3 +106,4 @@ class DiceCupSpec extends AnyWordSpec {
     }
   }
 }
+*/
