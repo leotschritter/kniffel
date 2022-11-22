@@ -2,21 +2,21 @@ package de.htwg.se.kniffel
 package aview
 
 import controller.Controller
-import model.{DiceCup, Player, Move, Game}
+import model.{Player, Move, Game}
 
 import scala.io.StdIn.readLine
 import util.Observer
 
-class TUI(controller: Controller) extends Observer :
+class TUI(controller: Controller) extends Observer, UI :
   controller.add(this)
 
-  def run =
+  def run: Unit =
     println(controller.field.toString)
     inputLoop()
 
   override def update = println(controller.field.toString + "\n" + controller.diceCup.toString())
 
-  def inputLoop(): Unit =
+   def inputLoop(): Unit =
     analyseInput(readLine) match
       case None =>
       case Some(move) =>

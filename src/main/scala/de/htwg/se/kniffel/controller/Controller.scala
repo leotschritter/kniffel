@@ -2,7 +2,8 @@ package de.htwg.se.kniffel
 package controller
 
 import scala.annotation.targetName
-import model.{Field, Game, DiceCup, Move}
+import model.{Field, Game, Move}
+import de.htwg.se.kniffel.model.dicecup.DiceCup
 import util.Observable
 
 case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable:

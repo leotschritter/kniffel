@@ -3,7 +3,8 @@ package de.htwg.se.kniffel
 
 import aview.TUI
 import controller.Controller
-import model.{DiceCup, Field, Matrix, Game}
+import de.htwg.se.kniffel.model.dicecup.DiceCup
+import model.{Field, Game, Matrix}
 
 
 

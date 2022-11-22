@@ -2,10 +2,10 @@ package de.htwg.se.kniffel
 package aview
 
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
-
+import org.scalatest.matchers.should.Matchers.*
 import controller.Controller
-import model.{Field, Move, DiceCup, Game}
+import de.htwg.se.kniffel.model.dicecup.DiceCup
+import model.{Field, Game, Move}
 
 class TUISpec extends AnyWordSpec {
   "The TUI" should {
