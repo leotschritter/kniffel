@@ -31,25 +31,31 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
 
   def mergeLists(list1: List[Int], list2: List[Int]): List[Int] = list1 ::: list2
 
+  val kniffelEvaluator = new Evaluator(EvaluateStrategy.kniffel)
+  val threeOfAKindEvaluator = new Evaluator(EvaluateStrategy.threeOfAKind)
+  val fourOfAKindEvaluator = new Evaluator(EvaluateStrategy.fourOfAKind)
+  val fullHouseEvaluator = new Evaluator(EvaluateStrategy.fullHouse)
+  val bigStreetEvaluator = new Evaluator(EvaluateStrategy.bigStreet)
+  val smallStreetEvaluator = new Evaluator(EvaluateStrategy.smallStreet)
+  val sumEvaluator = new Evaluator(EvaluateStrategy.sum)
+  
   def getResult(index: Int): Int =
     val list: List[Int] = mergeLists(inCup, locked)
     index match {
       case 0 | 1 | 2 | 3 | 4 | 5 => list.filter(_ == index + 1).sum
-      case 9 => getSum(list, EvaluateStrategy.checkThreeOfAKind(list))
-      case 10 => getSum(list, EvaluateStrategy.checkFourOfAKind(list))
-      case 11 => EvaluateStrategy.fullHouse(list)
-      case 12 => EvaluateStrategy.smallStreet(list)
-      case 13 => EvaluateStrategy.bigStreet(list)
-      case 14 => EvaluateStrategy.kniffel(list)
-      case 15 => list.sum
+      case 9 => threeOfAKindEvaluator.getResult(list)
+      case 10 => fourOfAKindEvaluator.getResult(list)
+      case 11 => fullHouseEvaluator.getResult(list)
+      case 12 => smallStreetEvaluator.getResult(list)
+      case 13 => bigStreetEvaluator.getResult(list)
+      case 14 => kniffelEvaluator.getResult(list)
+      case 15 => sumEvaluator.getResult(list)
       case _ => 0
     }
 
   val indexOfField: ListMap[String, Int] =
     ListMap("1" -> 0, "2" -> 1, "3" -> 2, "4" -> 3, "5" -> 4, "6" -> 5,
       "3X" -> 9, "4X" -> 10, "FH" -> 11, "KS" -> 12, "GS" -> 13, "KN" -> 14, "CH" -> 15)
-  
-  def getSum(list: List[Int], exp: Boolean): Int = if (exp) list.sum else 0
 
   override def toString() = "Im Becher: " + inCup.mkString(" ")
     + "\nRausgenommen: " + locked.mkString(" ")
