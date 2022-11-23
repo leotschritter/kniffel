@@ -1,9 +1,10 @@
 package de.htwg.se.kniffel
 package controller
 
+import de.htwg.se.kniffel.model.dicecup.DiceCup
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import model.{DiceCup, Field, Game, Move, Player}
+import model.{Field, Game, Move, Player}
 import util.Observer
 
 class ControllerSpec extends AnyWordSpec {
