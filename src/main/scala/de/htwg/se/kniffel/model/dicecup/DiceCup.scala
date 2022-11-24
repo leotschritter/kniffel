@@ -6,11 +6,14 @@ import scala.util.Random
 case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
   def this() = this(List.fill(0)(0), List.fill(5)(Random.between(1, 7)), 2)
 
-  def newThrow(): DiceCup = {
-    if (remDices >= 0)
-      DiceCup(locked, List.fill(5 - locked.size)(Random.between(1, 7)), remDices - 1)
-    else
-      this
+  var state:DiceCupState = new Running()
+
+  def throwDices(diceCup: DiceCup): DiceCup = {
+    state.throwDices(diceCup)
+  }
+  def dice(): DiceCupState = state match {
+    case start: Start => state = new Running; state
+    case running: Running => state = new Running; state
   }
 
   def dropListEntriesFromList(entriesToDelete: List[Int], shortenedList: List[Int], n: Int = 0): List[Int] = {
@@ -23,7 +26,10 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
       shortenedList
   }
 
-  def nextRound(): DiceCup = DiceCup(List.fill(0)(0), List.fill(5)(0), 2)
+  def nextRound(): DiceCup = {
+    state = new Start()
+    state.throwDices(DiceCup(List.fill(0)(0), List.fill(0)(0), 2))
+  }
 
   def putDicesIn(sortIn: List[Int]): DiceCup = DiceCup(dropListEntriesFromList(sortIn, locked), inCup ++ sortIn, remDices)
 
