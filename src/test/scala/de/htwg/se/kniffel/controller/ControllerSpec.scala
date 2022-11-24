@@ -66,7 +66,7 @@ class ControllerSpec extends AnyWordSpec {
       "write down the result" in {
         val con = controller.nextRound()
         con.remDices should be(2)
-        con.inCup should be(List(0,0,0,0,0))
+        con.inCup.size should be (0)
         con.locked.size should be(0)
       }
     }
