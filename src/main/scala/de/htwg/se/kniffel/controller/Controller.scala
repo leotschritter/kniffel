@@ -25,7 +25,7 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     game = doThis
     notifyObservers
 
-  def doAndPublish(doThis: (Int, Int) => Game, sumTop:Int, sumBottom:Int): Unit =
+  def doAndPublish(doThis: (Int, Int) => Game, sumTop: Int, sumBottom: Int): Unit =
     game = doThis(sumTop, sumBottom)
     notifyObservers
 
@@ -41,11 +41,11 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
   def putIn(list: List[Int]): DiceCup =
     diceCup.putDicesIn(list)
 
-  def dice(): DiceCup =
-    diceCup.newThrow()
+  def dice(): DiceCup = { diceCup.dice(); diceCup.state.throwDices(diceCup)}
 
   def putValToField(move: Move): Field =
     field.put(move.value, move.x, move.y)
 
-  def nextRound() = diceCup.nextRound()
+  def nextRound(): DiceCup = diceCup.nextRound()
+
   override def toString: String = field.toString
