@@ -29,6 +29,8 @@ class UISpec extends AnyWordSpec {
       ui.gameAndFieldInput(new Player(0, "Player 1"), Move("12", 0, 2))
       "have the correct sum" in {
         controller.game.resultNestedList(0)(5) should be (12)
+        ui.gameAndFieldInput(new Player(1, "Player 2"), Move("12", 0, 9))
+        controller.game.resultNestedList(1)(5) should be (12)
       }
     }
   }
