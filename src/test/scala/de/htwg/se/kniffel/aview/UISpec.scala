@@ -22,7 +22,7 @@ class UISpec extends AnyWordSpec {
     "next Round is set" should {
       ui.diceCupInput()
       "return a empty DiceCup" in {
-        controller.diceCup.locked should be (List())
+        controller.diceCup.locked should be (List(3))
       }
     }
     "values are put into the Field" should {
