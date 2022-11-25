@@ -16,4 +16,4 @@ import model.{Field, Game }
   val game = new Game(1)
   val controller = Controller(field, dc, game)
   val tui = TUI(controller)
-  tui.run
+  tui.run()
