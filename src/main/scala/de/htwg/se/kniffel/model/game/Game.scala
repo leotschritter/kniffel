@@ -1,4 +1,7 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel
+package model.game
+
+import model.Player
 
 case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves: Int, resultNestedList: List[List[Int]]):
   def this(numberOfPlayers: Int)
@@ -17,7 +20,11 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
   def getNextPlayer: Player =
     playersList((playersList.indexOf(currentPlayer) + 1) % playersList.length)
 
-  def sum(sumTop: Int, sumBottom: Int): Game = {
+  def sum(value: Int, x: Int, y: Int): Game = {
+    val sumTop: Int = if y < 6 then value + resultNestedList(playersList.indexOf(currentPlayer)).head else
+      resultNestedList(playersList.indexOf(currentPlayer)).head
+    val sumBottom: Int = if y > 8 then value + resultNestedList(playersList.indexOf(currentPlayer))(3) else
+      resultNestedList(playersList.indexOf(currentPlayer))(3)
     val bonus: Int = if sumTop >= 63 then 35 else 0
     Game(playersList, currentPlayer, remainingMoves, resultNestedList.updated(
       playersList.indexOf(currentPlayer),
@@ -25,21 +32,4 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
     ))
   }
 
-  def getCurrentList:List[Int] = resultNestedList(playersList.indexOf(currentPlayer))
-
-  /*def getNewNestedList(sumTop: Int, sumBottom: Int): List[List[Int]] = {
-    val bonus: Int = if sumTop >= 63 then 35 else 0
-    resultNestedList.updated(
-      playersList.indexOf(currentPlayer),
-      List(sumTop) :+ bonus :+ (sumTop + bonus) :+ sumBottom :+ (sumTop + bonus) :+ (sumBottom + sumTop + bonus)
-    )
-  }*/
-
-  // def next(): Game = Game(playersList, getNextPlayer(), remainingMoves - 1)
-  /*def initializePlayersList(numberOfPlayers: Int, currentList: List[Player], currentNumber: Int = 0): List[Player] = {
-    if (numberOfPlayers != currentNumber)
-      initializePlayersList(
-        numberOfPlayers, currentList :+ Player(currentNumber, "Player" + currentNumber + 1), currentNumber + 1)
-    else
-      currentList
-  }*/
+  def getCurrentList: List[Int] = resultNestedList(playersList.indexOf(currentPlayer))

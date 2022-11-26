@@ -1,7 +1,9 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel.model.game
 
-import org.scalatest.wordspec.AnyWordSpec
+import de.htwg.se.kniffel.model.Player
+import de.htwg.se.kniffel.model.game.Game
 import org.scalatest.matchers.should.Matchers.*
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.collection.immutable
 
@@ -19,7 +21,7 @@ class GameSpec extends AnyWordSpec {
     }
     "move has ended" should {
       "get the next Player where the current player is not the last listElement" in {
-        game.get.next().get.currentPlayer.playerName should be ("Player2")
+        game.get.next().get.currentPlayer.playerName should be("Player2")
       }
     }
     //Hier:
@@ -28,7 +30,7 @@ class GameSpec extends AnyWordSpec {
         val players2: List[Player] = List(Player(0, "Player1"))
         var game2 = Option(Game(players2, players2.head, players2.length * 13, List.fill(players2.length, 6)(0)))
 
-        for( a <- 1 to 12){
+        for (a <- 1 to 12) {
           game2 = game2.get.next()
         }
         game2.get.remainingMoves should be(1)
@@ -39,8 +41,8 @@ class GameSpec extends AnyWordSpec {
       "return a new Game" in {
         val players2: List[Player] = List(Player(0, "Player1"))
         val game2 = Option(Game(players2, players2.head, players2.length * 13, List.fill(players2.length, 6)(0)))
-        game2.get.sum(62,0) should be(Game(List(Player(0,"Player1")),Player(0,"Player1"),13,List(List(62, 0, 62, 0, 62, 62))))
-        game2.get.sum(63,0) should be(Game(List(Player(0,"Player1")),Player(0,"Player1"),13,List(List(63, 35, 98, 0, 98, 98))))
+        game2.get.sum(62, 0, 0) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 13, List(List(62, 0, 62, 0, 62, 62))))
+        game2.get.sum(63, 0, 0) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 13, List(List(63, 35, 98, 0, 98, 98))))
         game2.get.getCurrentList should be(List(0, 0, 0, 0, 0, 0))
       }
     }

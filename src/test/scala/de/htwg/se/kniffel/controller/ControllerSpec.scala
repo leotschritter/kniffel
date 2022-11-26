@@ -2,9 +2,10 @@ package de.htwg.se.kniffel
 package controller
 
 import de.htwg.se.kniffel.model.dicecup.DiceCup
+import de.htwg.se.kniffel.model.game.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import model.{Field, Game, Move, Player}
+import model.{Field, Move, Player, game}
 import util.Observer
 
 class ControllerSpec extends AnyWordSpec {
@@ -20,6 +21,7 @@ class ControllerSpec extends AnyWordSpec {
       class TestObserver(controller: Controller) extends Observer :
         controller.add(this)
         var bing = false
+
         def update = bing = true
       val testObserver = TestObserver(controller)
       testObserver.bing should be(false)
@@ -27,9 +29,9 @@ class ControllerSpec extends AnyWordSpec {
       testObserver.bing should be(true)
       controller.doAndPublish(controller.dice())
       testObserver.bing should be(true)
-      controller.doAndPublish(controller.sum(62,0))
+      controller.doAndPublish(controller.sum(62, 0, 0))
       testObserver.bing should be(true)
-      controller.doAndPublish(controller.sum, controller.game.getCurrentList.head, 22 )
+      controller.doAndPublish(controller.sum, controller.game.getCurrentList.head, 22, 33)
       testObserver.bing should be(true)
     }
     "dices are put out the Dice Cup or in" should {
@@ -46,8 +48,8 @@ class ControllerSpec extends AnyWordSpec {
     }
     "dices are thrown" should {
       "contain two lists with all dices" in {
-        val thrownDiceCup:DiceCup = controller.dice()
-        thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be (5)
+        val thrownDiceCup: DiceCup = controller.dice()
+        thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be(5)
         thrownDiceCup.inCup.foreach {
           s =>
             s should be < 7
@@ -57,8 +59,8 @@ class ControllerSpec extends AnyWordSpec {
     }
     "return an new Game" when {
       "finishing a move" in {
-        controller2.next() should be(Some(Game(List(Player(0,"Player 1")),Player(0,"Player 1"),12,List(List(0, 0, 0, 0, 0, 0)))))
-        controller2.sum(63, 0) should be(Game(List(Player(0,"Player 1")),Player(0,"Player 1"),13,List(List(63, 35, 98, 0, 98, 98))))
+        controller2.next() should be(Some(game.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))))
+        controller2.sum(63, 0, 0) should be(game.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 13, List(List(63, 35, 98, 0, 98, 98))))
         //controller2.
       }
     }
@@ -66,7 +68,7 @@ class ControllerSpec extends AnyWordSpec {
       "write down the result" in {
         val con = controller.nextRound()
         con.remDices should be(2)
-        con.inCup.size should be (0)
+        con.inCup.size should be(0)
         con.locked.size should be(0)
       }
     }

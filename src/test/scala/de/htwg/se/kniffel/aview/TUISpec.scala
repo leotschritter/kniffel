@@ -5,7 +5,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import controller.Controller
 import de.htwg.se.kniffel.model.dicecup.DiceCup
-import model.{Field, Game, Move}
+import de.htwg.se.kniffel.model.game.Game
+import model.{Field, Move}
 
 class TUISpec extends AnyWordSpec {
   "The TUI" should {

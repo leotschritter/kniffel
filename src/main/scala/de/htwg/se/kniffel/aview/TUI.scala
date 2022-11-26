@@ -4,7 +4,7 @@ package aview
 import controller.Controller
 import aview.UI
 import de.htwg.se.kniffel.model.dicecup.DiceCup
-import model.{Field, Game, Move, Player}
+import model.{Field, Move, Player}
 
 import scala.io.StdIn.readLine
 import util.Observer

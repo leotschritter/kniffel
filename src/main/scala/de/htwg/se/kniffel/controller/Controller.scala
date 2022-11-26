@@ -2,8 +2,9 @@ package de.htwg.se.kniffel
 package controller
 
 import scala.annotation.targetName
-import model.{Field, Game, Move}
+import model.{Field, Move}
 import de.htwg.se.kniffel.model.dicecup.DiceCup
+import de.htwg.se.kniffel.model.game.Game
 import util.Observable
 
 case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable:
@@ -25,15 +26,15 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     game = doThis
     notifyObservers
 
-  def doAndPublish(doThis: (Int, Int) => Game, sumTop: Int, sumBottom: Int): Unit =
-    game = doThis(sumTop, sumBottom)
+  def doAndPublish(doThis: (Int, Int, Int) => Game, value: Int, x: Int, y: Int): Unit =
+    game = doThis(value, x, y)
     notifyObservers
 
   def next(): Option[Game] =
     game.next()
 
-  def sum(sumTop: Int, sumBottom: Int): Game =
-    game.sum(sumTop, sumBottom)
+  def sum(value: Int, x: Int, y: Int): Game =
+    game.sum(value, x, y)
 
   def putOut(list: List[Int]): DiceCup =
     diceCup.putDicesOut(list)

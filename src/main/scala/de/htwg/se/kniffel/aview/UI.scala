@@ -3,7 +3,7 @@ package aview
 
 import controller.Controller
 import util.Observer
-import model.{Field, Game, Move, Player}
+import model.{Field, Move, Player}
 import model.dicecup.DiceCup
 
 abstract class UI(controller: Controller) extends Observer {
@@ -13,12 +13,13 @@ abstract class UI(controller: Controller) extends Observer {
 
   def gameAndFieldInput(player: Player, move: Move, indexList: List[Int] = List(6, 7, 8, 16, 17, 18)): Unit = {
     val currentPlayerIndex: Int = controller.game.playersList.indexOf(player)
-    val currentSumList: List[Int] = controller.game.getCurrentList
+    // val currentSumList: List[Int] = controller.game.getCurrentList
     controller.doAndPublish(controller.putValToField, Move(move.value, currentPlayerIndex, move.y))
-    if (move.y < 6)
+    controller.doAndPublish(controller.sum, move.value.toInt, move.x, move.y)
+    /*if (move.y < 6)
       controller.doAndPublish(controller.sum, move.value.toInt + currentSumList.head, currentSumList(3))
     else
-      controller.doAndPublish(controller.sum, currentSumList.head, move.value.toInt + currentSumList(3))
+      controller.doAndPublish(controller.sum, currentSumList.head, move.value.toInt + currentSumList(3))*/
     for (l <- indexList)
       controller.doAndPublish(
         controller.putValToField,

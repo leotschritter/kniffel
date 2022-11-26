@@ -5,7 +5,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import controller.Controller
 import de.htwg.se.kniffel.model.dicecup.DiceCup
-import model.{Field, Game, Move, Player}
+import de.htwg.se.kniffel.model.game.Game
+import model.{Field, Move, Player}
 
 class UISpec extends AnyWordSpec {
   "An UI" when {
