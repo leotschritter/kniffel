@@ -43,6 +43,16 @@ class DiceCupSpec extends AnyWordSpec {
         putIn.locked.size should be(0)
         putIn.inCup.size should be(5)
       }
+      "not be inserted into the locked list if inOrOutList is no sublist of it" in {
+        val putOut: DiceCup = sortOut.putDicesOut(List(77, 435, 22))
+        putOut.inCup.size should be (3)
+        putOut.locked.size should be (2)
+      }
+      "not be inserted into the inCup list if inOrOutList is no sublist of it" in {
+        val putIn: DiceCup = sortOut.putDicesIn(List(77, 435, 22))
+        putIn.inCup.size should be (3)
+        putIn.locked.size should be (2)
+      }
     }
     "list Entries are dropped from another list" should {
       val diceCup: DiceCup = new DiceCup()

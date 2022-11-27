@@ -26,7 +26,7 @@ class TUI(controller: Controller) extends UI(controller) :
     analyseInput(readLine) match
       case None =>
       case Some(move) =>
-        gameAndFieldInput(controller.game.currentPlayer, move)
+        gameAndFieldInput(move)
         diceCupInput()
     inputLoop()
 

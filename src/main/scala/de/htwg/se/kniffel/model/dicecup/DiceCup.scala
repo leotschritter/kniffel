@@ -6,11 +6,12 @@ import scala.util.Random
 case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
   def this() = this(List.fill(0)(0), List.fill(5)(Random.between(1, 7)), 2)
 
-  var state:DiceCupState = new Running()
+  var state: DiceCupState = new Running()
 
   def throwDices(diceCup: DiceCup): DiceCup = {
     state.throwDices(diceCup)
   }
+
   def dice(): DiceCupState = state match {
     case start: Start => state = new Running; state
     case running: Running => state = new Running; state
@@ -31,9 +32,22 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
     state.throwDices(DiceCup(List.fill(0)(0), List.fill(0)(0), 2))
   }
 
-  def putDicesIn(sortIn: List[Int]): DiceCup = DiceCup(dropListEntriesFromList(sortIn, locked), inCup ++ sortIn, remDices)
+  def listIsSubListOfList(inOrOut: List[Int], existingList: List[Int]): Boolean =
+    existingList.length - inOrOut.length == dropListEntriesFromList(inOrOut, existingList).length
 
-  def putDicesOut(sortOut: List[Int]): DiceCup = DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
+  def putDicesIn(sortIn: List[Int]): DiceCup = {
+    if (listIsSubListOfList(sortIn, locked))
+      DiceCup(dropListEntriesFromList(sortIn, locked), inCup ++ sortIn, remDices)
+    else
+      this
+  }
+
+  def putDicesOut(sortOut: List[Int]): DiceCup = {
+    if(listIsSubListOfList(sortOut, inCup))
+      DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
+    else
+      this
+  }
 
   def mergeLists(list1: List[Int], list2: List[Int]): List[Int] = list1 ::: list2
 
