@@ -1,40 +1,38 @@
 package de.htwg.se.kniffel.util
 
-trait Command[T]:
-  def noStep(t: T): T
+trait Command:
+  def undoStep(): Unit
 
-  def undoStep(t: T): T
+  def redoStep(): Unit
 
-  def redoStep(t: T): T
+  def doStep(): Unit
 
-  def doStep(t: T): T
+class UndoManager {
+  private var undoStack: List[Command]= Nil
+  private var redoStack: List[Command]= Nil
 
-class UndoManager[T]:
-  private var undoStack: List[Command[T]] = Nil
-  private var redoStack: List[Command[T]] = Nil
-
-  def doStep(t: T, command: Command[T]): T =
-    undoStack = command :: undoStack
-    command.doStep(t)
-
-  def undoStep(t: T): T =
+  def doStep(command: Command) = {
+    undoStack = command::undoStack
+    command.doStep()
+  }
+  def undoStep  = {
     undoStack match {
-      case Nil => t
-      case head :: stack => {
-        val result = head.undoStep(t)
-        undoStack = stack
-        redoStack = head :: redoStack
-        result
+      case  Nil =>
+      case head::stack => {
+        head.undoStep()
+        undoStack=stack
+        redoStack= head::redoStack
       }
     }
-
-  def redoStep(t: T): T =
+  }
+  def redoStep = {
     redoStack match {
-      case Nil => t
-      case head :: stack => {
-        val result = head.redoStep(t)
-        redoStack = stack
-        undoStack = head :: undoStack
-        result
+      case Nil =>
+      case head::stack => {
+        head.redoStep()
+        redoStack=stack
+        undoStack=head::undoStack
       }
     }
+  }
+}

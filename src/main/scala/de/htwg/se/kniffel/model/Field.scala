@@ -5,7 +5,6 @@ case class Field(matrix: Matrix[String]):
   def this(numberOfPlayers: Int) = this(new Matrix[String](numberOfPlayers))
 
   val defaultPlayers: Int = matrix.rows.flatten.length / 19
-
   val first_column: List[String] =
     List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
 
@@ -27,12 +26,16 @@ case class Field(matrix: Matrix[String]):
 
   def put(value: String, x: Int, y: Int): Field = copy(matrix.fill(x, y, value))
 
-/*  def putMulti(values: List[String], x: Int, y_coordinates: List[Int], currentField: Field = Field(matrix), n: Int = 0): Field =
-    if (n != values.length)
-      putMulti(values, x, y_coordinates, put(values(n), x, y_coordinates(n)), n + 1)
-    else
-      currentField*/
+  def getPreviousField(x: Int): Int = if x == 0 then defaultPlayers - 1 else x - 1
+
+  def undoMove(value: String, x: Int, y: Int): Field = put("", getPreviousField(x), y)
 
   override def toString = mesh()
+
+/*  def putMulti(values: List[String], x: Int, y_coordinates: List[Int] = List(6, 7, 8, 16, 17, 18)): Matrix =
+  if (n != values.length)
+    putMulti(values, x, y_coordinates, put(values(n), x, y_coordinates(n)), n + 1)
+  else
+    currentField*/
 
 
