@@ -5,7 +5,7 @@ import controller.Controller
 import aview.UI
 import de.htwg.se.kniffel.model.dicecup.DiceCup
 import model.{Field, Move, Player}
-
+import scala.util.{Try,Success,Failure}
 import scala.io.StdIn.readLine
 import util.Observer
 
@@ -40,12 +40,20 @@ class TUI(controller: Controller) extends UI(controller) :
       case "u" => controller.undo; multiFieldInput(); None
       case "r" => controller.redo; multiFieldInput(); None
       case "wd" => {
-        val posAndDesc = list.tail.head
-        val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
-        if (index.isDefined && controller.field.matrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
-          Some(Move(controller.diceCup.getResult(index.get).toString, controller.game.currentPlayer.playerID, index.get))
-        else
-          println("Falsche Eingabe!"); None
+        invalidInput(list) match {
+          case Success(f) => val posAndDesc = list.tail.head
+            val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
+            if (index.isDefined && controller.field.matrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
+              Some(Move(controller.diceCup.getResult(index.get).toString, controller.game.currentPlayer.playerID, index.get))
+            else
+              println("Falsche Eingabe!"); None
+          case Failure(v) => println("Falsche Eingabe"); None
+        }
+        
       }
       case _ =>
         println("Falsche Eingabe!"); None
+
+  def invalidInput(list: List[String]): Try[String] = Try(list.tail.head)
+
+         
