@@ -28,8 +28,10 @@ class FieldSpec extends AnyWordSpec {
     }
   }
   "get None in undoMove when Field is the first Field" in {
-    val field = new Field(2)
-    field.undoMove(0,0) should be (None)
+    var field = new Field(2)
+    field = field.put("1", 0, 0)
+    field = field.undoMove(0,0)
+    field.matrix.cell(0,0) should be ("")
   }
   "have a mesh as a String" in {
     val field2 = new Field(4)
