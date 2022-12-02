@@ -1,7 +1,7 @@
 package de.htwg.se.kniffel.model
 
 
-case class Field(matrix: Matrix[String]):
+case class Field(matrix: Matrix[String], lastY: Option[Int] = None):
   def this(numberOfPlayers: Int) = this(new Matrix[String](numberOfPlayers))
 
   val defaultPlayers: Int = matrix.rows.flatten.length / 19
@@ -25,14 +25,32 @@ case class Field(matrix: Matrix[String]):
       0 + s * numberOfPlayers, s * numberOfPlayers + numberOfPlayers
     ))).mkString("") :+ bar(cellWidth)).mkString("")
 
-  def put(value: String, x: Int, y: Int): Field = copy(matrix.fill(x, y, value))
+  def put(value: String, x: Int, y: Int): Field = {
+    val last: Option[Int] = if (y < 9 && y > 5) || (y > 15 && y < 19) then lastY else Option(y)
+    copy(matrix.fill(x, y, value), last)
+  }
 
-/*  def putMulti(values: List[String], x: Int, y_coordinates: List[Int], currentField: Field = Field(matrix), n: Int = 0): Field =
-    if (n != values.length)
-      putMulti(values, x, y_coordinates, put(values(n), x, y_coordinates(n)), n + 1)
-    else
-      currentField*/
+  def undoMove(x: Int): Option[Field] = {
+    lastY match
+      case None => None
+      case _ => Option(put("", x, lastY.get))
+  }
 
   override def toString = mesh()
 
+/*
+def put(value: String, x: Int, y: Int): Field = {
+  val last: Option[List[Int]] = if (y < 9 && y > 5) || (y > 15 && y < 19) then lastY else
+    lastY match
+      case None => None
+      case _ => Option(lastY.get:+y)
+  copy(matrix.fill(x, y, value), last)
+}
 
+def undoMove(x: Int): Option[Field] = {
+  lastY match
+    case None => None
+    case _ =>
+      Option(copy(matrix.fill(x, lastY.get.last, ""), Option(lastY.get.dropRight(1))))
+}
+*/

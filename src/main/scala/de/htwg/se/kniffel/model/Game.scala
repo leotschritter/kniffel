@@ -14,10 +14,24 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
       Some(Game(playersList, getNextPlayer, remainingMoves - 1, resultNestedList))
   }
 
+  def getPreviousPlayer: Player = {
+    if (playersList.indexOf(currentPlayer) - 1 < 0)
+      playersList(playersList.last.playerID)
+    else
+      playersList(playersList.indexOf(currentPlayer) - 1)
+  }
+
   def getNextPlayer: Player =
     playersList((playersList.indexOf(currentPlayer) + 1) % playersList.length)
 
-  def sum(sumTop: Int, sumBottom: Int): Game = {
+  /*def sumTop(value: Int, y: Int): Int = if y < 6 then value + resultNestedList(playersList.indexOf(currentPlayer)).head else
+    resultNestedList(playersList.indexOf(currentPlayer)).head*/
+
+  def sum(value: Int, x: Int, y: Int): Game = {
+    val sumTop: Int = if y < 6 then value + resultNestedList(playersList.indexOf(currentPlayer)).head else
+      resultNestedList(playersList.indexOf(currentPlayer)).head
+    val sumBottom: Int = if y > 8 then value + resultNestedList(playersList.indexOf(currentPlayer))(3) else
+      resultNestedList(playersList.indexOf(currentPlayer))(3)
     val bonus: Int = if sumTop >= 63 then 35 else 0
     Game(playersList, currentPlayer, remainingMoves, resultNestedList.updated(
       playersList.indexOf(currentPlayer),
@@ -25,21 +39,16 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
     ))
   }
 
-  def getCurrentList:List[Int] = resultNestedList(playersList.indexOf(currentPlayer))
+  def getCurrentList: List[Int] = resultNestedList(playersList.indexOf(currentPlayer))
 
-  /*def getNewNestedList(sumTop: Int, sumBottom: Int): List[List[Int]] = {
+  def undoMove(value: Int, x: Int, y: Int): Game = {
+    val sumTop: Int = if y < 6 then resultNestedList(playersList.indexOf(getPreviousPlayer)).head - value else
+      resultNestedList(playersList.indexOf(getPreviousPlayer)).head
+    val sumBottom: Int = if y > 8 then resultNestedList(playersList.indexOf(getPreviousPlayer))(3) - value else
+      resultNestedList(playersList.indexOf(getPreviousPlayer))(3)
     val bonus: Int = if sumTop >= 63 then 35 else 0
-    resultNestedList.updated(
-      playersList.indexOf(currentPlayer),
+    Game(playersList, getPreviousPlayer, remainingMoves + 1, resultNestedList.updated(
+      playersList.indexOf(getPreviousPlayer),
       List(sumTop) :+ bonus :+ (sumTop + bonus) :+ sumBottom :+ (sumTop + bonus) :+ (sumBottom + sumTop + bonus)
-    )
-  }*/
-
-  // def next(): Game = Game(playersList, getNextPlayer(), remainingMoves - 1)
-  /*def initializePlayersList(numberOfPlayers: Int, currentList: List[Player], currentNumber: Int = 0): List[Player] = {
-    if (numberOfPlayers != currentNumber)
-      initializePlayersList(
-        numberOfPlayers, currentList :+ Player(currentNumber, "Player" + currentNumber + 1), currentNumber + 1)
-    else
-      currentList
-  }*/
+    ))
+  }

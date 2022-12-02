@@ -27,6 +27,10 @@ class FieldSpec extends AnyWordSpec {
       field1.header().mkString("") should be("    |P1 |P2 |P3 |P4 ")
     }
   }
+  "get None in undoMove when Field is the first Field" in {
+    val field = new Field(2)
+    field.undoMove(0) should be (None)
+  }
   "have a mesh as a String" in {
     val field2 = new Field(4)
     field2.mesh() should be(
