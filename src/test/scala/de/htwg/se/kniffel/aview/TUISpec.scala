@@ -6,6 +6,7 @@ import org.scalatest.matchers.should.Matchers.*
 import controller.Controller
 import de.htwg.se.kniffel.model.dicecup.DiceCup
 import model.{Field, Game, Move}
+import scala.util.{Try,Success,Failure}
 
 class TUISpec extends AnyWordSpec {
   "The TUI" should {
@@ -21,6 +22,12 @@ class TUISpec extends AnyWordSpec {
     }
     "quit" in {
       tui.analyseInput("q") should be (None)
+    }
+    "a list is validated" in {
+      val result = tui.invalidInput(List("wd"))
+      result.isSuccess should be(false)
+      val result2 = tui.invalidInput(List("wd", "1"))
+      result2.isSuccess should be(true)
     }
   }
 }
