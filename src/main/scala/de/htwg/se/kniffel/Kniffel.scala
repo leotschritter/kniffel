@@ -4,8 +4,7 @@ package de.htwg.se.kniffel
 import aview.TUI
 import controller.Controller
 import de.htwg.se.kniffel.model.dicecup.DiceCup
-import de.htwg.se.kniffel.model.game.Game
-import model.Field
+import model.{Field, Game}
 
 
 

@@ -2,26 +2,36 @@ package de.htwg.se.kniffel
 package controller
 
 import scala.annotation.targetName
-import model.{Field, Move}
+import model.{Field, Game, Move}
 import de.htwg.se.kniffel.model.dicecup.DiceCup
-import de.htwg.se.kniffel.model.game.Game
 import util.Observable
 import util.UndoManager
 import controller.SetCommand
 
 case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable :
 
+  val undoManager = new UndoManager[Game, Field]
 
-  val undoManager = new UndoManager
+  def undo: Unit = {
+    diceCup = diceCup.nextRound()
+    val r = undoManager.undoStep(game, field)
+    game = r._1
+    field = r._2
+  }
 
-  def undo: Unit = undoManager.undoStep
+  def redo: Unit = {
+    diceCup = diceCup.nextRound()
+    val r = undoManager.redoStep(game, field)
+    game = r._1
+    field = r._2
+  }
 
-  def redo: Unit = undoManager.redoStep; notifyObservers
-/*  def undo: (Game, Field) = undoManager.undoStep(game, field)
-
-  def redo: (Game, Field) = undoManager.redoStep(game, field)*/
-
-  def put(move: Move): Unit = undoManager.doStep(SetCommand(move, this)); notifyObservers
+  def put(move: Move): Unit = {
+    diceCup = diceCup.nextRound()
+    val r = undoManager.doStep(game, field, SetCommand(move))
+    game = r._1
+    field = r._2
+  }
 
   def doAndPublish(doThis: Move => Field, move: Move): Unit =
     field = doThis(move)
@@ -44,13 +54,6 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     game = doThis(value, x, y)
     notifyObservers
 
-/*  @targetName("put")
-  def doAndPublish(doThis: Move => (Game, Field), move: Move): Unit =
-    val gf = doThis(move)
-    game = gf._1
-    field = gf._2
-    notifyObservers*/
-
   def next(): Option[Game] =
     game.next()
 
@@ -71,8 +74,6 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
   def putValToField(move: Move): Field =
     field.put(move.value, move.x, move.y)
 
-
   def nextRound(): DiceCup = diceCup.nextRound()
-
 
   override def toString: String = field.toString

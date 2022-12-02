@@ -2,10 +2,10 @@ package de.htwg.se.kniffel
 package controller
 
 import de.htwg.se.kniffel.model.dicecup.DiceCup
-import de.htwg.se.kniffel.model.game.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import model.{Field, Move, Player, game}
+import model.{Field, Game, Move, Player}
+import de.htwg.se.kniffel.model
 import util.Observer
 
 class ControllerSpec extends AnyWordSpec {
@@ -59,9 +59,8 @@ class ControllerSpec extends AnyWordSpec {
     }
     "return an new Game" when {
       "finishing a move" in {
-        controller2.next() should be(Some(game.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))))
-        controller2.sum(63, 0, 0) should be(game.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 13, List(List(63, 35, 98, 0, 98, 98))))
-        //controller2.
+        controller2.next() should be(Some(model.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))))
+        controller2.sum(63, 0, 0) should be(model.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 13, List(List(63, 35, 98, 0, 98, 98))))
       }
     }
     "after a Move" when {
@@ -75,6 +74,20 @@ class ControllerSpec extends AnyWordSpec {
     "when toString is called" should {
       "toString" in {
         controller.toString should be(controller.field.mesh())
+      }
+    }
+    "when undo/redo/put is called" should {
+      "put" in {
+        controller.put(Move("11", 0, 0))
+        controller.field.matrix.cell(0, 0) should be ("11")
+      }
+      "undo" in {
+        controller.undo
+        controller.field.matrix.cell(0, 0) should be ("")
+      }
+      "redo" in {
+        controller.redo
+        controller.field.matrix.cell(0, 0) should be ("11")
       }
     }
   }

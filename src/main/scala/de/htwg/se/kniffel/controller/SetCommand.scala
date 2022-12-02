@@ -1,24 +1,19 @@
 package de.htwg.se.kniffel
 package controller
 
-import model.game.Game
-import model.Field
-import model.Move
+import model.{Field, Game, Move}
 import util.Command
 
-class SetCommand(move: Move, controller: Controller) extends Command :
+class SetCommand(move: Move) extends Command[Game, Field] :
 
-  override def doStep(): Unit =
-    val result = (controller.game.sum(move.value.toInt, move.x, move.y), controller.field.put(move.value, move.x, move.y))
-    controller.game = result._1
-    controller.field = result._2
+  override def doStep(game: Game, field: Field): (Game, Field) =
+    (game.sum(move.value.toInt, move.x, move.y), field.put(move.value, move.x, move.y))
 
-  override def redoStep(): Unit =
-    val result = (controller.game.redoMove(move.value.toInt, move.x, move.y), controller.field.put(move.value, move.x, move.y))
-    controller.game = result._1
-    controller.field = result._2
+  override def redoStep(game: Game, field: Field): (Game, Field) =
+    (game.sum(move.value.toInt, move.x, move.y).next().get, field.put(move.value, move.x, move.y))
 
-  override def undoStep(): Unit =
-    val result = (controller.game.undoMove(move.value.toInt, move.x, move.y), controller.field.undoMove(move.value, move.x, move.y))
-    controller.game = result._1
-    controller.field = result._2
+  override def undoStep(game: Game, field: Field): (Game, Field) =
+    (game.undoMove(move.value.toInt, move.x, move.y), field.undoMove(move.x).get)
+
+  override def noStep(game: Game, field: Field): (Game, Field) =
+    (game, field)

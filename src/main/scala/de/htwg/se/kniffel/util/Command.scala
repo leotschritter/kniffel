@@ -1,38 +1,41 @@
 package de.htwg.se.kniffel.util
 
-trait Command:
-  def undoStep(): Unit
+trait Command[T, U]:
+  def noStep(game: T, field: U): (T, U)
 
-  def redoStep(): Unit
+  def doStep(game: T, field: U): (T, U)
 
-  def doStep(): Unit
+  def undoStep(game: T, field: U): (T, U)
 
-class UndoManager {
-  private var undoStack: List[Command]= Nil
-  private var redoStack: List[Command]= Nil
+  def redoStep(game: T, field: U): (T, U)
 
-  def doStep(command: Command) = {
-    undoStack = command::undoStack
-    command.doStep()
-  }
-  def undoStep  = {
+class UndoManager[T, U]:
+  private var undoStack: List[Command[T, U]] = Nil
+  private var redoStack: List[Command[T, U]] = Nil
+
+  def doStep(game: T, field: U, command: Command[T, U]): (T, U) =
+    undoStack = command :: undoStack
+    redoStack = Nil
+    command.doStep(game, field)
+
+  def undoStep(game: T, field: U): (T, U) =
     undoStack match {
-      case  Nil =>
-      case head::stack => {
-        head.undoStep()
-        undoStack=stack
-        redoStack= head::redoStack
+      case Nil => (game, field)
+      case head :: stack => {
+        val result = head.undoStep(game, field)
+        undoStack = stack
+        redoStack = head :: redoStack
+        result
       }
     }
-  }
-  def redoStep = {
+
+  def redoStep(game: T, field: U): (T, U) =
     redoStack match {
-      case Nil =>
-      case head::stack => {
-        head.redoStep()
-        redoStack=stack
-        undoStack=head::undoStack
+      case Nil => (game, field)
+      case head :: stack => {
+        val result = head.redoStep(game, field)
+        redoStack = stack
+        undoStack = head :: undoStack
+        result
       }
     }
-  }
-}

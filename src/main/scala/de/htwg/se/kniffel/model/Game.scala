@@ -1,7 +1,4 @@
-package de.htwg.se.kniffel
-package model.game
-
-import model.Player
+package de.htwg.se.kniffel.model
 
 case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves: Int, resultNestedList: List[List[Int]]):
   def this(numberOfPlayers: Int)
@@ -27,6 +24,9 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
   def getNextPlayer: Player =
     playersList((playersList.indexOf(currentPlayer) + 1) % playersList.length)
 
+  /*def sumTop(value: Int, y: Int): Int = if y < 6 then value + resultNestedList(playersList.indexOf(currentPlayer)).head else
+    resultNestedList(playersList.indexOf(currentPlayer)).head*/
+
   def sum(value: Int, x: Int, y: Int): Game = {
     val sumTop: Int = if y < 6 then value + resultNestedList(playersList.indexOf(currentPlayer)).head else
       resultNestedList(playersList.indexOf(currentPlayer)).head
@@ -49,18 +49,6 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
     val bonus: Int = if sumTop >= 63 then 35 else 0
     Game(playersList, getPreviousPlayer, remainingMoves + 1, resultNestedList.updated(
       playersList.indexOf(getPreviousPlayer),
-      List(sumTop) :+ bonus :+ (sumTop + bonus) :+ sumBottom :+ (sumTop + bonus) :+ (sumBottom + sumTop + bonus)
-    ))
-  }
-
-  def redoMove(value: Int, x: Int, y: Int): Game = {
-    val sumTop: Int = if y < 6 then value + resultNestedList(playersList.indexOf(currentPlayer)).head else
-      resultNestedList(playersList.indexOf(currentPlayer)).head
-    val sumBottom: Int = if y > 8 then value + resultNestedList(playersList.indexOf(currentPlayer))(3) else
-      resultNestedList(playersList.indexOf(currentPlayer))(3)
-    val bonus: Int = if sumTop >= 63 then 35 else 0
-    Game(playersList, getNextPlayer, remainingMoves - 1, resultNestedList.updated(
-      playersList.indexOf(currentPlayer),
       List(sumTop) :+ bonus :+ (sumTop + bonus) :+ sumBottom :+ (sumTop + bonus) :+ (sumBottom + sumTop + bonus)
     ))
   }
