@@ -4,45 +4,41 @@ package util
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import util.UndoManager
+import controller.SetCommand
+import model.{Field, Game, Player, Move}
 
 class UndoManagerSpec extends AnyWordSpec {
   "An UndoManager" should {
-    val undoManager = new UndoManager[Int, Int]
-    class C extends Command[Int, Int] {
-      override def undoStep(a: Int, b: Int): (Int, Int) = (a - 1, b - 1)
-
-      override def doStep(a: Int, b: Int): (Int, Int) = (a + 1, b + 1)
-
-      override def noStep(a: Int, b: Int): (Int, Int) = (a, b)
-
-      override def redoStep(a: Int, b: Int): (Int, Int) = (a + 1, b + 1)
-    }
-
-    val command = new C
+    val undoManager = new UndoManager[Game, Field]
+    val players: List[Player] = List(Player(0, "Player1"), Player(1, "Player2"), Player(2, "Player3"), Player(3, "Player4"))
+    var game = Option(Game(players, players.head, players.length * 13, List.fill(players.length, 6)(0)))
+    var field = new Field(4)
 
     "have a do, undo and redo" in {
-      var state = (0, 0)
-      state = undoManager.doStep(state._1, state._2, command)
-      state should be(1, 1)
-      state = undoManager.undoStep(state._1, state._2)
-      state should be(0, 0)
-      state = undoManager.redoStep(state._1, state._2)
-      state should be(1, 1)
-    }
+      var r = undoManager.doStep(game.get, field, SetCommand(Move("12", 0, 0)))
+      game = Option(r._1)
+      field = r._2
+      game.get.currentPlayer should be (Player(0, "Player1"))
 
-    "handle multiple undo steps correctly" in {
-      var state = (0, 0)
-      state = undoManager.doStep(state._1, state._2, command)
-      state = undoManager.doStep(state._1, state._2, command)
-      state should be(2, 2)
-      state = undoManager.redoStep(state._1, state._2)
-      state should be(2, 2)
-      state = undoManager.undoStep(state._1, state._2)
-      state should be(1, 1)
-      state = undoManager.undoStep(state._1, state._2)
-      state should be(0, 0)
-      state = undoManager.redoStep(state._1, state._2)
-      state should be(1, 1)
+      r = undoManager.undoStep(game.get, field)
+      game = Option(r._1)
+      field = r._2
+      game.get.currentPlayer should be (Player(3, "Player4"))
+
+      r = undoManager.undoStep(game.get, field)
+      game = Option(r._1)
+      field = r._2
+      game.get.currentPlayer should be (Player(3, "Player4"))
+
+      r = undoManager.redoStep(game.get, field)
+      game = Option(r._1)
+      field = r._2
+      game.get.currentPlayer should be (Player(0, "Player1"))
+
+      r = undoManager.redoStep(game.get, field)
+      game = Option(r._1)
+      field = r._2
+      game.get.currentPlayer should be (Player(0, "Player1"))
     }
   }
 }
