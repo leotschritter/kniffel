@@ -27,7 +27,7 @@ class UISpec extends AnyWordSpec {
       }
     }
     "values are put into the Field" should {
-      controller.game = controller.game.sum(12, 0, 0)
+      controller.game = controller.game.sum(12, 0)
       ui.multiFieldInput()
       "have the correct sum" in {
         controller.field.matrix.cell(0, 6) should be ("12")

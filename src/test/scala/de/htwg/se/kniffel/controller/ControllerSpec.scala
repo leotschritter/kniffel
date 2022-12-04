@@ -29,9 +29,9 @@ class ControllerSpec extends AnyWordSpec {
       testObserver.bing should be(true)
       controller.doAndPublish(controller.dice())
       testObserver.bing should be(true)
-      controller.doAndPublish(controller.sum(62, 0, 0))
+      controller.doAndPublish(controller.sum(62, 0))
       testObserver.bing should be(true)
-      controller.doAndPublish(controller.sum, controller.game.getCurrentList.head, 22, 33)
+      controller.doAndPublish(controller.sum, controller.game.resultNestedList(controller.game.playersList.indexOf(controller.game.currentPlayer)).head, 33)
       testObserver.bing should be(true)
     }
     "dices are put out the Dice Cup or in" should {
@@ -60,7 +60,7 @@ class ControllerSpec extends AnyWordSpec {
     "return an new Game" when {
       "finishing a move" in {
         controller2.next() should be(Some(model.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))))
-        controller2.sum(63, 0, 0) should be(model.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 13, List(List(63, 35, 98, 0, 98, 98))))
+        controller2.sum(63, 0) should be(model.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 13, List(List(63, 35, 98, 0, 98, 98))))
       }
     }
     "after a Move" when {

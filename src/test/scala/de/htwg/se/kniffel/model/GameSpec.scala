@@ -40,20 +40,20 @@ class GameSpec extends AnyWordSpec {
       "return a new Game" in {
         val players2: List[Player] = List(Player(0, "Player1"))
         val game2 = Option(Game(players2, players2.head, players2.length * 13, List.fill(players2.length, 6)(0)))
-        game2.get.sum(62, 0, 0) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 13, List(List(62, 0, 62, 0, 62, 62))))
-        game2.get.sum(63, 0, 0) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 13, List(List(63, 35, 98, 0, 98, 98))))
-        game2.get.getCurrentList should be(List(0, 0, 0, 0, 0, 0))
+        game2.get.sum(62, 0) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 13, List(List(62, 0, 62, 0, 62, 62))))
+        game2.get.sum(63, 0) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 13, List(List(63, 35, 98, 0, 98, 98))))
+        game2.get.resultNestedList(game2.get.playersList.indexOf(game2.get.currentPlayer)) should be(List(0, 0, 0, 0, 0, 0))
       }
     }
     "a Game move is undon" should {
       "return different sums depending on the values" in {
         val players3: List[Player] = List(Player(0, "Player1"))
         val game3 = Option(Game(players3, players3.head, players3.length * 13, List.fill(players3.length, 6)(0)))
-        val game4 = game3.get.sum(62, 0, 9)
-        game4.undoMove(62, 0, 9) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 14, List(List(0, 0, 0, 0, 0, 0))))
-        val game5 = game4.sum(75, 0, 0)
-        val game6 = game5.sum(7, 0, 1)
-        game6.undoMove(7, 0, 1) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 14, List(List(75, 35, 110, 62, 110, 172))))
+        val game4 = game3.get.sum(62, 9)
+        game4.undoMove(62, 9) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 14, List(List(0, 0, 0, 0, 0, 0))))
+        val game5 = game4.sum(75, 0)
+        val game6 = game5.sum(7, 1)
+        game6.undoMove(7, 1) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 14, List(List(75, 35, 110, 62, 110, 172))))
       }
     }
   }
