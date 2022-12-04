@@ -50,15 +50,15 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     game = doThis
     notifyObservers
 
-  def doAndPublish(doThis: (Int, Int, Int) => Game, value: Int, x: Int, y: Int): Unit =
-    game = doThis(value, x, y)
+  def doAndPublish(doThis: (Int, Int) => Game, value: Int, y: Int): Unit =
+    game = doThis(value, y)
     notifyObservers
 
   def next(): Option[Game] =
     game.next()
 
-  def sum(value: Int, x: Int, y: Int): Game =
-    game.sum(value, x, y)
+  def sum(value: Int, y: Int): Game =
+    game.sum(value, y)
 
   def putOut(list: List[Int]): DiceCup =
     diceCup.putDicesOut(list)
