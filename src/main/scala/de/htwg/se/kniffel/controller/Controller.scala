@@ -32,6 +32,7 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     val r = undoManager.doStep(game, field, SetCommand(move))
     game = r._1
     field = r._2
+    notifyObservers(Event.Move)
   }
 
   def doAndPublish(doThis: Move => Field, move: Move): Unit =
