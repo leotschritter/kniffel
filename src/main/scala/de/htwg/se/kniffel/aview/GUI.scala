@@ -6,6 +6,7 @@ import model.Move
 
 import scala.swing.*
 import scala.swing.event.*
+import scala.swing.ListView.*
 import util.Event
 import util.Observer
 import aview.UI
@@ -47,11 +48,77 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     add(new Label("Welcome to Kniffel"), BorderPanel.Position.North)
     add(new LeftCellPanel(), BorderPanel.Position.West)
     add(new RightCellPanel(controller.field.defaultPlayers), BorderPanel.Position.Center)
+    add(new RightPanel(), BorderPanel.Position.East)
   }
   pack()
   centerOnScreen()
   open()
 
+  //lass LeftCellPanel() extends GridPanel(1, 2) :
+  /*class CellPanel(numberOfPlayers: Int) extends GridPanel(19, numberOfPlayers):
+    List()*/
+  /*class BorderCellPanel(numberOfPlayers: Int) extends BorderPanel(1, numberOfPlayers):
+    contents += new LeftCellPanel()
+    contents += new RightCellPanel(numberOfPlayers)*/
+  def updateDiceCup(leftListView: ListView[Int], rightListView: ListView[Int]): Unit = {
+    leftListView.listData = controller.diceCup.inCup
+    rightListView.listData = controller.diceCup.locked
+  }
+
+  class RightPanel() extends BorderPanel:
+    val leftListView: ListView[Int] = new ListView[Int]() {
+      selection.intervalMode = IntervalMode.MultiInterval
+      preferredSize = new Dimension(100, 500)
+    }
+    val rightListView: ListView[Int] = new ListView[Int]() {
+      selection.intervalMode = IntervalMode.MultiInterval
+      preferredSize = new Dimension(100, 500)
+    }
+    add(leftListView, BorderPanel.Position.West)
+    add(new RightInnerPanel(leftListView, rightListView), BorderPanel.Position.Center)
+    add(rightListView, BorderPanel.Position.East)
+
+  class RightInnerPanel(leftListView: ListView[Int], rightListView: ListView[Int]) extends BoxPanel(Orientation.Vertical) {
+    val buttonDimension: Dimension = new Dimension(90, 50)
+    contents += new Button {
+      icon = new ImageIcon("src/main/resources/right_arrow.png") {
+        preferredSize = buttonDimension
+      }
+      preferredSize = buttonDimension
+      listenTo(mouse.clicks)
+      reactions += {
+        case MouseClicked(src, pt, mod, clicks, props) =>
+          diceCupPutOut(leftListView.selection.items.toList)
+          updateDiceCup(leftListView, rightListView)
+      }
+    }
+    contents += new Button {
+      icon = new ImageIcon("src/main/resources/left_arrow.png") {
+        preferredSize = buttonDimension
+      }
+      preferredSize = buttonDimension
+      listenTo(mouse.clicks)
+      reactions += {
+        case MouseClicked(src, pt, mod, clicks, props) =>
+          diceCupPutIn(rightListView.selection.items.toList)
+          updateDiceCup(leftListView, rightListView)
+      }
+    }
+    contents += new Button {
+      icon = new ImageIcon("src/main/resources/flying_dices_small.png") {
+        preferredSize = buttonDimension
+      }
+      preferredSize = buttonDimension
+      listenTo(mouse.clicks)
+      reactions += {
+        case MouseClicked(src, pt, mod, clicks, props) =>
+          controller.doAndPublish(controller.dice())
+          updateDiceCup(leftListView, rightListView)
+      }
+    }
+  }
+
+  //contents += new Bu
   class LeftCellPanel() extends GridPanel(1, 2) :
     contents += new LeftCellPanelFirstColumn()
     contents += new LeftCellPanelSecondColumn()
@@ -91,6 +158,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     //List() :: (for(j <- 0 until 19) do (for i <- 0 until numberOfPlayers) (contents+= new CellButton("", i, j)))
     for (i <- 0 until 19) {
       for (j <- 0 until numberOfPlayers) {
+        contents += new CellButton("" + j + ", " + i, j, i)
         contents += new TextArea {
           text = controller.field.matrix.cell(j, i)
           preferredSize = new Dimension(60,20)
@@ -100,7 +168,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     }
 
 
-    def button(value: String) = new Button(value)
+  // def button(value: String) = new Button(value)
 
 
   class CellButton(value: String, x: Int, y: Int) extends Button(value) :
