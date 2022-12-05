@@ -3,10 +3,11 @@ package controller
 
 import scala.annotation.targetName
 import model.{Field, Game, Move}
-import de.htwg.se.kniffel.model.dicecup.DiceCup
 import util.Observable
+import model.dicecup.DiceCup
 import util.UndoManager
 import controller.SetCommand
+import util.Event
 
 case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable :
 
@@ -35,24 +36,26 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
 
   def doAndPublish(doThis: Move => Field, move: Move): Unit =
     field = doThis(move)
-    notifyObservers
+    notifyObservers(Event.Move)
 
   def doAndPublish(doThis: List[Int] => DiceCup, list: List[Int]): Unit =
     diceCup = doThis(list)
-    notifyObservers
+    notifyObservers(Event.Move)
 
   def doAndPublish(doThis: => DiceCup): Unit =
     diceCup = doThis
-    notifyObservers
+    notifyObservers(Event.Move)
 
   @targetName("next")
   def doAndPublish(doThis: => Game): Unit =
     game = doThis
-    notifyObservers
+    notifyObservers(Event.Move)
 
   def doAndPublish(doThis: (Int, Int) => Game, value: Int, y: Int): Unit =
     game = doThis(value, y)
-    notifyObservers
+    notifyObservers(Event.Move)
+
+  def quit: Unit = notifyObservers(Event.Quit)
 
   def next(): Option[Game] =
     game.next()
