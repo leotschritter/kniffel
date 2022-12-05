@@ -13,6 +13,7 @@ import aview.UI
 
 import javax.swing.ImageIcon
 import javax.swing.border.Border
+import scala.collection.immutable.HashMap
 
 class GUI(controller: Controller) extends Frame, UI(controller) :
   controller.add(this)
@@ -32,6 +33,12 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
 
   val diceLinks: List[String] = List("src/main/resources/1.png", "src/main/resources/2.png", "src/main/resources/3.png",
     "src/main/resources/4.png", "src/main/resources/5.png", "src/main/resources/6.png")
+
+  val intToImg: Map[Int, ImageIcon] = Map(1 -> new ImageIcon(diceLinks.head), 2 -> new ImageIcon(diceLinks(1)), 3 -> new ImageIcon(diceLinks(2)),
+    4 -> new ImageIcon(diceLinks(3)), 5 -> new ImageIcon(diceLinks(4)), 6 -> new ImageIcon(diceLinks.last))
+
+  val imgToInt: Map[String, Int] = Map(diceLinks.head -> 1, diceLinks(1) -> 2, diceLinks(2) -> 3,
+    diceLinks(3) -> 4, diceLinks(4) -> 5, diceLinks.last -> 6)
 
   def update(e: Event): Unit = e match
     case Event.Quit => this.dispose()
@@ -60,25 +67,35 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   /*class BorderCellPanel(numberOfPlayers: Int) extends BorderPanel(1, numberOfPlayers):
     contents += new LeftCellPanel()
     contents += new RightCellPanel(numberOfPlayers)*/
-  def updateDiceCup(leftListView: ListView[Int], rightListView: ListView[Int]): Unit = {
-    leftListView.listData = controller.diceCup.inCup
-    rightListView.listData = controller.diceCup.locked
+  def updateDiceCup(leftListView: ListView[ImageIcon], rightListView: ListView[ImageIcon], rem: Label): Unit = {
+    val left: List[ImageIcon] = for (s <- controller.diceCup.inCup) yield intToImg(s)
+    val right: List[ImageIcon] = for (s <- controller.diceCup.locked) yield intToImg(s)
+    rem.text = "<html>Verbleibende<br>Würfe: " + (controller.diceCup.remDices + 1)
+    leftListView.listData = left
+    rightListView.listData = right
   }
 
-  class RightPanel() extends BorderPanel:
-    val leftListView: ListView[Int] = new ListView[Int]() {
+  class RightPanel() extends BorderPanel :
+    val leftListView: ListView[ImageIcon] = new ListView[ImageIcon]() {
       selection.intervalMode = IntervalMode.MultiInterval
       preferredSize = new Dimension(100, 500)
     }
-    val rightListView: ListView[Int] = new ListView[Int]() {
+    val rightListView: ListView[ImageIcon] = new ListView[ImageIcon]() {
       selection.intervalMode = IntervalMode.MultiInterval
       preferredSize = new Dimension(100, 500)
     }
+    val rem: Label = new Label("<html>Verbleibende<br>Würfe: 3")
+    add(new TopInnerPanel(rem), BorderPanel.Position.North)
     add(leftListView, BorderPanel.Position.West)
-    add(new RightInnerPanel(leftListView, rightListView), BorderPanel.Position.Center)
+    add(new RightInnerPanel(leftListView, rightListView, rem), BorderPanel.Position.Center)
     add(rightListView, BorderPanel.Position.East)
 
-  class RightInnerPanel(leftListView: ListView[Int], rightListView: ListView[Int]) extends BoxPanel(Orientation.Vertical) {
+  class TopInnerPanel(rem: Label) extends GridPanel(1, 3) :
+    contents += new Label("Im Becher")
+    contents += rem
+    contents += new Label("Rausgenommen")
+
+  class RightInnerPanel(leftListView: ListView[ImageIcon], rightListView: ListView[ImageIcon], rem: Label) extends BoxPanel(Orientation.Vertical) {
     val buttonDimension: Dimension = new Dimension(90, 50)
     contents += new Button {
       icon = new ImageIcon("src/main/resources/right_arrow.png") {
@@ -88,8 +105,9 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       listenTo(mouse.clicks)
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
-          diceCupPutOut(leftListView.selection.items.toList)
-          updateDiceCup(leftListView, rightListView)
+          val intList: List[Int] = for (s <- leftListView.selection.items.toList) yield imgToInt(s.toString)
+          diceCupPutOut(intList)
+          updateDiceCup(leftListView, rightListView, rem)
       }
     }
     contents += new Button {
@@ -100,8 +118,9 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       listenTo(mouse.clicks)
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
-          diceCupPutIn(rightListView.selection.items.toList)
-          updateDiceCup(leftListView, rightListView)
+          val intList: List[Int] = for (s <- rightListView.selection.items.toList) yield imgToInt(s.toString)
+          diceCupPutIn(intList)
+          updateDiceCup(leftListView, rightListView, rem)
       }
     }
     contents += new Button {
@@ -113,7 +132,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
           controller.doAndPublish(controller.dice())
-          updateDiceCup(leftListView, rightListView)
+          updateDiceCup(leftListView, rightListView, rem)
       }
     }
   }
@@ -161,7 +180,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         contents += new CellButton("" + j + ", " + i, j, i)
         contents += new TextArea {
           text = controller.field.matrix.cell(j, i)
-          preferredSize = new Dimension(60,20)
+          preferredSize = new Dimension(60, 20)
           border = Swing.LineBorder(new Color(0, 0, 0))
         }
       }
@@ -179,10 +198,11 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       case MouseClicked(src, pt, mod, clicks, props)
       => if isEmpty(getYIndex, x) then writeDown(Move(getValue, getYIndex, x)) else errorMessage(); None
     }
+
     def getYIndex: Int = controller.game.currentPlayer.playerID
 
     def isEmpty(x: Int, y: Int): Boolean = controller.field.matrix.isEmpty(x, y)
 
-    def errorMessage(): Unit = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title="Falsche Eingabe", messageType = Dialog.Message.Error)
+    def errorMessage(): Unit = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title = "Falsche Eingabe", messageType = Dialog.Message.Error)
 
     def getValue: String = controller.diceCup.getResult(x).toString
