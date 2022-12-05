@@ -23,7 +23,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
 
   val second_column: List[String] =
     List("nur Einser\nzählen", "nur Zweier\nzählen", "nur Dreier\nzählen", "nur Vierer\nzählen", "nur Fünfer\nzählen",
-      "nur Sechser\nzählen", "→", "plus 35", "→","alle Augen\nzählen", "alle Augen\nzählen", "25\nPunkte", "30\nPunkte",
+      "nur Sechser\nzählen", "→", "plus 35", "→", "alle Augen\nzählen", "alle Augen\nzählen", "25\nPunkte", "30\nPunkte",
       "40\nPunkte", "50\nPunkte", "alle Augen\nzählen", "→", "→", "→")
 
   val diceLinksField: List[String] = List("src/main/resources/3_mal_1.png", "src/main/resources/3_mal_2.png", "src/main/resources/3_mal_3.png",
@@ -46,57 +46,72 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   contents = new BorderPanel {
     add(new Label("Welcome to Kniffel"), BorderPanel.Position.North)
     add(new LeftCellPanel(), BorderPanel.Position.West)
-    add(new RightCellPanel(4), BorderPanel.Position.Center)
+    add(new RightCellPanel(controller.field.defaultPlayers), BorderPanel.Position.Center)
   }
   pack()
   centerOnScreen()
   open()
 
-  /*class CellPanel(numberOfPlayers: Int) extends GridPanel(19, numberOfPlayers):
-    List()*/
-  /*class BorderCellPanel(numberOfPlayers: Int) extends BorderPanel(1, numberOfPlayers):
-    contents += new LeftCellPanel()
-    contents += new RightCellPanel(numberOfPlayers)*/
-
-  class LeftCellPanel() extends GridPanel(1, 2):
+  class LeftCellPanel() extends GridPanel(1, 2) :
     contents += new LeftCellPanelFirstColumn()
     contents += new LeftCellPanelSecondColumn()
 
-  class LeftCellPanelFirstColumn() extends GridPanel(19, 1):
-    for (i <- diceLinksField) {
-      contents += new Label {
-        icon = new ImageIcon(i)
+  class LeftCellPanelFirstColumn() extends GridPanel(19, 1) :
+    for (i <- 0 until 6) {
+      contents += new CellButton("", i, 0) {
+        icon = new ImageIcon(diceLinksField(i))
+        //size = new Dimension(12, 12)
       }
     }
-    for (i <- first_column_second_part) {
-      contents += new Label {
-        font = new Font("Arial", 0, 13)
-        horizontalAlignment = Alignment.Center
-        text = i
-        xLayoutAlignment = 5.0
-        border = Swing.LineBorder(new Color(0, 0, 0))
-      }
+    for (i <- 0 until 13) {
+      if (i < 3 || i > 9)
+        contents += new Label {
+          font = new Font("Arial", 0, 13)
+          horizontalAlignment = Alignment.Center
+          text = first_column_second_part(i)
+          xLayoutAlignment = 5.0
+          border = Swing.LineBorder(new Color(0, 0, 0))
+        }
+      else
+        contents += new CellButton("", i + 6, 0) {
+          font = new Font("Arial", 0, 13)
+          horizontalAlignment = Alignment.Center
+          text = first_column_second_part(i)
+          xLayoutAlignment = 5.0
+          border = Swing.LineBorder(new Color(0, 0, 0))
+        }
     }
 
-  class LeftCellPanelSecondColumn() extends GridPanel(19, 1):
+  class LeftCellPanelSecondColumn() extends GridPanel(19, 1) :
     for (i <- 0 until 19) {
       contents += new TextField(second_column(i))
     }
 
   class RightCellPanel(numberOfPlayers: Int) extends GridPanel(19, numberOfPlayers) :
     //List() :: (for(j <- 0 until 19) do (for i <- 0 until numberOfPlayers) (contents+= new CellButton("", i, j)))
-
     for (i <- 0 until 19) {
       for (j <- 0 until numberOfPlayers) {
-        contents += new CellButton(""+ j + ", "+ i, j, i)
+        contents += new TextArea {
+          text = controller.field.matrix.cell(j, i).padTo(10, ' ')
+          border = Swing.LineBorder(new Color(0, 0, 0))
+        }
       }
     }
-    //List(("X", 0, 0), ("O", 0, 1), ("", 1, 0), ("", 1, 1)).foreach(t => contents += new CellButton(t._1, t._2, t._3))
+
 
     def button(value: String) = new Button(value)
 
+
   class CellButton(value: String, x: Int, y: Int) extends Button(value) :
+
     listenTo(mouse.clicks)
+
     reactions += {
-      case MouseClicked(src, pt, mod, clicks, props) => writeDown(Move("12", x, y))
+      case MouseClicked(src, pt, mod, clicks, props)
+      => if isEmpty(getYIndex, x) then writeDown(Move("12", getYIndex, x)) else errorMessage; None
     }
+    def getYIndex: Int = controller.game.currentPlayer.playerID
+
+    def isEmpty(x: Int, y: Int): Boolean = controller.field.matrix.isEmpty(x, y)
+
+    def errorMessage = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title="Falsche Eingabe", messageType = Dialog.Message.Error)
