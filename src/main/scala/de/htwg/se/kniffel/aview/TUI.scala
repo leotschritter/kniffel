@@ -28,11 +28,7 @@ class TUI(controller: Controller) extends UI(controller) :
   def inputLoop(): Unit =
     analyseInput(readLine) match
       case None => inputLoop()
-      case Some(move) =>
-        controller.put(move)
-        multiFieldInput()
-        gameAndFieldInput()
-        diceCupInput()
+      case Some(move) => writeDown(move)
     if continue then inputLoop()
 
 

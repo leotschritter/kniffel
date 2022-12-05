@@ -1,7 +1,9 @@
-package de.htwg.se.kniffel.util
+package de.htwg.se.kniffel
+package util
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
+import util.Event
 
 class ObserverSpec extends AnyWordSpec {
   "An observable" when {
@@ -9,7 +11,7 @@ class ObserverSpec extends AnyWordSpec {
       var updated = false
       val observable = new Observable
       val observer = new Observer {
-        override def update: Unit = updated = true
+        override def update(e: Event): Unit = updated = true
       }
 
       observable.add(observer)

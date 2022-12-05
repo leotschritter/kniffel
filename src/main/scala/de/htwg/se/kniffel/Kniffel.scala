@@ -1,9 +1,9 @@
 package de.htwg.se.kniffel
 
 
-import aview.TUI
+import aview.{TUI, GUI}
 import controller.Controller
-import de.htwg.se.kniffel.model.dicecup.DiceCup
+import model.dicecup.DiceCup
 import model.{Field, Game}
 
 
@@ -16,4 +16,5 @@ import model.{Field, Game}
   val game = new Game(2)
   val controller = Controller(field, dc, game)
   val tui = TUI(controller)
+  val gui = new GUI(controller)
   tui.run()

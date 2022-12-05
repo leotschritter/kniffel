@@ -9,6 +9,10 @@ case class Field(matrix: Matrix[String]):
   val first_column: List[String] =
     List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
 
+  val first_column_long: List[String] =
+    List("1", "2", "3", "4", "5", "6", "G", "B", "O", "3x", "4x", "FH", "KS", "GS", "KN", "CH", "U", "O", "E")
+
+
   def cells(cellWidth: Int = 3, numberOfPlayers: Int = defaultPlayers, desc: String = "", v: List[String] = List.fill(defaultPlayers)("")): String =
     "|" + desc.padTo(cellWidth, ' ') + (for (s <- v) yield "|" + s.padTo(cellWidth, ' ')).mkString("") + "|" + '\n'
 

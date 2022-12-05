@@ -7,6 +7,7 @@ import org.scalatest.matchers.should.Matchers.*
 import model.{Field, Game, Move, Player}
 import de.htwg.se.kniffel.model
 import util.Observer
+import util.Event
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
@@ -21,8 +22,8 @@ class ControllerSpec extends AnyWordSpec {
       class TestObserver(controller: Controller) extends Observer :
         controller.add(this)
         var bing = false
+        def update(e: Event) = bing = true
 
-        def update = bing = true
       val testObserver = TestObserver(controller)
       testObserver.bing should be(false)
       controller.doAndPublish(controller.putValToField, Move("73", 1, 2))
