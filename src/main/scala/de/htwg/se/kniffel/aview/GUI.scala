@@ -26,6 +26,9 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       "nur Sechser\nzählen", "→", "plus 35", "→","alle Augen\nzählen", "alle Augen\nzählen", "25\nPunkte", "30\nPunkte",
       "40\nPunkte", "50\nPunkte", "alle Augen\nzählen", "→", "→", "→")
 
+  val diceLinksField: List[String] = List("src/main/resources/3_mal_1.png", "src/main/resources/3_mal_2.png", "src/main/resources/3_mal_3.png",
+    "src/main/resources/3_mal_4.png", "src/main/resources/3_mal_5.png", "src/main/resources/3_mal_6.png")
+
   val diceLinks: List[String] = List("src/main/resources/1.png", "src/main/resources/2.png", "src/main/resources/3.png",
     "src/main/resources/4.png", "src/main/resources/5.png", "src/main/resources/6.png")
 
@@ -60,7 +63,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     contents += new LeftCellPanelSecondColumn()
 
   class LeftCellPanelFirstColumn() extends GridPanel(19, 1):
-    for (i <- diceLinks) {
+    for (i <- diceLinksField) {
       contents += new Label {
         icon = new ImageIcon(i)
       }
@@ -68,6 +71,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     for (i <- first_column_second_part) {
       contents += new Label {
         font = new Font("Arial", 0, 13)
+        horizontalAlignment = Alignment.Center
         text = i
         xLayoutAlignment = 5.0
         border = Swing.LineBorder(new Color(0, 0, 0))
