@@ -92,7 +92,8 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     for (i <- 0 until 19) {
       for (j <- 0 until numberOfPlayers) {
         contents += new TextArea {
-          text = controller.field.matrix.cell(j, i).padTo(10, ' ')
+          text = controller.field.matrix.cell(j, i)
+          preferredSize = new Dimension(60,20)
           border = Swing.LineBorder(new Color(0, 0, 0))
         }
       }
@@ -108,10 +109,12 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
 
     reactions += {
       case MouseClicked(src, pt, mod, clicks, props)
-      => if isEmpty(getYIndex, x) then writeDown(Move("12", getYIndex, x)) else errorMessage; None
+      => if isEmpty(getYIndex, x) then writeDown(Move(getValue, getYIndex, x)) else errorMessage(); None
     }
     def getYIndex: Int = controller.game.currentPlayer.playerID
 
     def isEmpty(x: Int, y: Int): Boolean = controller.field.matrix.isEmpty(x, y)
 
-    def errorMessage = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title="Falsche Eingabe", messageType = Dialog.Message.Error)
+    def errorMessage(): Unit = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title="Falsche Eingabe", messageType = Dialog.Message.Error)
+
+    def getValue: String = controller.diceCup.getResult(x).toString
