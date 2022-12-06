@@ -67,37 +67,37 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   /*class BorderCellPanel(numberOfPlayers: Int) extends BorderPanel(1, numberOfPlayers):
     contents += new LeftCellPanel()
     contents += new RightCellPanel(numberOfPlayers)*/
-  def updateDiceCup(leftListView: ListView[ImageIcon], rightListView: ListView[ImageIcon], rem: Label, btn_dice: Button = new Button()): Unit = {
+  def updateDiceCup(lstViewLeft: ListView[ImageIcon], lstViewRight: ListView[ImageIcon], lbl_rem: Label, btn_dice: Button = new Button()): Unit = {
     if (controller.diceCup.remDices == -1)
       btn_dice.enabled = false
     val left: List[ImageIcon] = for (s <- controller.diceCup.inCup) yield intToImg(s)
     val right: List[ImageIcon] = for (s <- controller.diceCup.locked) yield intToImg(s)
-    rem.text = "<html>Verbleibende<br>Würfe: " + (controller.diceCup.remDices + 1)
-    leftListView.listData = left
-    rightListView.listData = right
+    lbl_rem.text = "<html>Verbleibende<br>Würfe: " + (controller.diceCup.remDices + 1)
+    lstViewLeft.listData = left
+    lstViewRight.listData = right
   }
 
   class RightPanel() extends BorderPanel :
-    val leftListView: ListView[ImageIcon] = new ListView[ImageIcon]() {
+    val lstViewLeft: ListView[ImageIcon] = new ListView[ImageIcon]() {
       selection.intervalMode = IntervalMode.MultiInterval
       preferredSize = new Dimension(100, 500)
     }
-    val rightListView: ListView[ImageIcon] = new ListView[ImageIcon]() {
+    val lstViewRight: ListView[ImageIcon] = new ListView[ImageIcon]() {
       selection.intervalMode = IntervalMode.MultiInterval
       preferredSize = new Dimension(100, 500)
     }
-    val rem: Label = new Label("<html>Verbleibende<br>Würfe: 3")
-    add(new TopInnerPanel(rem), BorderPanel.Position.North)
-    add(leftListView, BorderPanel.Position.West)
-    add(new RightInnerPanel(leftListView, rightListView, rem), BorderPanel.Position.Center)
-    add(rightListView, BorderPanel.Position.East)
+    val lbl_rem: Label = new Label("<html>Verbleibende<br>Würfe: 3")
+    add(new TopInnerPanel(lbl_rem), BorderPanel.Position.North)
+    add(lstViewLeft, BorderPanel.Position.West)
+    add(new RightInnerPanel(lstViewLeft, lstViewRight, lbl_rem), BorderPanel.Position.Center)
+    add(lstViewRight, BorderPanel.Position.East)
 
-  class TopInnerPanel(rem: Label) extends GridPanel(1, 3) :
+  class TopInnerPanel(lbl_rem: Label) extends GridPanel(1, 3) :
     contents += new Label("Im Becher")
-    contents += rem
+    contents += lbl_rem
     contents += new Label("Rausgenommen")
 
-  class RightInnerPanel(leftListView: ListView[ImageIcon], rightListView: ListView[ImageIcon], rem: Label) extends BoxPanel(Orientation.Vertical) {
+  class RightInnerPanel(lstViewLeft: ListView[ImageIcon], lstViewRight: ListView[ImageIcon], lbl_rem: Label) extends BoxPanel(Orientation.Vertical) {
     val buttonDimension: Dimension = new Dimension(90, 50)
     contents += new Button {
       icon = new ImageIcon("src/main/resources/right_arrow.png") {
@@ -107,9 +107,9 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       listenTo(mouse.clicks)
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
-          val intList: List[Int] = for (s <- leftListView.selection.items.toList) yield imgToInt(s.toString)
+          val intList: List[Int] = for (s <- lstViewLeft.selection.items.toList) yield imgToInt(s.toString)
           diceCupPutOut(intList)
-          updateDiceCup(leftListView, rightListView, rem)
+          updateDiceCup(lstViewLeft, lstViewRight, lbl_rem)
       }
     }
     contents += new Button {
@@ -120,9 +120,9 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       listenTo(mouse.clicks)
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
-          val intList: List[Int] = for (s <- rightListView.selection.items.toList) yield imgToInt(s.toString)
+          val intList: List[Int] = for (s <- lstViewRight.selection.items.toList) yield imgToInt(s.toString)
           diceCupPutIn(intList)
-          updateDiceCup(leftListView, rightListView, rem)
+          updateDiceCup(lstViewLeft, lstViewRight, lbl_rem)
       }
     }
     val btn_dice: Button = new Button {
@@ -134,7 +134,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
           controller.doAndPublish(controller.dice())
-          updateDiceCup(leftListView, rightListView, rem, btn_dice)
+          updateDiceCup(lstViewLeft, lstViewRight, lbl_rem, btn_dice)
       }
     }
     contents += btn_dice
