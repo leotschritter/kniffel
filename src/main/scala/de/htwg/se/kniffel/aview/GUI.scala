@@ -67,7 +67,9 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   /*class BorderCellPanel(numberOfPlayers: Int) extends BorderPanel(1, numberOfPlayers):
     contents += new LeftCellPanel()
     contents += new RightCellPanel(numberOfPlayers)*/
-  def updateDiceCup(leftListView: ListView[ImageIcon], rightListView: ListView[ImageIcon], rem: Label): Unit = {
+  def updateDiceCup(leftListView: ListView[ImageIcon], rightListView: ListView[ImageIcon], rem: Label, btn_dice: Button = new Button()): Unit = {
+    if (controller.diceCup.remDices == -1)
+      btn_dice.enabled = false
     val left: List[ImageIcon] = for (s <- controller.diceCup.inCup) yield intToImg(s)
     val right: List[ImageIcon] = for (s <- controller.diceCup.locked) yield intToImg(s)
     rem.text = "<html>Verbleibende<br>Würfe: " + (controller.diceCup.remDices + 1)
@@ -123,7 +125,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
           updateDiceCup(leftListView, rightListView, rem)
       }
     }
-    contents += new Button {
+    val btn_dice: Button = new Button {
       icon = new ImageIcon("src/main/resources/flying_dices_small.png") {
         preferredSize = buttonDimension
       }
@@ -132,9 +134,10 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props) =>
           controller.doAndPublish(controller.dice())
-          updateDiceCup(leftListView, rightListView, rem)
+          updateDiceCup(leftListView, rightListView, rem, btn_dice)
       }
     }
+    contents += btn_dice
   }
 
   //contents += new Bu
