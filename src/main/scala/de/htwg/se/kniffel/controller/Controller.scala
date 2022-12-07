@@ -3,10 +3,11 @@ package controller
 
 import scala.annotation.targetName
 import model.{Field, Game, Move}
-import de.htwg.se.kniffel.model.dicecup.DiceCup
 import util.Observable
+import model.dicecup.DiceCup
 import util.UndoManager
 import controller.SetCommand
+import util.Event
 
 case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable :
 
@@ -17,6 +18,7 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     val r = undoManager.undoStep(game, field)
     game = r._1
     field = r._2
+    notifyObservers(Event.Move)
   }
 
   def redo: Unit = {
@@ -24,6 +26,7 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     val r = undoManager.redoStep(game, field)
     game = r._1
     field = r._2
+    notifyObservers(Event.Move)
   }
 
   def put(move: Move): Unit = {
@@ -33,32 +36,15 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     field = r._2
   }
 
-  def doAndPublish(doThis: Move => Field, move: Move): Unit =
-    field = doThis(move)
-    notifyObservers
+  def quit(): Unit = notifyObservers(Event.Quit)
 
+  def next(): Unit =
+    game = game.next().get
+
+  // doAndPublish for putOut and putIn
   def doAndPublish(doThis: List[Int] => DiceCup, list: List[Int]): Unit =
     diceCup = doThis(list)
-    notifyObservers
-
-  def doAndPublish(doThis: => DiceCup): Unit =
-    diceCup = doThis
-    notifyObservers
-
-  @targetName("next")
-  def doAndPublish(doThis: => Game): Unit =
-    game = doThis
-    notifyObservers
-
-  def doAndPublish(doThis: (Int, Int) => Game, value: Int, y: Int): Unit =
-    game = doThis(value, y)
-    notifyObservers
-
-  def next(): Option[Game] =
-    game.next()
-
-  def sum(value: Int, y: Int): Game =
-    game.sum(value, y)
+    notifyObservers(Event.Move)
 
   def putOut(list: List[Int]): DiceCup =
     diceCup.putDicesOut(list)
@@ -66,13 +52,15 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
   def putIn(list: List[Int]): DiceCup =
     diceCup.putDicesIn(list)
 
+  // doAndPublish for nextRound() and dice()
+  def doAndPublish(doThis: => DiceCup): Unit =
+    diceCup = doThis
+    notifyObservers(Event.Move)
+
   def dice(): DiceCup = {
     diceCup.dice()
     diceCup.state.throwDices(diceCup)
   }
-
-  def putValToField(move: Move): Field =
-    field.put(move.value, move.x, move.y)
 
   def nextRound(): DiceCup = diceCup.nextRound()
 

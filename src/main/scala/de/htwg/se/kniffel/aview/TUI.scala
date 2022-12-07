@@ -5,29 +5,31 @@ import controller.Controller
 import aview.UI
 import de.htwg.se.kniffel.model.dicecup.DiceCup
 import model.{Field, Move, Player}
-import scala.util.{Try,Success,Failure}
+
+import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine
-import util.Observer
+import util.{Event, Observer}
 
 class TUI(controller: Controller) extends UI(controller) :
   controller.add(this)
+  var continue = true
 
   override def run(): Unit =
     println(controller.field.toString)
     inputLoop()
 
-  def update = println(controller.field.toString + "\n" + controller.diceCup.toString() + controller.game.currentPlayer.playerName + " ist an der Reihe.")
+  def update(e: Event) =
+    e match {
+      case Event.Quit => continue = false
+      case Event.Move => println(controller.field.toString + "\n" + controller.diceCup.toString() + controller.game.currentPlayer.playerName + " ist an der Reihe.")
+    }
 
 
-   def inputLoop(): Unit =
+  def inputLoop(): Unit =
     analyseInput(readLine) match
       case None => inputLoop()
-      case Some(move) =>
-        controller.put(move)
-        multiFieldInput()
-        gameAndFieldInput()
-        diceCupInput()
-    inputLoop()
+      case Some(move) => writeDown(move)
+    if continue then inputLoop()
 
 
   def analyseInput(input: String): Option[Move] =
@@ -37,8 +39,8 @@ class TUI(controller: Controller) extends UI(controller) :
       case "po" => diceCupPutOut(list.tail.map(_.toInt)); None
       case "pi" => diceCupPutIn(list.tail.map(_.toInt)); None
       case "d" => controller.doAndPublish(controller.dice()); None
-      case "u" => controller.undo; multiFieldInput(); None
-      case "r" => controller.redo; multiFieldInput(); None
+      case "u" => controller.undo; None /*multiFieldInput()*/
+      case "r" => controller.redo; None /*multiFieldInput()*/
       case "wd" => {
         invalidInput(list) match {
           case Success(f) => val posAndDesc = list.tail.head
