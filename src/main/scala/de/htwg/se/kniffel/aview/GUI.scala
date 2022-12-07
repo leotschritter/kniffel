@@ -19,6 +19,7 @@ import scala.collection.immutable.HashMap
 class GUI(controller: Controller) extends Frame, UI(controller) :
   controller.add(this)
   title = "Kniffel"
+  iconImage = toolkit.getImage("src/main/resources/6.png")
   val tk: Toolkit = Toolkit.getDefaultToolkit
   val xSize: Int = tk.getScreenSize.getWidth.toInt
   val ySize: Int = tk.getScreenSize.getHeight.toInt
@@ -335,6 +336,6 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     else
       enabled = false
 
-    def errorMessage(): Unit = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title = "Falsche Eingabe", messageType = Dialog.Message.Error)
+    // def errorMessage(): Unit = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title = "Falsche Eingabe", messageType = Dialog.Message.Error)
 
     def getValue: String = controller.diceCup.getResult(y).toString
