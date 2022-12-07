@@ -89,7 +89,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       text = controller.field.matrix.cell(j, i)
       font = field_font
       opaque = true
-      if(j == getXIndex)
+      if (j == getXIndex)
         background = new Color(239, 239, 239)
       else
         background = new Color(255, 255, 255)
@@ -105,6 +105,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
 
   class RightPanel(state: stateOfDices, inCup: List[Int] = controller.diceCup.inCup,
                    locked: List[Int] = controller.diceCup.locked, remaining_moves: Int = controller.diceCup.remDices) extends BorderPanel :
+    val right_font = new Font("Arial", 0, 15)
     val lstViewLeft: ListView[ImageIcon] = new ListView[ImageIcon]() {
       selection.intervalMode = IntervalMode.MultiInterval
       if (state.==(stateOfDices.running))
@@ -122,16 +123,28 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     add(lstViewRight, BorderPanel.Position.East)
     add(new BottomPanel(), BorderPanel.Position.South)
 
-    class BottomPanel() extends FlowPanel:
+    class BottomPanel() extends FlowPanel :
       background = new Color(255, 255, 255)
       border = Swing.MatteBorder(1, 0, 0, 0, new Color(0, 0, 0))
-      contents += new Label(controller.game.currentPlayer.playerName + " ist an der Reihe.")
+      contents += new Label {
+        text = controller.game.currentPlayer.playerName + " ist an der Reihe."
+        font = right_font
+      }
 
     class TopInnerPanel() extends GridPanel(1, 3) :
       background = new Color(255, 255, 255)
-      contents += new Label("Im Becher")
-      contents += new Label("<html>Verbleibende<br>Würfe: " + (remaining_moves + 1))
-      contents += new Label("Rausgenommen")
+      contents += new Label {
+        text = "Im Becher"
+        font = right_font
+      }
+      contents += new Label {
+        text = "<html>Verbleibende<br>Würfe: " + (remaining_moves + 1)
+        font = right_font
+      }
+      contents += new Label {
+        text = "Rausgenommen"
+        font = right_font
+      }
       border = Swing.MatteBorder(0, 0, 1, 0, new Color(0, 0, 0))
 
     class RightInnerPanel() extends BoxPanel(Orientation.Vertical) {
@@ -205,7 +218,12 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     contents += new LeftCellPanelFirstColumn()
     contents += new LeftCellPanelSecondColumn()
 
-  class LeftCellPanelFirstColumn(disableList: List[Int] = disableList) extends GridPanel(19, 1) :
+  class LeftCellPanelFirstColumn(disableList: List[Int] = disableList) extends GridPanel(20, 1) :
+    contents += new Label {
+      text = ""
+      /*opaque = true
+      background = new Color(255, 255, 255)*/
+    }
     for (i <- 0 until 6) {
       contents += new CellButton("", i, disableList.contains(i)) {
         icon = new ImageIcon(diceLinksField(i))
@@ -234,7 +252,12 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         }
     }
 
-  class LeftCellPanelSecondColumn() extends GridPanel(19, 1) :
+  class LeftCellPanelSecondColumn() extends GridPanel(20, 1) :
+    contents += new Label {
+      text = ""
+      /*opaque = true
+      background = new Color(255, 255, 255)*/
+    }
     for (i <- 0 until 19) {
       if (i == 6 || i == 8 || 15 < i && i < 19)
         contents += new Label {
@@ -255,7 +278,15 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         }
     }
 
-  class CenterCellPanel(numberOfPlayers: Int = controller.field.defaultPlayers) extends GridPanel(19, numberOfPlayers) :
+  class CenterCellPanel(numberOfPlayers: Int = controller.field.defaultPlayers) extends GridPanel(20, numberOfPlayers) :
+    for (x <- 0 until numberOfPlayers) yield contents += new Label {
+      text = controller.game.playersList(x).playerName
+      font = field_font
+      opaque = true
+      foreground = new Color(255, 255, 255)
+      background = new Color(0, 0, 0)
+      border = Swing.LineBorder(new Color(0, 0, 0))
+    }
     for (x <- field(numberOfPlayers)) yield contents += x
 
 
@@ -264,7 +295,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       listenTo(mouse.clicks)
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props)
-          => writeDown(Move(getValue, getXIndex, y)); update(Event.Move)
+        => writeDown(Move(getValue, getXIndex, y)); update(Event.Move)
       }
     else
       enabled = false
