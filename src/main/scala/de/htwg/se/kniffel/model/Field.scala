@@ -25,29 +25,12 @@ case class Field(matrix: Matrix[String]):
       0 + s * numberOfPlayers, s * numberOfPlayers + numberOfPlayers
     ))).mkString("") :+ bar(cellWidth)).mkString("")
 
-  def put(value: String, x: Int, y: Int): Field = {
-    //val last: Option[Int] = if (y < 9 && y > 5) || (y > 15 && y < 19) then lastY else Option(y)
-    copy(matrix.fill(x, y, value))
+  def undoMove(valueList: List[String], x: Int, y: Int): Field = putMulti(valueList, "", x, y)
+
+  def putMulti(valueList: List[String], putInValue: String, x: Int, y: Int, indexList:List[Int] = List(6, 7, 8, 16, 17, 18)): Field = {
+    this.copy(matrix.fill(x, indexList.head, valueList.head).fill(x, indexList(1), valueList(1))
+      .fill(x, indexList(2), valueList(2)).fill(x, indexList(3), valueList(3))
+      .fill(x, indexList(4), valueList(4)).fill(x, indexList.last, valueList.last).fill(x, y, putInValue))
   }
 
-  def undoMove(x: Int, y: Int): Field = put("", x, y)
-
-
   override def toString = mesh()
-
-/*
-def put(value: String, x: Int, y: Int): Field = {
-  val last: Option[List[Int]] = if (y < 9 && y > 5) || (y > 15 && y < 19) then lastY else
-    lastY match
-      case None => None
-      case _ => Option(lastY.get:+y)
-  copy(matrix.fill(x, y, value), last)
-}
-
-def undoMove(x: Int): Option[Field] = {
-  lastY match
-    case None => None
-    case _ =>
-      Option(copy(matrix.fill(x, lastY.get.last, ""), Option(lastY.get.dropRight(1))))
-}
-*/

@@ -29,8 +29,8 @@ class FieldSpec extends AnyWordSpec {
   }
   "get None in undoMove when Field is the first Field" in {
     var field = new Field(2)
-    field = field.put("1", 0, 0)
-    field = field.undoMove(0,0)
+    field = field.putMulti(List("1", "0", "1", "0", "1", "1"), "1", 0, 0)
+    field = field.undoMove(List("1", "0", "1", "0", "1", "1"), 0, 0)
     field.matrix.cell(0,0) should be ("")
   }
   "have a mesh as a String" in {
@@ -81,7 +81,7 @@ class FieldSpec extends AnyWordSpec {
 
   "hava a Number in a custom field" in {
     val field3 = new Field(4)
-    val field3Copy = field3.put("73", 1, 0)
+    val field3Copy = field3.putMulti(List("", "", "", "", "", ""), "73", 1, 0)
     field3Copy.mesh() should be (
       "    |P1 |P2 |P3 |P4 \n" +
         "+---+---+---+---+---+\n" +

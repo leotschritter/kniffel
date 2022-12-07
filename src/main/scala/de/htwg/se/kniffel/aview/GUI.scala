@@ -12,7 +12,7 @@ import util.Observer
 import aview.UI
 
 import java.awt.Toolkit
-import javax.swing.ImageIcon
+import javax.swing.{ImageIcon, SpringLayout}
 import javax.swing.border.Border
 import scala.collection.immutable.HashMap
 
@@ -51,16 +51,17 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   enum stateOfDices:
     case initial
     case running
-
+  var main = new BorderPanel()
   def update(e: Event): Unit = e match
     case Event.Quit => this.dispose()
     case Event.Move =>
-      contents = new BorderPanel {
+      main = new BorderPanel {
         add(new Label("Welcome to Kniffel"), BorderPanel.Position.North)
         add(new LeftCellPanel(), BorderPanel.Position.West)
         add(new CenterCellPanel(), BorderPanel.Position.Center)
         add(new RightPanel(stateOfDices.running), BorderPanel.Position.East)
       }
+      contents = main
       size = new Dimension(xSize, ySize)
       repaint()
 
@@ -71,12 +72,13 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       })
     }
   }
-  contents = new BorderPanel {
+  main = new BorderPanel {
     add(new Label("Welcome to Kniffel"), BorderPanel.Position.North)
     add(new LeftCellPanel(), BorderPanel.Position.West)
     add(new CenterCellPanel(), BorderPanel.Position.Center)
     add(new RightPanel(stateOfDices.initial), BorderPanel.Position.East)
   }
+  contents = main
   pack()
   centerOnScreen()
   open()
@@ -104,113 +106,131 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   def disableList: List[Int] = (for {y <- 0 until 19 if !isEmpty(y)} yield y).toList
 
   class RightPanel(state: stateOfDices, inCup: List[Int] = controller.diceCup.inCup,
-                   locked: List[Int] = controller.diceCup.locked, remaining_moves: Int = controller.diceCup.remDices) extends BorderPanel :
-    val right_font = new Font("Arial", 0, 15)
-    val lstViewLeft: ListView[ImageIcon] = new ListView[ImageIcon]() {
-      selection.intervalMode = IntervalMode.MultiInterval
-      if (state.==(stateOfDices.running))
-        listData = for (s <- controller.diceCup.inCup) yield intToImg(s)
-      preferredSize = new Dimension(100, 500)
+                   locked: List[Int] = controller.diceCup.locked, remaining_moves: Int = controller.diceCup.remDices) extends BoxPanel(Orientation.Vertical) :
+    contents += new RightUpperPanel
+    contents += new RightBottomPanel
+    contents += new BorderPanel {
+      background = new Color(255, 255, 255)
     }
-    val lstViewRight: ListView[ImageIcon] = new ListView[ImageIcon]() {
-      selection.intervalMode = IntervalMode.MultiInterval
-      listData = for (s <- controller.diceCup.locked) yield intToImg(s)
-      preferredSize = new Dimension(100, 500)
+    contents += new BorderPanel {
+      background = new Color(255, 255, 255)
     }
-    add(new TopInnerPanel(), BorderPanel.Position.North)
-    add(lstViewLeft, BorderPanel.Position.West)
-    add(new RightInnerPanel(), BorderPanel.Position.Center)
-    add(lstViewRight, BorderPanel.Position.East)
-    add(new BottomPanel(), BorderPanel.Position.South)
-
-    class BottomPanel() extends FlowPanel :
+    contents += new BorderPanel {
       background = new Color(255, 255, 255)
-      border = Swing.MatteBorder(1, 0, 0, 0, new Color(0, 0, 0))
-      contents += new Label {
-        text = controller.game.currentPlayer.playerName + " ist an der Reihe."
-        font = right_font
-      }
-
-    class TopInnerPanel() extends GridPanel(1, 3) :
+    }
+    class RightBottomPanel extends FlowPanel {
       background = new Color(255, 255, 255)
-      contents += new Label {
-        text = "Im Becher"
-        font = right_font
+      contents += new UndoButton
+      contents += new RedoButton
+    }
+    class RightUpperPanel extends BorderPanel {
+      val right_font = new Font("Arial", 0, 15)
+      val lstViewLeft: ListView[ImageIcon] = new ListView[ImageIcon]() {
+        selection.intervalMode = IntervalMode.MultiInterval
+        if (state.==(stateOfDices.running))
+          listData = for (s <- controller.diceCup.inCup) yield intToImg(s)
+        preferredSize = new Dimension(100, 500)
       }
-      contents += new Label {
-        text = "<html>Verbleibende<br>Würfe: " + (remaining_moves + 1)
-        font = right_font
+      val lstViewRight: ListView[ImageIcon] = new ListView[ImageIcon]() {
+        selection.intervalMode = IntervalMode.MultiInterval
+        listData = for (s <- controller.diceCup.locked) yield intToImg(s)
+        preferredSize = new Dimension(100, 500)
       }
-      contents += new Label {
-        text = "Rausgenommen"
-        font = right_font
-      }
-      border = Swing.MatteBorder(0, 0, 1, 0, new Color(0, 0, 0))
+      add(new TopInnerPanel(), BorderPanel.Position.North)
+      add(lstViewLeft, BorderPanel.Position.West)
+      add(new RightInnerPanel(), BorderPanel.Position.Center)
+      add(lstViewRight, BorderPanel.Position.East)
+      add(new BottomPanel(), BorderPanel.Position.South)
 
-    class RightInnerPanel() extends BoxPanel(Orientation.Vertical) {
-      val buttonDimension: Dimension = new Dimension(90, 50)
-      background = new Color(255, 255, 255)
-      contents += new Button {
-        icon = new ImageIcon("src/main/resources/right_arrow.png") {
-          preferredSize = buttonDimension
+      class BottomPanel() extends FlowPanel :
+        background = new Color(255, 255, 255)
+        border = Swing.MatteBorder(1, 0, 0, 0, new Color(0, 0, 0))
+        contents += new Label {
+          text = controller.game.currentPlayer.playerName + " ist an der Reihe."
+          font = right_font
         }
-        preferredSize = buttonDimension
-        listenTo(mouse.clicks)
-        if (remaining_moves != 2)
-          enabled = true
-          reactions += {
-            case MouseClicked(src, pt, mod, clicks, props) =>
-              val intList: List[Int] = for (s <- lstViewLeft.selection.items.toList) yield imgToInt(s.toString)
-              diceCupPutOut(intList)
-          }
-        else
-          enabled = false
-      }
-      contents += new Button {
-        icon = new ImageIcon("src/main/resources/left_arrow.png") {
-          preferredSize = buttonDimension
+
+      class TopInnerPanel() extends GridPanel(1, 3) :
+        background = new Color(255, 255, 255)
+        contents += new Label {
+          text = "Im Becher"
+          font = right_font
         }
-        preferredSize = buttonDimension
-        listenTo(mouse.clicks)
-        if (remaining_moves != 2)
-          enabled = true
-          reactions += {
-            case MouseClicked(src, pt, mod, clicks, props) =>
-              val intList: List[Int] = for (s <- lstViewRight.selection.items.toList) yield imgToInt(s.toString)
-              diceCupPutIn(intList)
-          }
-        else
-          enabled = false
-      }
-      val btn_dice: Button = new Button {
-        icon = new ImageIcon("src/main/resources/flying_dices_small.png") {
-          preferredSize = buttonDimension
+        contents += new Label {
+          text = "<html>Verbleibende<br>Würfe: " + (remaining_moves + 1)
+          font = right_font
         }
-        preferredSize = buttonDimension
-        listenTo(mouse.clicks)
-        if (remaining_moves >= 0)
-          reactions += {
-            case MouseClicked(src, pt, mod, clicks, props) =>
-              controller.doAndPublish(controller.dice())
+        contents += new Label {
+          text = "Rausgenommen"
+          font = right_font
+        }
+        border = Swing.MatteBorder(0, 0, 1, 0, new Color(0, 0, 0))
+
+      class RightInnerPanel() extends BoxPanel(Orientation.Vertical) {
+        val buttonDimension: Dimension = new Dimension(90, 50)
+        background = new Color(255, 255, 255)
+        contents += new Button {
+          icon = new ImageIcon("src/main/resources/right_arrow.png") {
+            preferredSize = buttonDimension
           }
-        else
-          enabled = false
-      }
-      contents += btn_dice
-      contents += new Label {
-        icon = new ImageIcon("src/main/resources/dicecup_small.png")
-        if (remaining_moves < 2)
-          enabled = false
-      }
-      contents += new Label {
-        icon = new ImageIcon("src/main/resources/dicecup_small.png")
-        if (remaining_moves < 1)
-          enabled = false
-      }
-      contents += new Label {
-        icon = new ImageIcon("src/main/resources/dicecup_small.png")
-        if (remaining_moves < 0)
-          enabled = false
+          preferredSize = buttonDimension
+          listenTo(mouse.clicks)
+          if (remaining_moves != 2)
+            enabled = true
+            reactions += {
+              case MouseClicked(src, pt, mod, clicks, props) =>
+                val intList: List[Int] = for (s <- lstViewLeft.selection.items.toList) yield imgToInt(s.toString)
+                diceCupPutOut(intList)
+            }
+          else
+            enabled = false
+        }
+        contents += new Button {
+          icon = new ImageIcon("src/main/resources/left_arrow.png") {
+            preferredSize = buttonDimension
+          }
+          preferredSize = buttonDimension
+          listenTo(mouse.clicks)
+          if (remaining_moves != 2)
+            enabled = true
+            reactions += {
+              case MouseClicked(src, pt, mod, clicks, props) =>
+                val intList: List[Int] = for (s <- lstViewRight.selection.items.toList) yield imgToInt(s.toString)
+                diceCupPutIn(intList)
+            }
+          else
+            enabled = false
+        }
+        val btn_dice: Button = new Button {
+          icon = new ImageIcon("src/main/resources/flying_dices_small.png") {
+            preferredSize = buttonDimension
+          }
+          preferredSize = buttonDimension
+          listenTo(mouse.clicks)
+          if (remaining_moves >= 0)
+            reactions += {
+              case MouseClicked(src, pt, mod, clicks, props) =>
+                controller.doAndPublish(controller.dice())
+            }
+          else
+            enabled = false
+        }
+        contents += btn_dice
+        contents += new Label {
+          icon = new ImageIcon("src/main/resources/dicecup_small.png")
+          if (remaining_moves < 2)
+            enabled = false
+        }
+        contents += new Label {
+          icon = new ImageIcon("src/main/resources/dicecup_small.png")
+          if (remaining_moves < 1)
+            enabled = false
+        }
+        contents += new Label {
+          icon = new ImageIcon("src/main/resources/dicecup_small.png")
+          if (remaining_moves < 0)
+            enabled = false
+        }
       }
     }
 
@@ -289,6 +309,21 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     }
     for (x <- field(numberOfPlayers)) yield contents += x
 
+  class UndoButton() extends Button:
+    icon = new ImageIcon("src/main/resources/undo.png")
+    listenTo(mouse.clicks)
+    reactions += {
+      case MouseClicked(src, pt, mod, clicks, props)
+      => controller.undo; update(Event.Move)
+    }
+
+  class RedoButton() extends Button:
+    icon = new ImageIcon("src/main/resources/redo.png")
+    listenTo(mouse.clicks)
+    reactions += {
+      case MouseClicked(src, pt, mod, clicks, props)
+      => controller.redo; update(Event.Move)
+    }
 
   class CellButton(value: String, y: Int, isDisabled: Boolean = true) extends Button(value) :
     if (!isDisabled)

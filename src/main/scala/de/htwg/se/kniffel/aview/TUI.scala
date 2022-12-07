@@ -39,8 +39,8 @@ class TUI(controller: Controller) extends UI(controller) :
       case "po" => diceCupPutOut(list.tail.map(_.toInt)); None
       case "pi" => diceCupPutIn(list.tail.map(_.toInt)); None
       case "d" => controller.doAndPublish(controller.dice()); None
-      case "u" => controller.undo; multiFieldInput(); None
-      case "r" => controller.redo; multiFieldInput(); None
+      case "u" => controller.undo; None /*multiFieldInput()*/
+      case "r" => controller.redo; None /*multiFieldInput()*/
       case "wd" => {
         invalidInput(list) match {
           case Success(f) => val posAndDesc = list.tail.head
