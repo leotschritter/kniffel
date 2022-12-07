@@ -81,7 +81,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   centerOnScreen()
   open()
 
-  def field(numberOfPlayers: Int = controller.game.playersList.length): List[Label] =
+  def field(numberOfPlayers: Int = controller.field.defaultPlayers): List[Label] =
     (for {
       i <- 0 until 19
       j <- 0 until numberOfPlayers
@@ -214,7 +214,8 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     for (i <- 0 until 13) {
       if (i < 3 || i > 9)
         contents += new Label {
-          font = new Font("Arial", 0, 13)
+          font = field_font
+          //font = new Font("Arial", 0, 13)
           horizontalAlignment = Alignment.Center
           opaque = true
           background = new Color(255, 255, 255)
@@ -224,7 +225,8 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         }
       else
         contents += new CellButton("", i + 6, disableList.contains(i + 6)) {
-          font = new Font("Arial", 0, 13)
+          font = field_font
+          //font = new Font("Arial", 0, 13)
           horizontalAlignment = Alignment.Center
           text = first_column_second_part(i)
           xLayoutAlignment = 5.0
@@ -246,7 +248,8 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
           opaque = true
           background = new Color(255, 255, 255)
           text = second_column(i)
-          font = new Font("Arial", 0, 13)
+          font = field_font
+          //font = new Font("Arial", 0, 13)
           horizontalAlignment = Alignment.Center
           border = Swing.LineBorder(new Color(0, 0, 0))
         }
@@ -261,14 +264,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       listenTo(mouse.clicks)
       reactions += {
         case MouseClicked(src, pt, mod, clicks, props)
-        =>
-          if isEmpty(y)
-          then
-            writeDown(Move(getValue, getXIndex, y))
-            update(Event.Move)
-          else
-            errorMessage()
-            None
+          => writeDown(Move(getValue, getXIndex, y)); update(Event.Move)
       }
     else
       enabled = false
