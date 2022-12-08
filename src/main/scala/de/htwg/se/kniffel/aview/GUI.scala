@@ -14,7 +14,6 @@ import aview.UI
 import java.awt.Toolkit
 import javax.swing.{ImageIcon, SpringLayout}
 import javax.swing.border.Border
-import scala.collection.immutable.HashMap
 
 class GUI(controller: Controller) extends Frame, UI(controller) :
   controller.add(this)
@@ -23,6 +22,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   val tk: Toolkit = Toolkit.getDefaultToolkit
   val xSize: Int = tk.getScreenSize.getWidth.toInt
   val ySize: Int = tk.getScreenSize.getHeight.toInt
+
   size = new Dimension(xSize, ySize)
   background = new Color(255, 255, 255)
   repaint()
@@ -52,17 +52,19 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   enum stateOfDices:
     case initial
     case running
-  var main = new BorderPanel()
+
   def update(e: Event): Unit = e match
     case Event.Quit => this.dispose()
     case Event.Move =>
-      main = new BorderPanel {
-        add(new Label("Welcome to Kniffel"), BorderPanel.Position.North)
+      contents = new BorderPanel {
+        add(new Label {
+          opaque = true
+          background = new Color(255, 255, 255)
+        }, BorderPanel.Position.North)
         add(new LeftCellPanel(), BorderPanel.Position.West)
         add(new CenterCellPanel(), BorderPanel.Position.Center)
         add(new RightPanel(stateOfDices.running), BorderPanel.Position.East)
       }
-      contents = main
       size = new Dimension(xSize, ySize)
       repaint()
 
@@ -73,13 +75,16 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       })
     }
   }
-  main = new BorderPanel {
-    add(new Label("Welcome to Kniffel"), BorderPanel.Position.North)
+  contents = new BorderPanel {
+    add(new Label {
+      text = "Welcome to Kniffel"
+      opaque = true
+      background = new Color(255, 255, 255)
+    }, BorderPanel.Position.North)
     add(new LeftCellPanel(), BorderPanel.Position.West)
     add(new CenterCellPanel(), BorderPanel.Position.Center)
     add(new RightPanel(stateOfDices.initial), BorderPanel.Position.East)
   }
-  contents = main
   pack()
   centerOnScreen()
   open()
@@ -236,14 +241,16 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     }
 
   class LeftCellPanel() extends GridPanel(1, 2) :
+    background = new Color(255, 255, 255)
     contents += new LeftCellPanelFirstColumn()
     contents += new LeftCellPanelSecondColumn()
 
   class LeftCellPanelFirstColumn(disableList: List[Int] = disableList) extends GridPanel(20, 1) :
+    background = new Color(255, 255, 255)
     contents += new Label {
       text = ""
-      /*opaque = true
-      background = new Color(255, 255, 255)*/
+      opaque = true
+      background = new Color(255, 255, 255)
     }
     for (i <- 0 until 6) {
       contents += new CellButton("", i, disableList.contains(i)) {
@@ -274,10 +281,11 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     }
 
   class LeftCellPanelSecondColumn() extends GridPanel(20, 1) :
+    background = new Color(255, 255, 255)
     contents += new Label {
       text = ""
-      /*opaque = true
-      background = new Color(255, 255, 255)*/
+      opaque = true
+      background = new Color(255, 255, 255)
     }
     for (i <- 0 until 19) {
       if (i == 6 || i == 8 || 15 < i && i < 19)
@@ -300,6 +308,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
     }
 
   class CenterCellPanel(numberOfPlayers: Int = controller.field.defaultPlayers) extends GridPanel(20, numberOfPlayers) :
+    background = new Color(255, 255, 255)
     for (x <- 0 until numberOfPlayers) yield contents += new Label {
       text = controller.game.playersList(x).playerName
       font = field_font
