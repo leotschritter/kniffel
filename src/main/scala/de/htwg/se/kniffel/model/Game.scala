@@ -8,7 +8,7 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
     List.fill(numberOfPlayers, 6)(0))
 
   def next(): Option[Game] = {
-    if (remainingMoves == 1)
+    if (remainingMoves == 0)
       None
     else
       Some(Game(playersList, getNextPlayer, remainingMoves - 1, resultNestedList))
