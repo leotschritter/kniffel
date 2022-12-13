@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.kniffel
 package controller
 
@@ -48,3 +49,4 @@ class SetCommandSpec extends AnyWordSpec {
     }
   }
 }
+*/

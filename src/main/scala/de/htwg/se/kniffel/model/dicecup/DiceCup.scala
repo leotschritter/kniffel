@@ -3,7 +3,7 @@ package de.htwg.se.kniffel.model.dicecup
 import scala.collection.immutable.ListMap
 import scala.util.Random
 
-case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
+case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int): // extends IDiceCup:
   def this() = this(List.fill(0)(0), List.fill(5)(Random.between(1, 7)), 2)
 
   var state: DiceCupState = new Running()

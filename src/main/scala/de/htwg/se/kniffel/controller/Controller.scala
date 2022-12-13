@@ -2,16 +2,16 @@ package de.htwg.se.kniffel
 package controller
 
 import scala.annotation.targetName
-import model.{Field, Game, Move}
+import model.{IField, IGame, Move}
 import util.Observable
 import model.dicecup.DiceCup
 import util.UndoManager
 import controller.SetCommand
 import util.Event
 
-case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable :
+case class Controller(var field: IField, var diceCup: DiceCup, var game: IGame) extends Observable :
 
-  val undoManager = new UndoManager[Game, Field]
+  val undoManager = new UndoManager[IGame, IField]
 
   def undo: Unit = {
     diceCup = diceCup.nextRound()

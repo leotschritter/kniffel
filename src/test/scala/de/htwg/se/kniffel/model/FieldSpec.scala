@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.kniffel.model
 
 import org.scalatest.wordspec.AnyWordSpec
@@ -127,3 +128,4 @@ class FieldSpec extends AnyWordSpec {
 }
 
 
+*/

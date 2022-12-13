@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.kniffel
 package aview
 
@@ -37,3 +38,4 @@ class UISpec extends AnyWordSpec {
     }
   }
 }
+*/

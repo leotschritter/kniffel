@@ -1,9 +1,9 @@
 package de.htwg.se.kniffel.model
 
-case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves: Int, resultNestedList: List[List[Int]]):
+case class Game(playersList: List[IPlayer], currentPlayer: IPlayer, remainingMoves: Int, resultNestedList: List[List[Int]]) extends IGame:
   def this(numberOfPlayers: Int)
-  = this((for (s <- 0 until numberOfPlayers) yield Player(s, "Player " + (s + 1))).toList,
-    Player(0, "Player 1"),
+  = this((for (s <- 0 until numberOfPlayers) yield IPlayer(s, "Player " + (s + 1))).toList,
+    IPlayer(0, "Player 1"),
     numberOfPlayers * 13,
     List.fill(numberOfPlayers, 6)(0))
 
@@ -14,17 +14,18 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
       Some(Game(playersList, getNextPlayer, remainingMoves - 1, resultNestedList))
   }
 
-  def getPreviousPlayer: Player = {
+  def getPreviousPlayer: IPlayer = {
     if (playersList.indexOf(currentPlayer) - 1 < 0)
-      playersList(playersList.last.playerID)
+      playersList(playersList.last.getPlayerID)
     else
       playersList(playersList.indexOf(currentPlayer) - 1)
   }
 
-  def getNextPlayer: Player =
+
+  def getNextPlayer: IPlayer =
     playersList((playersList.indexOf(currentPlayer) + 1) % playersList.length)
 
-  def getSums(value: Int, y: Int, player: Player): (Int, Int, Int) = {
+  def getSums(value: Int, y: Int, player: IPlayer): (Int, Int, Int) = {
     val sumTop: Int = if y < 6 then value + resultNestedList(playersList.indexOf(player)).head else
       resultNestedList(playersList.indexOf(player)).head
     val sumBottom: Int = if y > 8 then value + resultNestedList(playersList.indexOf(player))(3) else
@@ -48,3 +49,6 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
       List(sumTop) :+ bonus :+ (sumTop + bonus) :+ sumBottom :+ (sumTop + bonus) :+ (sumBottom + sumTop + bonus)
     ))
   }
+
+  override def getCurrentPlayer: IPlayer = currentPlayer
+  override def getPlayer(x: Int): IPlayer = playersList(x)

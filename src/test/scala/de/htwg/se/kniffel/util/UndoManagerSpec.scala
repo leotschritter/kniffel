@@ -1,3 +1,4 @@
+/*
 package de.htwg.se.kniffel
 package util
 
@@ -42,3 +43,4 @@ class UndoManagerSpec extends AnyWordSpec {
     }
   }
 }
+*/

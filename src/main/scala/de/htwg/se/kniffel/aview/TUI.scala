@@ -21,7 +21,7 @@ class TUI(controller: Controller) extends UI(controller) :
   def update(e: Event) =
     e match {
       case Event.Quit => continue = false
-      case Event.Move => println(controller.field.toString + "\n" + controller.diceCup.toString() + controller.game.currentPlayer.playerName + " ist an der Reihe.")
+      case Event.Move => println(controller.field.toString + "\n" + controller.diceCup.toString() + controller.game.getCurrentPlayer.getPlayerName + " ist an der Reihe.")
     }
 
 
@@ -45,7 +45,7 @@ class TUI(controller: Controller) extends UI(controller) :
         invalidInput(list) match {
           case Success(f) => val posAndDesc = list.tail.head
             val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
-            if (index.isDefined && controller.field.matrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
+            if (index.isDefined && controller.field.getMatrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
               Some(Move(controller.diceCup.getResult(index.get).toString, controller.game.currentPlayer.playerID, index.get))
             else
               println("Falsche Eingabe!"); None
