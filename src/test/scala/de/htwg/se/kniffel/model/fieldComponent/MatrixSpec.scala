@@ -1,7 +1,9 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel
+package model.fieldComponent
 
+import model.fieldComponent.fieldBaseImpl.Matrix
+import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
 
 class MatrixSpec extends AnyWordSpec {
   "Matrix" when {

@@ -1,12 +1,16 @@
 package de.htwg.se.kniffel
 package util
 
+import controller.controllerBaseImpl.SetCommand
+import util.UndoManager
+import model.fieldComponent.IField
+import model.fieldComponent.fieldBaseImpl.Field
+import model.gameComponent.gameBaseImpl.{Game, Player}
+import model.gameComponent.IGame
+import model.Move
+
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import util.UndoManager
-import controller.SetCommand
-import model.{Field, Game, Player, Move}
-import model.{IField, IGame}
 
 class UndoManagerSpec extends AnyWordSpec {
   "An UndoManager" should {

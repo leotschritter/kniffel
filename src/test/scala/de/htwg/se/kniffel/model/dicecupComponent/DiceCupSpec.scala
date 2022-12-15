@@ -1,6 +1,8 @@
-package de.htwg.se.kniffel.model.dicecup
+package de.htwg.se.kniffel
+package model.dicecupComponent
 
-import de.htwg.se.kniffel.model.dicecup.{DiceCup, DiceCupState, Running, Start}
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.dicecupComponent.{DiceCupState, Running, Start}
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 

@@ -1,10 +1,14 @@
 package de.htwg.se.kniffel
-package controller
+package controller.controllerComponent
 
-import org.scalatest.wordspec.AnyWordSpec
+import controller.controllerBaseImpl.SetCommand
+import model.Move
+import model.fieldComponent.IField
+import model.fieldComponent.fieldBaseImpl.Field
+import model.gameComponent.IGame
+import model.gameComponent.gameBaseImpl.{Game, Player}
 import org.scalatest.matchers.should.Matchers.*
-import controller.SetCommand
-import model.{Field, Game, IField, IGame, Move, Player}
+import org.scalatest.wordspec.AnyWordSpec
 
 class SetCommandSpec extends AnyWordSpec {
   "The SetCommand" when {

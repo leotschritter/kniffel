@@ -3,8 +3,8 @@ package aview
 
 import controller.IController
 import aview.UI
-import de.htwg.se.kniffel.model.dicecup.DiceCup
-import model.{Field, Move, Player}
+import de.htwg.se.kniffel.model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.Move
 
 import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine

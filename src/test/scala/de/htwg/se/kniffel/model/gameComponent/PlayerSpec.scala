@@ -1,7 +1,9 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel
+package model.gameComponent
 
+import model.gameComponent.gameBaseImpl.Player
+import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers._
 
 class PlayerSpec extends AnyWordSpec {
   "A player" when {

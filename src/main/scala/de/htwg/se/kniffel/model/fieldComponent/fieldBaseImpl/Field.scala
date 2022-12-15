@@ -1,7 +1,9 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel
+package model.fieldComponent.fieldBaseImpl
 
+import model.fieldComponent.IField
 
-case class Field(matrix: Matrix[String]) extends IField:
+case class Field(matrix: Matrix[String]) extends IField :
   def this(numberOfPlayers: Int) = this(new Matrix[String](numberOfPlayers))
 
   val defaultPlayers: Int = matrix.rows.flatten.length / 19
@@ -28,12 +30,14 @@ case class Field(matrix: Matrix[String]) extends IField:
   def undoMove(valueList: List[String], x: Int, y: Int): Field = putMulti(valueList, "", x, y)
 
   def putMulti(valueList: List[String], putInValue: String, x: Int, y: Int): Field = {
-    val indexList:List[Int] = List(6, 7, 8, 16, 17, 18)
+    val indexList: List[Int] = List(6, 7, 8, 16, 17, 18)
     this.copy(matrix.fill(x, indexList.head, valueList.head).fill(x, indexList(1), valueList(1))
       .fill(x, indexList(2), valueList(2)).fill(x, indexList(3), valueList(3))
       .fill(x, indexList(4), valueList(4)).fill(x, indexList.last, valueList.last).fill(x, y, putInValue))
   }
+
   def numberOfPlayers: Int = defaultPlayers
+
   def getMatrix: Matrix[String] = matrix
 
   override def toString = mesh()

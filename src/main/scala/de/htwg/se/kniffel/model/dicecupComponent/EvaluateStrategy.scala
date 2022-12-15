@@ -1,4 +1,5 @@
-package de.htwg.se.kniffel.model.dicecup
+package de.htwg.se.kniffel
+package model.dicecupComponent
 
 object EvaluateStrategy {
   type Type[Int] = List[Int] => Int
