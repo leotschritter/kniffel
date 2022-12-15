@@ -12,7 +12,7 @@ case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame)
 
   val undoManager = new UndoManager[IGame, IField]
 
-  def undo: Unit = {
+  def undo(): Unit = {
     diceCup = diceCup.nextRound()
     val r = undoManager.undoStep(game, field)
     game = r._1
@@ -20,7 +20,7 @@ case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame)
     notifyObservers(Event.Move)
   }
 
-  def redo: Unit = {
+  def redo(): Unit = {
     diceCup = diceCup.nextRound()
     val r = undoManager.redoStep(game, field)
     game = r._1

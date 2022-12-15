@@ -8,9 +8,9 @@ import model.dicecupComponent.IDiceCup
 import model.Move
 
 trait IController extends Observable {
-  def undo: Unit
+  def undo(): Unit
 
-  def redo: Unit
+  def redo(): Unit
 
   def put(move: Move): Unit
 

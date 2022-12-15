@@ -65,9 +65,9 @@ class DiceCupSpec extends AnyWordSpec {
       }
     }
     "To evaluate the result of each throw get result" should {
-      val diceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
-      val diceCup2 = new DiceCup(List(2, 3), List(4, 5, 6), 2)
-      val diceCup3 = new DiceCup(List(2, 2), List(3, 3, 3), 2)
+      val diceCup = DiceCup(List(2, 2), List(2, 2, 2), 2)
+      val diceCup2 = DiceCup(List(2, 3), List(4, 5, 6), 2)
+      val diceCup3 = DiceCup(List(2, 2), List(3, 3, 3), 2)
       "return the right value" in {
         diceCup.getResult(1) should be(10)
         diceCup.getResult(9) should be(10)
@@ -86,7 +86,7 @@ class DiceCupSpec extends AnyWordSpec {
     }
     "when displayed" should {
       "have a specific format" in {
-        val diceCup: DiceCup = new DiceCup(List(2, 2), List(2, 2, 2), 2)
+        val diceCup: DiceCup = DiceCup(List(2, 2), List(2, 2, 2), 2)
         diceCup.toString() should be(
           "Im Becher: 2 2 2\nRausgenommen: 2 2\nVerbleibende Würfe: 3\n"
             + "Bitte wählen Sie aus: " + diceCup.indexOfField.keys.mkString(" ") + "\n"

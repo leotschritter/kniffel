@@ -80,11 +80,11 @@ class ControllerSpec extends AnyWordSpec {
         controller.field.getMatrix.cell(0, 0) should be("11")
       }
       "undo" in {
-        controller.undo
+        controller.undo()
         controller.field.getMatrix.cell(0, 0) should be("")
       }
       "redo" in {
-        controller.redo
+        controller.redo()
         controller.field.getMatrix.cell(0, 0) should be("11")
       }
     }

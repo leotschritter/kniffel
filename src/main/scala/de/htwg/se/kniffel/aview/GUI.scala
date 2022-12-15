@@ -326,7 +326,7 @@ class GUI(controller: IController) extends Frame, UI(controller) :
     listenTo(mouse.clicks)
     reactions += {
       case MouseClicked(src, pt, mod, clicks, props)
-      => controller.undo; update(Event.Move)
+      => controller.undo(); update(Event.Move)
     }
 
   class RedoButton() extends Button :
@@ -334,7 +334,7 @@ class GUI(controller: IController) extends Frame, UI(controller) :
     listenTo(mouse.clicks)
     reactions += {
       case MouseClicked(src, pt, mod, clicks, props)
-      => controller.redo; update(Event.Move)
+      => controller.redo(); update(Event.Move)
     }
 
   class CellButton(value: String, y: Int, isDisabled: Boolean = true) extends Button(value) :
