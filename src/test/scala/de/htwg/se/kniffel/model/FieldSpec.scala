@@ -1,4 +1,3 @@
-/*
 package de.htwg.se.kniffel.model
 
 import org.scalatest.wordspec.AnyWordSpec
@@ -125,7 +124,11 @@ class FieldSpec extends AnyWordSpec {
         "|E  |   |   |   |   |\n" +
         "+---+---+---+---+---+\n")
   }
+  "return Number of Players" in {
+    val field = new Field(2)
+    field.numberOfPlayers should be(2)
+  }
 }
 
 
-*/
+

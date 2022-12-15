@@ -25,9 +25,9 @@ case class Field(matrix: Matrix[String]) extends IField:
       0 + s * numberOfPlayers, s * numberOfPlayers + numberOfPlayers
     ))).mkString("") :+ bar(cellWidth)).mkString("")
 
-  def undoMove(valueList: List[String], x: Int, y: Int): IField = putMulti(valueList, "", x, y)
+  def undoMove(valueList: List[String], x: Int, y: Int): Field = putMulti(valueList, "", x, y)
 
-  def putMulti(valueList: List[String], putInValue: String, x: Int, y: Int, indexList:List[Int] = List(6, 7, 8, 16, 17, 18)): IField = {
+  def putMulti(valueList: List[String], putInValue: String, x: Int, y: Int, indexList:List[Int] = List(6, 7, 8, 16, 17, 18)): Field = {
     this.copy(matrix.fill(x, indexList.head, valueList.head).fill(x, indexList(1), valueList(1))
       .fill(x, indexList(2), valueList(2)).fill(x, indexList(3), valueList(3))
       .fill(x, indexList(4), valueList(4)).fill(x, indexList.last, valueList.last).fill(x, y, putInValue))
