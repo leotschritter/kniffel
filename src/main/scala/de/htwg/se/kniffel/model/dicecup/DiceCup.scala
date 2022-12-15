@@ -17,6 +17,11 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int): // exten
     case running: Running => state = new Running; state
   }
 
+/*  def stateCheck(): DiceCupState = state match {
+    case start: Start => state = new Running; state
+    case running: Running => state = new Running; state
+  }*/
+
   def dropListEntriesFromList(entriesToDelete: List[Int], shortenedList: List[Int], n: Int = 0): List[Int] = {
     if (entriesToDelete.size != n)
       dropListEntriesFromList(entriesToDelete,

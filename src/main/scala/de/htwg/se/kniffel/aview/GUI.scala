@@ -105,7 +105,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       border = Swing.LineBorder(new Color(0, 0, 0))
     }).toList
 
-  def getXIndex: Int = controller.game.getCurrentPlayer.getPlayerID
+  def getXIndex: Int = controller.game.getPlayerID
 
   def isEmpty(y: Int): Boolean = controller.field.getMatrix.isEmpty(getXIndex, y)
 
@@ -152,7 +152,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         background = new Color(255, 255, 255)
         border = Swing.MatteBorder(1, 0, 0, 0, new Color(0, 0, 0))
         contents += new Label {
-          text = controller.game.getCurrentPlayer.getPlayerName + " ist an der Reihe."
+          text = controller.game.getPlayerName + " ist an der Reihe."
           font = right_font
         }
 
@@ -310,7 +310,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   class CenterCellPanel(numberOfPlayers: Int = controller.field.numberOfPlayers) extends GridPanel(20, numberOfPlayers) :
     background = new Color(255, 255, 255)
     for (x <- 0 until numberOfPlayers) yield contents += new Label {
-      text = controller.game.getPlayer(x).getPlayerName
+      text = controller.game.getPlayerName(x)
       font = field_font
       opaque = true
       foreground = new Color(255, 255, 255)

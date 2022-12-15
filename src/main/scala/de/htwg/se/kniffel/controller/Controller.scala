@@ -59,7 +59,7 @@ case class Controller(var field: IField, var diceCup: DiceCup, var game: IGame) 
 
   def dice(): DiceCup = {
     diceCup.dice()
-    diceCup.state.throwDices(diceCup)
+    diceCup.throwDices(diceCup)
   }
 
   def nextRound(): DiceCup = diceCup.nextRound()
