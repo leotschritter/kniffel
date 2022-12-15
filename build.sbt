@@ -19,8 +19,8 @@ coverallsService := Some(GitHubActions)
 
 coverageHighlighting := true
 coverageFailOnMinimum := false
-coverageMinimumStmtTotal := 50
-coverageMinimumBranchTotal := 50
+coverageMinimumStmtTotal := 0
+coverageMinimumBranchTotal := 0
 coverageMinimumStmtPerPackage := 0
 coverageMinimumBranchPerPackage := 0
 coverageMinimumStmtPerFile := 0
