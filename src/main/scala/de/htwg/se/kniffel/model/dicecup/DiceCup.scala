@@ -3,19 +3,21 @@ package de.htwg.se.kniffel.model.dicecup
 import scala.collection.immutable.ListMap
 import scala.util.Random
 
-case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
+case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) extends IDiceCup:
   def this() = this(List.fill(0)(0), List.fill(5)(Random.between(1, 7)), 2)
 
   var state: DiceCupState = new Running()
 
-  def throwDices(diceCup: DiceCup): DiceCup = {
-    state.throwDices(diceCup)
+  def dice(): DiceCup = state match {
+    case start: Start => state = new Running; state.throwDices(this)
+    case running: Running => state = new Running; state.throwDices(this)
   }
 
-  def dice(): DiceCupState = state match {
-    case start: Start => state = new Running; state
-    case running: Running => state = new Running; state
-  }
+  def getRemainingDices: Int = remDices
+
+  def getInCup: List[Int] = inCup
+
+  def getLocked: List[Int] = locked
 
   def dropListEntriesFromList(entriesToDelete: List[Int], shortenedList: List[Int], n: Int = 0): List[Int] = {
     if (entriesToDelete.size != n)
@@ -65,7 +67,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int):
       case _ => 0
     }
 
-  val indexOfField: ListMap[String, Int] =
+  def indexOfField: ListMap[String, Int] =
     ListMap("1" -> 0, "2" -> 1, "3" -> 2, "4" -> 3, "5" -> 4, "6" -> 5,
       "3X" -> 9, "4X" -> 10, "FH" -> 11, "KS" -> 12, "GS" -> 13, "KN" -> 14, "CH" -> 15)
 

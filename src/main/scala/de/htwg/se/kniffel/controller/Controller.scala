@@ -2,16 +2,16 @@ package de.htwg.se.kniffel
 package controller
 
 import scala.annotation.targetName
-import model.{Field, Game, Move}
+import model.{IField, IGame, Move}
 import util.Observable
-import model.dicecup.DiceCup
+import model.dicecup.IDiceCup
 import util.UndoManager
 import controller.SetCommand
 import util.Event
 
-case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) extends Observable :
+case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController :
 
-  val undoManager = new UndoManager[Game, Field]
+  val undoManager = new UndoManager[IGame, IField]
 
   def undo: Unit = {
     diceCup = diceCup.nextRound()
@@ -42,26 +42,29 @@ case class Controller(var field: Field, var diceCup: DiceCup, var game: Game) ex
     game = game.next().get
 
   // doAndPublish for putOut and putIn
-  def doAndPublish(doThis: List[Int] => DiceCup, list: List[Int]): Unit =
+  def doAndPublish(doThis: List[Int] => IDiceCup, list: List[Int]): Unit =
     diceCup = doThis(list)
     notifyObservers(Event.Move)
 
-  def putOut(list: List[Int]): DiceCup =
+  def putOut(list: List[Int]): IDiceCup =
     diceCup.putDicesOut(list)
 
-  def putIn(list: List[Int]): DiceCup =
+  def putIn(list: List[Int]): IDiceCup =
     diceCup.putDicesIn(list)
 
   // doAndPublish for nextRound() and dice()
-  def doAndPublish(doThis: => DiceCup): Unit =
+  def doAndPublish(doThis: => IDiceCup): Unit =
     diceCup = doThis
     notifyObservers(Event.Move)
 
-  def dice(): DiceCup = {
-    diceCup.dice()
-    diceCup.state.throwDices(diceCup)
-  }
+  def dice(): IDiceCup = diceCup.dice()
 
-  def nextRound(): DiceCup = diceCup.nextRound()
+  def nextRound(): IDiceCup = diceCup.nextRound()
+
+  def getField: IField = field
+
+  def getDicecup: IDiceCup = diceCup
+
+  def getGame: IGame = game
 
   override def toString: String = field.toString

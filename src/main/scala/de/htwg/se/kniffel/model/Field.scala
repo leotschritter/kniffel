@@ -1,7 +1,7 @@
 package de.htwg.se.kniffel.model
 
 
-case class Field(matrix: Matrix[String]):
+case class Field(matrix: Matrix[String]) extends IField:
   def this(numberOfPlayers: Int) = this(new Matrix[String](numberOfPlayers))
 
   val defaultPlayers: Int = matrix.rows.flatten.length / 19
@@ -32,5 +32,7 @@ case class Field(matrix: Matrix[String]):
       .fill(x, indexList(2), valueList(2)).fill(x, indexList(3), valueList(3))
       .fill(x, indexList(4), valueList(4)).fill(x, indexList.last, valueList.last).fill(x, y, putInValue))
   }
+  def numberOfPlayers: Int = defaultPlayers
+  def getMatrix: Matrix[String] = matrix
 
   override def toString = mesh()

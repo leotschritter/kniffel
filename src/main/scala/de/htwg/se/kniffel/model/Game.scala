@@ -1,6 +1,9 @@
-package de.htwg.se.kniffel.model
+package de.htwg.se.kniffel
+package model
 
-case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves: Int, resultNestedList: List[List[Int]]):
+import model.Player
+
+case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves: Int, resultNestedList: List[List[Int]]) extends IGame :
   def this(numberOfPlayers: Int)
   = this((for (s <- 0 until numberOfPlayers) yield Player(s, "Player " + (s + 1))).toList,
     Player(0, "Player 1"),
@@ -20,6 +23,7 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
     else
       playersList(playersList.indexOf(currentPlayer) - 1)
   }
+
 
   def getNextPlayer: Player =
     playersList((playersList.indexOf(currentPlayer) + 1) % playersList.length)
@@ -48,3 +52,11 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
       List(sumTop) :+ bonus :+ (sumTop + bonus) :+ sumBottom :+ (sumTop + bonus) :+ (sumBottom + sumTop + bonus)
     ))
   }
+
+  def getPlayerID: Int = currentPlayer.playerID
+
+  def getPlayerName: String = currentPlayer.playerName
+
+  def getPlayerName(x: Int): String = playersList(x).playerName
+
+  def getResultNestedList(x: Int): List[Int] = resultNestedList(x)

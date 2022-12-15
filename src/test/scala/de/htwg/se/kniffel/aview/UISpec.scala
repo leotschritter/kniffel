@@ -15,24 +15,24 @@ class UISpec extends AnyWordSpec {
     "dices are put in or out" should {
       "put out or in" in {
         ui.diceCupPutOut(List(1, 2, 3))
-        controller.diceCup.locked should be(List())
+        controller.diceCup.getLocked should be(List())
         ui.diceCupPutIn(List(1, 2))
-        controller.diceCup.locked should be(List())
+        controller.diceCup.getLocked should be(List())
       }
     }
     "the player writes down a number" should {
       ui.writeDown(Move("2", 0, 0))
       "set the number into the field and trigger a new round" in {
-        controller.diceCup.locked should be (List())
-        controller.diceCup.inCup should be (List())
-        controller.field.matrix.cell(0, 0) should be("2")
-        controller.field.matrix.cell(0, 6) should be ("2")
-        controller.field.matrix.cell(0, 7) should be ("0")
-        controller.field.matrix.cell(0, 8) should be ("2")
-        controller.field.matrix.cell(0, 16) should be ("0")
-        controller.field.matrix.cell(0, 17) should be ("2")
-        controller.field.matrix.cell(0, 18) should be ("2")
-        controller.game.currentPlayer.playerID should be (1)
+        controller.diceCup.getLocked should be (List())
+        controller.diceCup.getInCup should be (List())
+        controller.field.getMatrix.cell(0, 0) should be("2")
+        controller.field.getMatrix.cell(0, 6) should be ("2")
+        controller.field.getMatrix.cell(0, 7) should be ("0")
+        controller.field.getMatrix.cell(0, 8) should be ("2")
+        controller.field.getMatrix.cell(0, 16) should be ("0")
+        controller.field.getMatrix.cell(0, 17) should be ("2")
+        controller.field.getMatrix.cell(0, 18) should be ("2")
+        controller.game.getPlayerID should be (1)
       }
     }
   }

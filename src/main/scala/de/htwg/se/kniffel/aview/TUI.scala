@@ -1,7 +1,7 @@
 package de.htwg.se.kniffel
 package aview
 
-import controller.Controller
+import controller.IController
 import aview.UI
 import de.htwg.se.kniffel.model.dicecup.DiceCup
 import model.{Field, Move, Player}
@@ -10,18 +10,18 @@ import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine
 import util.{Event, Observer}
 
-class TUI(controller: Controller) extends UI(controller) :
+class TUI(controller: IController) extends UI(controller) :
   controller.add(this)
   var continue = true
 
   override def run(): Unit =
-    println(controller.field.toString)
+    println(controller.getField.toString)
     inputLoop()
 
   def update(e: Event) =
     e match {
       case Event.Quit => continue = false
-      case Event.Move => println(controller.field.toString + "\n" + controller.diceCup.toString() + controller.game.currentPlayer.playerName + " ist an der Reihe.")
+      case Event.Move => println(controller.getField.toString + "\n" + controller.getDicecup.toString() + controller.getGame.getPlayerName + " ist an der Reihe.")
     }
 
 
@@ -44,9 +44,9 @@ class TUI(controller: Controller) extends UI(controller) :
       case "wd" => {
         invalidInput(list) match {
           case Success(f) => val posAndDesc = list.tail.head
-            val index: Option[Int] = controller.diceCup.indexOfField.get(posAndDesc)
-            if (index.isDefined && controller.field.matrix.isEmpty(controller.game.currentPlayer.playerID, index.get))
-              Some(Move(controller.diceCup.getResult(index.get).toString, controller.game.currentPlayer.playerID, index.get))
+            val index: Option[Int] = controller.getDicecup.indexOfField.get(posAndDesc)
+            if (index.isDefined && controller.getField.getMatrix.isEmpty(controller.getGame.getPlayerID, index.get))
+              Some(Move(controller.getDicecup.getResult(index.get).toString, controller.getGame.getPlayerID, index.get))
             else
               println("Falsche Eingabe!"); None
           case Failure(v) => println("Falsche Eingabe"); None

@@ -1,7 +1,8 @@
+
 package de.htwg.se.kniffel
 package controller
 
-import de.htwg.se.kniffel.model.dicecup.DiceCup
+import de.htwg.se.kniffel.model.dicecup.{DiceCup, IDiceCup}
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import model.{Field, Game, Move, Player}
@@ -28,23 +29,23 @@ class ControllerSpec extends AnyWordSpec {
     }
 
     "dices are put out the Dice Cup or in" should {
-      val sortOut: DiceCup = controller.putOut(controller.diceCup.inCup.take(2))
+      val sortOut: IDiceCup = controller.putOut(controller.diceCup.getInCup.take(2))
       "be inserted into the locked list of a new DiceCup Object" in {
-        sortOut.locked.size should be(2)
-        sortOut.inCup.size should be(3)
+        sortOut.getLocked.size should be(2)
+        sortOut.getInCup.size should be(3)
       }
       "be inserted into the inCup list of a new DiceCup Object" in {
-        val putIn: DiceCup = controller.putIn(controller.diceCup.locked.take(2))
-        putIn.locked.size should be(0)
-        putIn.inCup.size should be(5)
+        val putIn: IDiceCup = controller.putIn(controller.diceCup.getLocked.take(2))
+        putIn.getLocked.size should be(0)
+        putIn.getInCup.size should be(5)
       }
     }
 
     "dices are thrown" should {
       "contain two lists with all dices" in {
-        val thrownDiceCup: DiceCup = controller.dice()
-        thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be(5)
-        thrownDiceCup.inCup.foreach {
+        val thrownDiceCup: IDiceCup = controller.dice()
+        thrownDiceCup.getInCup.size + thrownDiceCup.getLocked.size should be(5)
+        thrownDiceCup.getInCup.foreach {
           s =>
             s should be < 7
             s should be > 0
@@ -61,28 +62,28 @@ class ControllerSpec extends AnyWordSpec {
     "after a Move" when {
       "write down the result" in {
         val con = controller.nextRound()
-        con.remDices should be(2)
-        con.inCup.size should be(0)
-        con.locked.size should be(0)
+        con.getRemainingDices should be(2)
+        con.getInCup.size should be(0)
+        con.getLocked.size should be(0)
       }
     }
     "when toString is called" should {
       "toString" in {
-        controller.toString should be(controller.field.mesh())
+        controller.toString should be(controller.field.toString())
       }
     }
     "when undo/redo/put is called" should {
       "put" in {
         controller.put(Move("11", 0, 0))
-        controller.field.matrix.cell(0, 0) should be("11")
+        controller.field.getMatrix.cell(0, 0) should be("11")
       }
       "undo" in {
         controller.undo
-        controller.field.matrix.cell(0, 0) should be("")
+        controller.field.getMatrix.cell(0, 0) should be("")
       }
       "redo" in {
         controller.redo
-        controller.field.matrix.cell(0, 0) should be("11")
+        controller.field.getMatrix.cell(0, 0) should be("11")
       }
     }
     "when game quit" should {
@@ -93,3 +94,4 @@ class ControllerSpec extends AnyWordSpec {
     }
   }
 }
+
