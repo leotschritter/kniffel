@@ -1,7 +1,7 @@
 package de.htwg.se.kniffel
-package model
+package model.gameComponent.gameBaseImpl
 
-import model.Player
+import model.gameComponent.IGame
 
 case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves: Int, resultNestedList: List[List[Int]]) extends IGame :
   def this(numberOfPlayers: Int)

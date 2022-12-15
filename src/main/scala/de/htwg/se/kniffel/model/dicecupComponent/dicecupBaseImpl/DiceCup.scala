@@ -1,9 +1,12 @@
-package de.htwg.se.kniffel.model.dicecup
+package de.htwg.se.kniffel
+package model.dicecupComponent.dicecupBaseImpl
+
+import model.dicecupComponent.*
 
 import scala.collection.immutable.ListMap
 import scala.util.Random
 
-case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) extends IDiceCup:
+case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) extends IDiceCup :
   def this() = this(List.fill(0)(0), List.fill(5)(Random.between(1, 7)), 2)
 
   var state: DiceCupState = new Running()
@@ -45,7 +48,7 @@ case class DiceCup(locked: List[Int], inCup: List[Int], remDices: Int) extends I
   }
 
   def putDicesOut(sortOut: List[Int]): DiceCup = {
-    if(listIsSubListOfList(sortOut, inCup))
+    if (listIsSubListOfList(sortOut, inCup))
       DiceCup(sortOut ++ locked, dropListEntriesFromList(sortOut, inCup), remDices)
     else
       this

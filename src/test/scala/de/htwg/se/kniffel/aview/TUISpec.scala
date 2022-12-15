@@ -1,12 +1,15 @@
 package de.htwg.se.kniffel
 package aview
 
+import controller.controllerBaseImpl.Controller
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.fieldComponent.fieldBaseImpl.Field
+import model.gameComponent.gameBaseImpl.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import controller.Controller
-import de.htwg.se.kniffel.model.dicecup.DiceCup
-import model.{Field, Game, Move}
-import scala.util.{Try,Success,Failure}
+import model.Move
+
+import scala.util.{Failure, Success, Try}
 
 class TUISpec extends AnyWordSpec {
   "The TUI" should {

@@ -1,14 +1,16 @@
-
 package de.htwg.se.kniffel
-package controller
+package controller.controllerComponent
 
-import de.htwg.se.kniffel.model.dicecup.{DiceCup, IDiceCup}
-import org.scalatest.wordspec.AnyWordSpec
+import controller.controllerBaseImpl.Controller
+import model.Move
+import model.dicecupComponent.IDiceCup
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.fieldComponent.fieldBaseImpl.Field
+import model.gameComponent.gameBaseImpl.{Game, Player}
+import util.{Event, Observer}
+
 import org.scalatest.matchers.should.Matchers.*
-import model.{Field, Game, Move, Player}
-import de.htwg.se.kniffel.model
-import util.Observer
-import util.Event
+import org.scalatest.wordspec.AnyWordSpec
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
@@ -20,7 +22,9 @@ class ControllerSpec extends AnyWordSpec {
         controller.add(this)
         var bing = false
 
-        def update(e: Event) = bing = true
+        def update(e: Event): Unit = {
+          bing = true
+        }
 
       val testObserver = TestObserver(controller)
       testObserver.bing should be(false)
@@ -56,7 +60,7 @@ class ControllerSpec extends AnyWordSpec {
     "set a new Game object" when {
       "finishing a move" in {
         controller2.next()
-        controller2.game should be(Some(model.Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))).get)
+        controller2.game should be(Some(Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))).get)
       }
     }
     "after a Move" when {
@@ -78,11 +82,11 @@ class ControllerSpec extends AnyWordSpec {
         controller.field.getMatrix.cell(0, 0) should be("11")
       }
       "undo" in {
-        controller.undo
+        controller.undo()
         controller.field.getMatrix.cell(0, 0) should be("")
       }
       "redo" in {
-        controller.redo
+        controller.redo()
         controller.field.getMatrix.cell(0, 0) should be("11")
       }
     }

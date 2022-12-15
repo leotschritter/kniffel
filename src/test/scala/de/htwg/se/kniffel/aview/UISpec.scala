@@ -1,12 +1,13 @@
 package de.htwg.se.kniffel
 package aview
 
+import controller.controllerBaseImpl.Controller
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.fieldComponent.fieldBaseImpl.Field
+import model.gameComponent.gameBaseImpl.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import controller.Controller
-import de.htwg.se.kniffel.model.dicecup.DiceCup
-import de.htwg.se.kniffel.model.Game
-import model.{Field, Move, Player}
+import model.Move
 
 class UISpec extends AnyWordSpec {
   "An UI" when {

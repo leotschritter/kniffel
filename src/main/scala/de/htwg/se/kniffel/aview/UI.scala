@@ -2,9 +2,9 @@ package de.htwg.se.kniffel
 package aview
 
 import controller.IController
+import de.htwg.se.kniffel.model.dicecupComponent.dicecupBaseImpl.DiceCup
 import util.Observer
 import model.Move
-import model.dicecup.DiceCup
 
 trait UI(controller: IController) extends Observer {
 

@@ -1,19 +1,18 @@
 package de.htwg.se.kniffel
-package controller
+package controller.controllerBaseImpl
 
-import scala.annotation.targetName
-import model.{IField, IGame, Move}
-import util.Observable
-import model.dicecup.IDiceCup
-import util.UndoManager
-import controller.SetCommand
-import util.Event
+import controller.IController
+import model.Move
+import model.dicecupComponent.IDiceCup
+import model.fieldComponent.IField
+import model.gameComponent.IGame
+import util.{Event, UndoManager}
 
 case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController :
 
   val undoManager = new UndoManager[IGame, IField]
 
-  def undo: Unit = {
+  def undo(): Unit = {
     diceCup = diceCup.nextRound()
     val r = undoManager.undoStep(game, field)
     game = r._1
@@ -21,7 +20,7 @@ case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame)
     notifyObservers(Event.Move)
   }
 
-  def redo: Unit = {
+  def redo(): Unit = {
     diceCup = diceCup.nextRound()
     val r = undoManager.redoStep(game, field)
     game = r._1

@@ -1,4 +1,8 @@
-package de.htwg.se.kniffel.model.dicecup
+package de.htwg.se.kniffel
+package model.dicecupComponent
+
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+
 import scala.util.Random
 
 trait DiceCupState {

@@ -1,12 +1,11 @@
 package de.htwg.se.kniffel
 
 
-import aview.{TUI, GUI}
-import controller.Controller
-import model.dicecup.DiceCup
-import model.{Field, Game}
-
-
+import aview.{GUI, TUI}
+import controller.controllerBaseImpl.Controller
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.fieldComponent.fieldBaseImpl.Field
+import model.gameComponent.gameBaseImpl.Game
 
 
 @main def main(): Unit =
