@@ -111,8 +111,8 @@ class GUI(controller: IController) extends Frame, UI(controller) :
 
   def disableList: List[Int] = (for {y <- 0 until 19 if !isEmpty(y)} yield y).toList
 
-  class RightPanel(state: stateOfDices, inCup: List[Int] = controller.getDicecup.inCup,
-                   locked: List[Int] = controller.getDicecup.locked, remaining_moves: Int = controller.getDicecup.remDices) extends BoxPanel(Orientation.Vertical) :
+  class RightPanel(state: stateOfDices, inCup: List[Int] = controller.getDicecup.getInCup,
+                   locked: List[Int] = controller.getDicecup.getLocked, remaining_moves: Int = controller.getDicecup.getRemainingDices) extends BoxPanel(Orientation.Vertical) :
     contents += new RightUpperPanel
     contents += new RightBottomPanel
     contents += new BorderPanel {
@@ -124,22 +124,24 @@ class GUI(controller: IController) extends Frame, UI(controller) :
     contents += new BorderPanel {
       background = new Color(255, 255, 255)
     }
+
     class RightBottomPanel extends FlowPanel {
       background = new Color(255, 255, 255)
       contents += new UndoButton
       contents += new RedoButton
     }
+
     class RightUpperPanel extends BorderPanel {
       val right_font = new Font("Arial", 0, 15)
       val lstViewLeft: ListView[ImageIcon] = new ListView[ImageIcon]() {
         selection.intervalMode = IntervalMode.MultiInterval
         if (state.==(stateOfDices.running))
-          listData = for (s <- controller.getDicecup.inCup) yield intToImg(s)
+          listData = for (s <- controller.getDicecup.getInCup) yield intToImg(s)
         preferredSize = new Dimension(100, 500)
       }
       val lstViewRight: ListView[ImageIcon] = new ListView[ImageIcon]() {
         selection.intervalMode = IntervalMode.MultiInterval
-        listData = for (s <- controller.getDicecup.locked) yield intToImg(s)
+        listData = for (s <- controller.getDicecup.getLocked) yield intToImg(s)
         preferredSize = new Dimension(100, 500)
       }
       add(new TopInnerPanel(), BorderPanel.Position.North)
@@ -319,7 +321,7 @@ class GUI(controller: IController) extends Frame, UI(controller) :
     }
     for (x <- field(numberOfPlayers)) yield contents += x
 
-  class UndoButton() extends Button:
+  class UndoButton() extends Button :
     icon = new ImageIcon("src/main/resources/undo.png")
     listenTo(mouse.clicks)
     reactions += {
@@ -327,7 +329,7 @@ class GUI(controller: IController) extends Frame, UI(controller) :
       => controller.undo; update(Event.Move)
     }
 
-  class RedoButton() extends Button:
+  class RedoButton() extends Button :
     icon = new ImageIcon("src/main/resources/redo.png")
     listenTo(mouse.clicks)
     reactions += {

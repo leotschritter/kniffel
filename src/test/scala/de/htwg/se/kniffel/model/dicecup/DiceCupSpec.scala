@@ -22,7 +22,7 @@ class DiceCupSpec extends AnyWordSpec {
     "dices are thrown" should {
       val diceCup: DiceCup = new DiceCup()
       "contain two lists with all dices" in {
-        val thrownDiceCup: DiceCup = diceCup.throwDices(diceCup)
+        val thrownDiceCup: DiceCup = diceCup.dice()
         thrownDiceCup.inCup.size + thrownDiceCup.locked.size should be(5)
         thrownDiceCup.inCup.foreach {
           s =>
@@ -95,7 +95,7 @@ class DiceCupSpec extends AnyWordSpec {
       val diceCup: DiceCup = new DiceCup()
       diceCup.state = new Start
       "have the Start State" in {
-        diceCup.dice().throwDices(diceCup)
+        diceCup.dice()
         diceCup.inCup.size + diceCup.locked.size should be(5)
         diceCup.inCup.foreach {
           s =>
@@ -104,11 +104,11 @@ class DiceCupSpec extends AnyWordSpec {
         }
       }
       "have the Running State" in {
-        var diceCup1 = diceCup.dice().throwDices(diceCup)
-        diceCup1 = diceCup1.dice().throwDices(diceCup1)
-        diceCup1 = diceCup1.dice().throwDices(diceCup1)
-        val diceCup2 = diceCup1.dice().throwDices(diceCup1)
-        diceCup.dice().throwDices(diceCup1).toString() should be (diceCup2.toString())
+        var diceCup1 = diceCup.dice()
+        diceCup1 = diceCup1.dice()
+        diceCup1 = diceCup1.dice()
+        val diceCup2 = diceCup1.dice()
+        diceCup1.dice().toString() should be (diceCup2.toString())
       }
     }
   }

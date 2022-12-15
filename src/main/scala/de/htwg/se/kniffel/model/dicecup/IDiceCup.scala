@@ -1,12 +1,17 @@
-/*
-package de.htwg.se.kniffel.model.dicecup
+package de.htwg.se.kniffel.model
+package dicecup
+
+import scala.collection.immutable.ListMap
+import dicecup.DiceCupState
 
 trait IDiceCup {
-  // var state: DiceCupState = new Running()
   def nextRound(): IDiceCup
+  def getInCup: List[Int]
+  def getLocked: List[Int]
+  def getRemainingDices: Int
+  def getResult(index: Int): Int
   def putDicesIn(list: List[Int]): IDiceCup
   def putDicesOut(list: List[Int]): IDiceCup
-  def dice(): DiceCupState
-  def throwDices(diceCup: IDiceCup): Dice
+  def dice(): IDiceCup
+  def indexOfField: ListMap[String, Int]
 }
-*/
