@@ -2,7 +2,6 @@ package de.htwg.se.kniffel.model
 package dicecup
 
 import scala.collection.immutable.ListMap
-import dicecup.DiceCupState
 
 trait IDiceCup {
   def nextRound(): IDiceCup
