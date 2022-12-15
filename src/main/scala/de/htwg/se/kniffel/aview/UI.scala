@@ -1,12 +1,12 @@
 package de.htwg.se.kniffel
 package aview
 
-import controller.Controller
+import controller.IController
 import util.Observer
 import model.Move
 import model.dicecup.DiceCup
 
-trait UI(controller: Controller) extends Observer {
+trait UI(controller: IController) extends Observer {
 
   def run(): Unit = {}
 

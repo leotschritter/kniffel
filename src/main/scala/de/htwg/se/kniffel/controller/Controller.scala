@@ -9,7 +9,7 @@ import util.UndoManager
 import controller.SetCommand
 import util.Event
 
-case class Controller(var field: IField, var diceCup: DiceCup, var game: IGame) extends Observable :
+case class Controller(var field: IField, var diceCup: DiceCup, var game: IGame) extends IController :
 
   val undoManager = new UndoManager[IGame, IField]
 
@@ -63,5 +63,11 @@ case class Controller(var field: IField, var diceCup: DiceCup, var game: IGame) 
   }
 
   def nextRound(): DiceCup = diceCup.nextRound()
+
+  def getField: IField = field
+
+  def getDicecup: DiceCup = diceCup
+
+  def getGame: IGame = game
 
   override def toString: String = field.toString

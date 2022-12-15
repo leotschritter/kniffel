@@ -1,7 +1,7 @@
 package de.htwg.se.kniffel
 package aview
 
-import controller.Controller
+import controller.IController
 import model.Move
 
 import scala.swing.{Label, *}
@@ -15,7 +15,7 @@ import java.awt.Toolkit
 import javax.swing.{ImageIcon, SpringLayout}
 import javax.swing.border.Border
 
-class GUI(controller: Controller) extends Frame, UI(controller) :
+class GUI(controller: IController) extends Frame, UI(controller) :
   controller.add(this)
   title = "Kniffel"
   iconImage = toolkit.getImage("src/main/resources/6.png")
@@ -89,12 +89,12 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
   centerOnScreen()
   open()
 
-  def field(numberOfPlayers: Int = controller.field.numberOfPlayers): List[Label] =
+  def field(numberOfPlayers: Int = controller.getField.numberOfPlayers): List[Label] =
     (for {
       i <- 0 until 19
       j <- 0 until numberOfPlayers
     } yield new Label {
-      text = controller.field.getMatrix.cell(j, i)
+      text = controller.getField.getMatrix.cell(j, i)
       font = field_font
       opaque = true
       if (j == getXIndex)
@@ -105,14 +105,14 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       border = Swing.LineBorder(new Color(0, 0, 0))
     }).toList
 
-  def getXIndex: Int = controller.game.getPlayerID
+  def getXIndex: Int = controller.getGame.getPlayerID
 
-  def isEmpty(y: Int): Boolean = controller.field.getMatrix.isEmpty(getXIndex, y)
+  def isEmpty(y: Int): Boolean = controller.getField.getMatrix.isEmpty(getXIndex, y)
 
   def disableList: List[Int] = (for {y <- 0 until 19 if !isEmpty(y)} yield y).toList
 
-  class RightPanel(state: stateOfDices, inCup: List[Int] = controller.diceCup.inCup,
-                   locked: List[Int] = controller.diceCup.locked, remaining_moves: Int = controller.diceCup.remDices) extends BoxPanel(Orientation.Vertical) :
+  class RightPanel(state: stateOfDices, inCup: List[Int] = controller.getDicecup.inCup,
+                   locked: List[Int] = controller.getDicecup.locked, remaining_moves: Int = controller.getDicecup.remDices) extends BoxPanel(Orientation.Vertical) :
     contents += new RightUpperPanel
     contents += new RightBottomPanel
     contents += new BorderPanel {
@@ -134,12 +134,12 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
       val lstViewLeft: ListView[ImageIcon] = new ListView[ImageIcon]() {
         selection.intervalMode = IntervalMode.MultiInterval
         if (state.==(stateOfDices.running))
-          listData = for (s <- controller.diceCup.inCup) yield intToImg(s)
+          listData = for (s <- controller.getDicecup.inCup) yield intToImg(s)
         preferredSize = new Dimension(100, 500)
       }
       val lstViewRight: ListView[ImageIcon] = new ListView[ImageIcon]() {
         selection.intervalMode = IntervalMode.MultiInterval
-        listData = for (s <- controller.diceCup.locked) yield intToImg(s)
+        listData = for (s <- controller.getDicecup.locked) yield intToImg(s)
         preferredSize = new Dimension(100, 500)
       }
       add(new TopInnerPanel(), BorderPanel.Position.North)
@@ -152,7 +152,7 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         background = new Color(255, 255, 255)
         border = Swing.MatteBorder(1, 0, 0, 0, new Color(0, 0, 0))
         contents += new Label {
-          text = controller.game.getPlayerName + " ist an der Reihe."
+          text = controller.getGame.getPlayerName + " ist an der Reihe."
           font = right_font
         }
 
@@ -307,10 +307,10 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
         }
     }
 
-  class CenterCellPanel(numberOfPlayers: Int = controller.field.numberOfPlayers) extends GridPanel(20, numberOfPlayers) :
+  class CenterCellPanel(numberOfPlayers: Int = controller.getField.numberOfPlayers) extends GridPanel(20, numberOfPlayers) :
     background = new Color(255, 255, 255)
     for (x <- 0 until numberOfPlayers) yield contents += new Label {
-      text = controller.game.getPlayerName(x)
+      text = controller.getGame.getPlayerName(x)
       font = field_font
       opaque = true
       foreground = new Color(255, 255, 255)
@@ -347,4 +347,4 @@ class GUI(controller: Controller) extends Frame, UI(controller) :
 
     // def errorMessage(): Unit = Dialog.showMessage(contents.head, "Feld ist schon belegt!", title = "Falsche Eingabe", messageType = Dialog.Message.Error)
 
-    def getValue: String = controller.diceCup.getResult(y).toString
+    def getValue: String = controller.getDicecup.getResult(y).toString
