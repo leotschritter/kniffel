@@ -23,16 +23,15 @@ class GameSpec extends AnyWordSpec {
         game.get.next().get.currentPlayer.playerName should be("Player2")
       }
     }
-    //Hier:
     "with no moves remaining next" should {
       "not build a new game" in {
         val players2: List[Player] = List(Player(0, "Player1"))
         var game2 = Option(Game(players2, players2.head, players2.length * 13, List.fill(players2.length, 6)(0)))
 
-        for (a <- 1 to 12) {
+        for (a <- 1 to 13) {
           game2 = game2.get.next()
         }
-        game2.get.remainingMoves should be(1)
+        game2.get.remainingMoves should be(0)
         game2.get.next() should be(None)
       }
     }
