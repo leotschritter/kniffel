@@ -22,7 +22,9 @@ class ControllerSpec extends AnyWordSpec {
         controller.add(this)
         var bing = false
 
-        def update(e: Event) = bing = true
+        def update(e: Event): Unit = {
+          bing = true
+        }
 
       val testObserver = TestObserver(controller)
       testObserver.bing should be(false)
