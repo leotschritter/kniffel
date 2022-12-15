@@ -16,6 +16,7 @@ class GameSpec extends AnyWordSpec {
       }
       "have the first player at first" in {
         game.get.currentPlayer should be(players.head)
+        game.get.getPlayerName(0) should be("Player1")
       }
     }
     "move has ended" should {
