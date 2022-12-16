@@ -1,8 +1,6 @@
 package de.htwg.se.kniffel
 package model.fieldComponent
 
-import model.fieldComponent.fieldBaseImpl.Matrix
-
 trait IField {
   def putMulti(valueList: List[String], putInValue: String, x: Int, y: Int): IField
 
@@ -10,5 +8,11 @@ trait IField {
 
   def numberOfPlayers: Int
 
-  def getMatrix: Matrix[String]
+  def getMatrix: IMatrix
+}
+
+trait IMatrix {
+  def cell(col: Int, row: Int): String
+
+  def isEmpty(col: Int, row: Int): Boolean
 }
