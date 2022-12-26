@@ -8,18 +8,18 @@ import model.gameComponent.gameBaseImpl.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import model.Move
-import Config.{given}
+import Config.given
 
 class UISpec extends AnyWordSpec {
   "An UI" when {
-    val controller: Controller = new Controller()
+    //val controller: Controller = new Controller()
     val ui = TUI()
     "dices are put in or out" should {
       "put out or in" in {
         ui.diceCupPutOut(List(1, 2, 3))
-        controller.diceCup.getLocked should be(List())
+        ui.getController.getDicecup.getLocked should be(List())
         ui.diceCupPutIn(List(1, 2))
-        controller.diceCup.getLocked should be(List())
+        ui.getController.getDicecup.getLocked should be(List())
       }
     }
     "the player writes down a number" should {

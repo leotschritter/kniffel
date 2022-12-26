@@ -9,7 +9,7 @@ import model.Move
 import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine
 import util.{Event, Observer}
-import Config.{given}
+import Config.given
 
 class TUI(using controller: IController) extends UI(controller) with Observer :
   controller.add(this)
@@ -22,7 +22,7 @@ class TUI(using controller: IController) extends UI(controller) with Observer :
   def update(e: Event): Unit =
     e match {
       case Event.Quit => continue = false
-      case Event.Move => println(controller.getField.toString + "\n" + controller.getDicecup.toString() + controller.getGame.getPlayerName + " ist an der Reihe.")
+      case Event.Move => println(controller.getField.toString + "\n" + controller.getDicecup.toString + controller.getGame.getPlayerName + " ist an der Reihe.")
     }
 
 

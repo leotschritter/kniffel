@@ -8,7 +8,7 @@ import model.gameComponent.gameBaseImpl.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import model.Move
-import Config.{given}
+import Config.given
 
 
 import scala.util.{Failure, Success, Try}

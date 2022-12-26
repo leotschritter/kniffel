@@ -8,7 +8,7 @@ import model.dicecupComponent.dicecupBaseImpl.DiceCup
 import model.fieldComponent.fieldBaseImpl.Field
 import model.gameComponent.gameBaseImpl.{Game, Player}
 import util.{Event, Observer}
-import Config.{given}
+import Config.given
 
 
 import org.scalatest.matchers.should.Matchers.*
@@ -75,7 +75,7 @@ class ControllerSpec extends AnyWordSpec {
     }
     "when toString is called" should {
       "toString" in {
-        controller.toString should be(controller.field.toString())
+        controller.toString should be(controller.field.toString)
       }
     }
     "when undo/redo/put is called" should {

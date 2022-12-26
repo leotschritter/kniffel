@@ -8,7 +8,6 @@ import model.dicecupComponent.IDiceCup
 import model.dicecupComponent.dicecupBaseImpl.DiceCup
 import model.fieldComponent.{IField, IMatrix}
 import model.fieldComponent.fieldBaseImpl.{Field, Matrix}
-import scala.io.StdIn.readLine
 
 object Config {
 

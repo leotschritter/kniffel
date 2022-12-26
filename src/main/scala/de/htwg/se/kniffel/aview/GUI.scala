@@ -10,7 +10,7 @@ import scala.swing.ListView.*
 import util.Event
 import util.Observer
 import aview.UI
-import Config.{given}
+import Config.given
 
 import java.awt.Toolkit
 import javax.swing.{ImageIcon, SpringLayout}
