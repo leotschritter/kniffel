@@ -16,17 +16,31 @@ import scala.util.{Failure, Success, Try}
 class TUISpec extends AnyWordSpec {
   "The TUI" should {
     val tui = TUI()
-    /*"recognize the input wd 1 0 as an input to the field at the position (0,0)" in {
-      tui.analyseInput("wd 1") should be(Some(Move("1", 0, 0)))
-    }*/
+
+    "recognize the input wd 1 0 as an input to the field at the position (0,0)" in {
+      val ones = tui.getController.getDicecup.getInCup.filter(_ == 1).sum.toString
+      val i = tui.getController.getGame.getPlayerID
+      tui.analyseInput("wd 1") should be(Some(Move(ones, i, 0)))
+    }
+    "recognize the input wd 22  as an invalid Input" in {
+      tui.analyseInput("wd 22") should be(None)
+    }
     "recognize the input o00 as move of stone O to field (0,0)" in {
       tui.analyseInput("po 1 2 3 4 5") should be(None)
     }
+    "recognize any input as None" in {
+      tui.analyseInput("pi 1 2 3 4 5") should be(None)
+      tui.analyseInput("d") should be(None)
+      tui.analyseInput("u") should be(None)
+      tui.analyseInput("r") should be(None)
+      tui.analyseInput("wd") should be(None)
+      tui.analyseInput("käsekuchen") should be(None)
+    }
     "dice the DiceCup when input is d" in {
-      tui.analyseInput("wd käsekuchen") should be (None)
+      tui.analyseInput("wd käsekuchen") should be(None)
     }
     "quit" in {
-      tui.analyseInput("q") should be (None)
+      tui.analyseInput("q") should be(None)
     }
     "a list is validated" in {
       val result = tui.invalidInput(List("wd"))

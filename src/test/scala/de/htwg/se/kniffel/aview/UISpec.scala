@@ -12,13 +12,12 @@ import Config.given
 
 class UISpec extends AnyWordSpec {
   "An UI" when {
-    //val controller: Controller = new Controller()
     val ui = TUI()
     "dices are put in or out" should {
       "put out or in" in {
-        ui.diceCupPutOut(List(1, 2, 3))
+        ui.diceCupPutOut(List())
         ui.getController.getDicecup.getLocked should be(List())
-        ui.diceCupPutIn(List(1, 2))
+        ui.diceCupPutIn(List())
         ui.getController.getDicecup.getLocked should be(List())
       }
     }
