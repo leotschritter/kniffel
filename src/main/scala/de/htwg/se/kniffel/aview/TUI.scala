@@ -9,8 +9,9 @@ import model.Move
 import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine
 import util.{Event, Observer}
+import Config.{given}
 
-class TUI(controller: IController) extends UI(controller) :
+class TUI(using controller: IController) extends UI(controller) with Observer :
   controller.add(this)
   var continue = true
 
@@ -55,5 +56,6 @@ class TUI(controller: IController) extends UI(controller) :
         println("Falsche Eingabe!"); None
 
   def invalidInput(list: List[String]): Try[String] = Try(list.tail.head)
-
+  
+  def getController: IController = controller
          

@@ -10,12 +10,13 @@ import scala.swing.ListView.*
 import util.Event
 import util.Observer
 import aview.UI
+import Config.{given}
 
 import java.awt.Toolkit
 import javax.swing.{ImageIcon, SpringLayout}
 import javax.swing.border.Border
 
-class GUI(controller: IController) extends Frame, UI(controller) :
+class GUI(using controller: IController) extends Frame, UI(controller) :
   controller.add(this)
   title = "Kniffel"
   iconImage = toolkit.getImage("src/main/resources/6.png")

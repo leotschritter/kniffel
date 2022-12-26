@@ -3,6 +3,8 @@ package model.fieldComponent.fieldBaseImpl
 
 import model.fieldComponent.IField
 
+
+
 case class Field(matrix: Matrix[String]) extends IField :
   def this(numberOfPlayers: Int) = this(new Matrix[String](numberOfPlayers))
 

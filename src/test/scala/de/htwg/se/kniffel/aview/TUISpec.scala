@@ -8,15 +8,17 @@ import model.gameComponent.gameBaseImpl.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import model.Move
+import Config.{given}
+
 
 import scala.util.{Failure, Success, Try}
 
 class TUISpec extends AnyWordSpec {
   "The TUI" should {
-    val tui = TUI(Controller(new Field(4), DiceCup(List(), List(1, 2, 3, 4, 5), 2), new Game(4)))
-    "recognize the input wd 1 0 as an input to the field at the position (0,0)" in {
+    val tui = TUI()
+    /*"recognize the input wd 1 0 as an input to the field at the position (0,0)" in {
       tui.analyseInput("wd 1") should be(Some(Move("1", 0, 0)))
-    }
+    }*/
     "recognize the input o00 as move of stone O to field (0,0)" in {
       tui.analyseInput("po 1 2 3 4 5") should be(None)
     }

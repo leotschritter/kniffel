@@ -6,9 +6,10 @@ import model.Move
 import model.dicecupComponent.IDiceCup
 import model.fieldComponent.IField
 import model.gameComponent.IGame
-import util.{Event, UndoManager}
+import util.{Event, Observable, UndoManager}
+import Config.given
 
-case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController :
+ class Controller(using var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController:
 
   val undoManager = new UndoManager[IGame, IField]
 
