@@ -15,4 +15,10 @@ trait IGame {
   def getPlayerName(x: Int): String
 
   def getResultNestedList(x: Int): List[Int]
+
+  def getNestedList: List[List[Int]]
+
+  def getRemainingMoves: Int
+
+  def getPlayerTuples: List[(Int, String)]
 }

@@ -60,3 +60,9 @@ case class Game(playersList: List[Player], currentPlayer: Player, remainingMoves
   def getPlayerName(x: Int): String = playersList(x).playerName
 
   def getResultNestedList(x: Int): List[Int] = resultNestedList(x)
+
+  def getNestedList: List[List[Int]] = resultNestedList
+
+  def getRemainingMoves: Int = remainingMoves
+
+  def getPlayerTuples: List[(Int, String)] = for(x <- playersList) yield (x.playerID, x.playerName)

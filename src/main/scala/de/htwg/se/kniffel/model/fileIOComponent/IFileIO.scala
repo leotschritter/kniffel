@@ -1,12 +1,15 @@
 package de.htwg.se.kniffel
 package model.fileIOComponent
 
-import model.fieldComponent.IField
+import model.fieldComponent.{IField, IMatrix}
 import model.gameComponent.IGame
 
 trait IFileIO {
-/*  def loadField: IField
-  def loadGame: IGame*/
-  def saveField(field: IField): Unit
-  def saveGame(game: IGame) : Unit
+  def loadField: IField
+
+  def loadGame: IGame
+
+  def saveField(field: IField, matrix: IMatrix): Unit
+
+  def saveGame(game: IGame): Unit
 }
