@@ -34,10 +34,10 @@ class FileIO extends IFileIO {
   override def loadGame: IGame = {
     val source: String = Source.fromFile("game.json").getLines.mkString
     val json: JsValue = Json.parse(source)
+    val remainingMoves: Int = (json \ "game" \ "remainingMoves").get.toString.toInt
     val currentPlayerId: Int = (json \ "game" \ "currentPlayerID").get.toString.toInt
     val currentPlayerName: String = (json \ "game" \ "currentPlayerName").get.toString
-    val remainingMoves: Int = (json \ "game" \ "remainingMoves").toString.toInt
-    val nestedList: List[List[Int]] = getNestedListGame((json \ "game" \ "nestedList").toString)
+    val nestedList: List[List[Int]] = getNestedListGame((json \ "game" \ "nestedList").get.toString.replace("\"", ""))
     val ids = (json \\ "id").map(x => x.as[Int])
     val names = (json \\ "name").map(x => x.as[String])
     val playersList: List[Player] = (for (x <- ids.indices) yield Player(ids(x), names(x))).toList
@@ -48,9 +48,15 @@ class FileIO extends IFileIO {
   override def loadField: IField = {
     val source: String = Source.fromFile("field.json").getLines.mkString
     val json: JsValue = Json.parse(source)
-    val nestedVector: Vector[Vector[String]] = getMatrix((json \ "field" \ "matrix").get.toString)
-    val matrix: Matrix[String] = Matrix(nestedVector)
-    val field: IField = Field(matrix)
+    val numberOfPlayers: Int = (json \ "field" \ "numberOfPlayers").get.toString.toInt
+    var matrixVector = Vector.tabulate(19, numberOfPlayers) { (cols, row_s) => "" }
+    for (index <- 0 until 19 * numberOfPlayers) {
+      val row = (json \\ "row") (index).as[Int]
+      val col = (json \\ "col") (index).as[Int]
+      val cell = (json \\ "cell") (index).as[String]
+      matrixVector = matrixVector.updated(row, matrixVector(row).updated(col, cell))
+    }
+    val field: IField = Field(Matrix(matrixVector))
     field
   }
 
@@ -77,14 +83,21 @@ class FileIO extends IFileIO {
   def fieldToJson(field: IField, matrix: IMatrix): JsObject = {
     Json.obj(
       "field" -> Json.obj(
-        "matrix" -> (for (i <- 0 until field.numberOfPlayers; j <- 0 until 19) yield matrix.cell(i, j)).map(_.mkString(",")).mkString(";")
+        "numberOfPlayers" -> JsNumber(field.numberOfPlayers),
+        "cells" -> Json.toJson(
+          for {
+            col <- 0 until field.numberOfPlayers
+            row <- 0 until 19
+          } yield {
+            Json.obj(
+              "row" -> row,
+              "col" -> col,
+              "cell" -> Json.toJson(matrix.cell(col, row))
+            )
+          }
+        )
       )
     )
-  }
-
-  def getMatrix(values: String): Vector[Vector[String]] = {
-    val valueVector: Vector[String] = values.split(";").toVector
-    (for (x <- valueVector.indices) yield valueVector(x).split(",").map(identity).toVector).toVector
   }
 
   def getNestedListGame(values: String): List[List[Int]] = {

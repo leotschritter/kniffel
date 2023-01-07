@@ -10,6 +10,7 @@ import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine
 import util.{Event, Observer}
 import Config.given
+import de.htwg.se.kniffel.model.fileIOComponent.fileIOJsonImpl.FileIO
 
 class TUI(using controller: IController) extends UI(controller) with Observer :
   controller.add(this)
@@ -42,6 +43,8 @@ class TUI(using controller: IController) extends UI(controller) with Observer :
       case "d" => controller.doAndPublish(controller.dice()); None
       case "u" => controller.undo(); None
       case "r" => controller.redo(); None
+      case "s" => controller.save; None
+      case "l" => controller.load; None
       case "wd" =>
         invalidInput(list) match {
           case Success(f) => val posAndDesc = list.tail.head
