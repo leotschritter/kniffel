@@ -52,13 +52,13 @@ class FileIO extends IFileIO {
     }*/
 
   def fieldToXml(field: IField, matrix: IMatrix): Elem = {
-    <field number={field.numberOfPlayers.toString}>
+    <field numberOfPlayers={field.numberOfPlayers.toString}>
       {for {
       col <- 0 until field.numberOfPlayers
       row <- 0 until 19
     } yield {
       <cell row={row.toString} col={col.toString}>
-        {matrix.cell(row, col)}
+        {matrix.cell(col, row)}
       </cell>
     }}
     </field>
