@@ -7,9 +7,9 @@ import model.dicecupComponent.IDiceCup
 import model.fieldComponent.IField
 import model.gameComponent.IGame
 import util.{Event, Observable, UndoManager}
-import Config.given
+import Config.{dicecup, given}
 import model.fileIOComponent.IFileIO
-import model.fileIOComponent.fileIOJsonImpl.FileIO
+import model.fileIOComponent.fileIOXmlImpl.FileIO
 
 class Controller(using var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController :
 
@@ -76,9 +76,13 @@ class Controller(using var field: IField, var diceCup: IDiceCup, var game: IGame
   def save: Unit = {
     file.saveGame(game)
     file.saveField(field, field.getMatrix)
+    file.saveDiceCup(diceCup)
+    notifyObservers(Event.Move)
   }
 
   def load: Unit = {
-    field = file.loadField
+    /*field = file.loadField
     game = file.loadGame
+    diceCup = file.loadDiceCup*/
+    notifyObservers(Event.Move)
   }

@@ -1,9 +1,9 @@
 {
   "game" : {
-    "nestedList" : "12,0,12,0,12,12;6,0,6,0,6,6",
-    "remainingMoves" : 24,
-    "currentPlayerID" : 0,
-    "currentPlayerName" : "Player 1",
+    "nestedList" : "18,0,18,67,18,85;0,0,0,75,0,75",
+    "remainingMoves" : 21,
+    "currentPlayerID" : 1,
+    "currentPlayerName" : "Player 2",
     "players" : [ [ {
       "id" : 0,
       "name" : "Player 1"

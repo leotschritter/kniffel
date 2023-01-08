@@ -3,7 +3,7 @@ package de.htwg.se.kniffel
 import controller.IController
 import controller.controllerBaseImpl.Controller
 import de.htwg.se.kniffel.model.fileIOComponent.IFileIO
-import de.htwg.se.kniffel.model.fileIOComponent.fileIOJsonImpl.FileIO
+import de.htwg.se.kniffel.model.fileIOComponent.fileIOXmlImpl.FileIO
 import model.gameComponent.IGame
 import model.gameComponent.gameBaseImpl.Game
 import model.dicecupComponent.IDiceCup
@@ -23,6 +23,7 @@ object Config {
 
   val controller = new Controller()
   given IController = controller
+
 
   val fileIO = new FileIO()
   given IFileIO = fileIO
