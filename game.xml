@@ -1,18 +1,18 @@
-<game remainingMoves="26" currentPlayerID="0" currentPlayerName="Player 1">
+<game remainingMoves="16" currentPlayerID="0" currentPlayerName="Player 1">
     <scores>
         <player playerid="0" playername="Player 1">
-            <total> 0 </total>
+            <total> 42 </total>
             <bonus> 0 </bonus>
-            <total_of_upper_section> 0 </total_of_upper_section>
-            <total_of_lower_section> 0 </total_of_lower_section>
-            <grand_total> 0 </grand_total>
+            <total_of_upper_section> 42 </total_of_upper_section>
+            <total_of_lower_section> 70 </total_of_lower_section>
+            <grand_total> 112 </grand_total>
         </player>
         <player playerid="1" playername="Player 2">
-            <total> 0 </total>
+            <total> 29 </total>
             <bonus> 0 </bonus>
-            <total_of_upper_section> 0 </total_of_upper_section>
-            <total_of_lower_section> 0 </total_of_lower_section>
-            <grand_total> 0 </grand_total>
+            <total_of_upper_section> 29 </total_of_upper_section>
+            <total_of_lower_section> 35 </total_of_lower_section>
+            <grand_total> 64 </grand_total>
         </player>
     </scores>
 </game>

@@ -6,11 +6,11 @@ import model.fieldComponent.{IField, IMatrix}
 import model.gameComponent.IGame
 
 trait IFileIO {
-/*  def loadField: IField
+  def loadField: IField
 
   def loadGame: IGame
 
-  def loadDiceCup: IDiceCup*/
+  def loadDiceCup: IDiceCup
   
   def saveField(field: IField, matrix: IMatrix): Unit
 

@@ -19,26 +19,26 @@ import javax.management.ValueExp
 class FileIO extends IFileIO {
 
   override def saveGame(game: IGame): Unit = {
-    /*import java.io._
+    import java.io._
     val pw = new PrintWriter(new File("game.json"))
     pw.write(Json.prettyPrint(gameToJson(game)))
-    pw.close()*/
+    pw.close()
   }
 
- override def saveField(field: IField, matrix: IMatrix): Unit = {
-    /*import java.io._
+  override def saveField(field: IField, matrix: IMatrix): Unit = {
+    import java.io._
     val pw = new PrintWriter(new File("field.json"))
     pw.write(Json.prettyPrint(fieldToJson(field, matrix)))
-    pw.close()*/
+    pw.close()
   }
 
   override def saveDiceCup(diceCup: IDiceCup): Unit = {
-    /*import java.io._
+    import java.io._
     val pw = new PrintWriter(new File("dicecup.json"))
     pw.write(Json.prettyPrint(diceCupToJson(diceCup)))
-    pw.close()*/
+    pw.close()
   }
-/*
+
   override def loadGame: IGame = {
     val source: String = Source.fromFile("game.json").getLines.mkString
     val json: JsValue = Json.parse(source)
@@ -132,5 +132,5 @@ class FileIO extends IFileIO {
   def getNestedListGame(values: String): List[List[Int]] = {
     val valueList: List[String] = values.split(";").toList
     (for (x <- valueList.indices) yield valueList(x).split(",").map(_.toInt).toList).toList
-  }*/
+  }
 }

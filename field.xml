@@ -1,40 +1,40 @@
 <field numberOfPlayers="2">
     <cell row="0" col="0"> </cell>
     <cell row="1" col="0"> </cell>
-    <cell row="2" col="0"> </cell>
+    <cell row="2" col="0"> 9 </cell>
     <cell row="3" col="0"> </cell>
-    <cell row="4" col="0"> </cell>
-    <cell row="5" col="0"> </cell>
-    <cell row="6" col="0"> </cell>
-    <cell row="7" col="0"> </cell>
-    <cell row="8" col="0"> </cell>
+    <cell row="4" col="0"> 15 </cell>
+    <cell row="5" col="0"> 18 </cell>
+    <cell row="6" col="0"> 42 </cell>
+    <cell row="7" col="0"> 0 </cell>
+    <cell row="8" col="0"> 42 </cell>
     <cell row="9" col="0"> </cell>
     <cell row="10" col="0"> </cell>
     <cell row="11" col="0"> </cell>
-    <cell row="12" col="0"> </cell>
-    <cell row="13" col="0"> </cell>
+    <cell row="12" col="0"> 30 </cell>
+    <cell row="13" col="0"> 40 </cell>
     <cell row="14" col="0"> </cell>
     <cell row="15" col="0"> </cell>
-    <cell row="16" col="0"> </cell>
-    <cell row="17" col="0"> </cell>
-    <cell row="18" col="0"> </cell>
+    <cell row="16" col="0"> 70 </cell>
+    <cell row="17" col="0"> 42 </cell>
+    <cell row="18" col="0"> 112 </cell>
     <cell row="0" col="1"> </cell>
-    <cell row="1" col="1"> </cell>
-    <cell row="2" col="1"> </cell>
+    <cell row="1" col="1"> 8 </cell>
+    <cell row="2" col="1"> 6 </cell>
     <cell row="3" col="1"> </cell>
-    <cell row="4" col="1"> </cell>
+    <cell row="4" col="1"> 15 </cell>
     <cell row="5" col="1"> </cell>
-    <cell row="6" col="1"> </cell>
-    <cell row="7" col="1"> </cell>
-    <cell row="8" col="1"> </cell>
-    <cell row="9" col="1"> </cell>
+    <cell row="6" col="1"> 29 </cell>
+    <cell row="7" col="1"> 0 </cell>
+    <cell row="8" col="1"> 29 </cell>
+    <cell row="9" col="1"> 19 </cell>
     <cell row="10" col="1"> </cell>
     <cell row="11" col="1"> </cell>
     <cell row="12" col="1"> </cell>
     <cell row="13" col="1"> </cell>
     <cell row="14" col="1"> </cell>
-    <cell row="15" col="1"> </cell>
-    <cell row="16" col="1"> </cell>
-    <cell row="17" col="1"> </cell>
-    <cell row="18" col="1"> </cell>
+    <cell row="15" col="1"> 16 </cell>
+    <cell row="16" col="1"> 35 </cell>
+    <cell row="17" col="1"> 29 </cell>
+    <cell row="18" col="1"> 64 </cell>
 </field>

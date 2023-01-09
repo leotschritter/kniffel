@@ -1,9 +1,12 @@
 package de.htwg.se.kniffel
 package model.fileIOComponent.fileIOXmlImpl
 
-import de.htwg.se.kniffel.model.dicecupComponent.IDiceCup
-import de.htwg.se.kniffel.model.fieldComponent.{IField, IMatrix}
-import de.htwg.se.kniffel.model.gameComponent.IGame
+import model.dicecupComponent.dicecupBaseImpl.DiceCup
+import model.gameComponent.gameBaseImpl.{Game, Player}
+import model.dicecupComponent.IDiceCup
+import model.fieldComponent.fieldBaseImpl.{Field, Matrix}
+import model.fieldComponent.{IField, IMatrix}
+import model.gameComponent.IGame
 import model.fileIOComponent.IFileIO
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter}
@@ -18,7 +21,6 @@ class FileIO extends IFileIO {
     pw.write(xml)
     pw.close()
   }
-
 
   override def saveGame(game: IGame): Unit = {
     import java.io._
@@ -38,18 +40,42 @@ class FileIO extends IFileIO {
     pw.close()
   }
 
+  override def loadDiceCup: IDiceCup = {
+    val file: Elem = scala.xml.XML.loadFile("dicecup.xml")
+    val remainingDices: Int = (file \\ "dicecup" \ "@remainingDices").toString.toInt
+    val locked: List[Int] = (for f <- file \\ "locked" \ "dice" yield f.text.trim.toInt).toList
+    val inCup: List[Int] = (for f <- file \\ "incup" \ "dice" yield f.text.trim.toInt).toList
+    DiceCup(locked, inCup, remainingDices)
+  }
 
-  /*override def loadDiceCup: IDiceCup = ???
+  override def loadGame: IGame = {
+    val file: Elem = scala.xml.XML.loadFile("game.xml")
+    val remainingMoves: Int = (file \\ "game" \ "@remainingMoves").toString.toInt
+    val currentPlayer: Player = Player((file \\ "game" \ "@currentPlayerID").toString.toInt, (file \\ "game" \ "@currentPlayerName").toString)
+    val playersList: List[Player] = (for player <- file \\ "player" yield Player((player \ "@playerid").toString.toInt, (player \ "@playername").toString)).toList
+    val total: Seq[Int] = for f <- file \\ "total" yield f.text.trim.toInt
+    val bonus: Seq[Int] = for f <- file \\ "bonus" yield f.text.trim.toInt
+    val total_of_upper_section: Seq[Int] = for f <- file \\ "total_of_upper_section" yield f.text.trim.toInt
+    val total_of_lower_section: Seq[Int] = for f <- file \\ "total_of_lower_section" yield f.text.trim.toInt
+    val grand_total: Seq[Int] = for f <- file \\ "grand_total" yield f.text.trim.toInt
+    val resultNestedList: List[List[Int]] =
+      (for x <- total.indices
+        yield List(total(x), bonus(x), total_of_upper_section(x),
+          total_of_lower_section(x), total_of_upper_section(x), grand_total(x))).toList
+    Game(playersList, currentPlayer, remainingMoves, resultNestedList)
+  }
 
-  override def loadGame: IGame = ???
-
-  override def loadField: IField = ???*/
-
-  /*  def fieldToXml(field:IField, matrix: IMatrix): Elem = {
-      <field>
-
-      </field>
-    }*/
+  override def loadField: IField = {
+    val file: Elem = scala.xml.XML.loadFile("field.xml")
+    val numberOfPlayers: Int = (file \\ "field" \ "@numberOfPlayers").toString.toInt
+    val cellNodes: NodeSeq = file \\ "cell"
+    val cells: Map[(Int, Int), String] =
+      (for (cell <- cellNodes)
+        yield (((cell \ "@row").toString.toInt, (cell \ "@col").toString.toInt), cell.text.trim)).toMap[(Int, Int), String]
+    val nestedVector: Vector[Vector[String]] =
+      (for (rows <- 0 until 19) yield (for (cols <- 0 until numberOfPlayers) yield cells((rows, cols))).toVector).toVector
+    Field(Matrix(nestedVector))
+  }
 
   def fieldToXml(field: IField, matrix: IMatrix): Elem = {
     <field numberOfPlayers={field.numberOfPlayers.toString}>

@@ -81,8 +81,8 @@ class Controller(using var field: IField, var diceCup: IDiceCup, var game: IGame
   }
 
   def load: Unit = {
-    /*field = file.loadField
+    field = file.loadField
     game = file.loadGame
-    diceCup = file.loadDiceCup*/
+    diceCup = file.loadDiceCup
     notifyObservers(Event.Move)
   }
