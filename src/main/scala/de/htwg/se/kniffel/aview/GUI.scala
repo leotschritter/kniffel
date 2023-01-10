@@ -74,6 +74,12 @@ class GUI(using controller: IController) extends Frame, UI(controller) :
       contents += new MenuItem(Action("Exit") {
         sys.exit(0)
       })
+      contents += new MenuItem(Action("Load") {
+        controller.load
+      })
+      contents += new MenuItem(Action("Save") {
+        controller.save
+      })
     }
   }
   contents = new BorderPanel {
