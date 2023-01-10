@@ -56,7 +56,7 @@ class GUI(using controller: IController) extends Frame, UI(controller) :
 
   def update(e: Event): Unit = e match
     case Event.Quit => this.dispose()
-    case Event.Move =>
+    case _ =>
       contents = new BorderPanel {
         add(new Label {
           opaque = true

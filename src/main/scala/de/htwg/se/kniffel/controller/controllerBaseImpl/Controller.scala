@@ -77,12 +77,12 @@ class Controller(using var field: IField, var diceCup: IDiceCup, var game: IGame
     file.saveGame(game)
     file.saveField(field, field.getMatrix)
     file.saveDiceCup(diceCup)
-    notifyObservers(Event.Move)
+    notifyObservers(Event.Save)
   }
 
   def load: Unit = {
     field = file.loadField
     game = file.loadGame
     diceCup = file.loadDiceCup
-    notifyObservers(Event.Move)
+    notifyObservers(Event.Load)
   }

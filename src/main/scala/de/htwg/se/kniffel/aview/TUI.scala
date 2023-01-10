@@ -23,7 +23,7 @@ class TUI(using controller: IController) extends UI(controller) with Observer :
   def update(e: Event): Unit =
     e match {
       case Event.Quit => continue = false
-      case Event.Move => println(controller.getField.toString + "\n" + controller.getDicecup.toString + controller.getGame.getPlayerName + " ist an der Reihe.")
+      case _ => println(controller.getField.toString + "\n" + controller.getDicecup.toString + controller.getGame.getPlayerName + " ist an der Reihe.")
     }
 
 

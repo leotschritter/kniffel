@@ -78,7 +78,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.toString should be(controller.field.toString)
       }
     }
-    "when undo/redo/put is called" should {
+    "when undo/redo/put/save/load is called" should {
       "put" in {
         controller.put(Move("11", 0, 0))
         controller.field.getMatrix.cell(0, 0) should be("11")
@@ -90,6 +90,12 @@ class ControllerSpec extends AnyWordSpec {
       "redo" in {
         controller.redo()
         controller.field.getMatrix.cell(0, 0) should be("11")
+      }
+      "save and loaded" in {
+        controller.diceCup = DiceCup(List(), List(1, 2, 3, 4, 5), 2)
+        controller.save
+        controller.load
+        controller.diceCup should be (DiceCup(List(), List(1, 2, 3, 4, 5), 2))
       }
     }
     "when game quit" should {
