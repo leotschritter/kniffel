@@ -34,6 +34,8 @@ class TUISpec extends AnyWordSpec {
       tui.analyseInput("u") should be(None)
       tui.analyseInput("r") should be(None)
       tui.analyseInput("wd") should be(None)
+      tui.analyseInput("s") should be(None)
+      tui.analyseInput("l") should be(None)
       tui.analyseInput("käsekuchen") should be(None)
     }
     "dice the DiceCup when input is d" in {
