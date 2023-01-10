@@ -12,4 +12,6 @@ class Observable:
 
 enum Event:
   case Quit
+  case Load
+  case Save
   case Move

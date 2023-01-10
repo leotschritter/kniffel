@@ -58,5 +58,10 @@ class GameSpec extends AnyWordSpec {
         game6.undoMove(7, 1) should be(Game(List(Player(0, "Player1")), Player(0, "Player1"), 14, List(List(75, 35, 110, 62, 110, 172))))
       }
     }
+    "a nested list is requested" should {
+      "return the nested list with the expected values" in {
+        game.get.getNestedList should be (game.get.resultNestedList)
+      }
+    }
   }
 }

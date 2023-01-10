@@ -8,32 +8,32 @@ import model.gameComponent.gameBaseImpl.Game
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 import model.Move
+import Config.given
 
 class UISpec extends AnyWordSpec {
   "An UI" when {
-    val controller: Controller = Controller(new Field(4), DiceCup(List(), List(1, 2, 3, 4, 5), 2), new Game(4))
-    val ui = TUI(controller)
+    val ui = TUI()
     "dices are put in or out" should {
       "put out or in" in {
-        ui.diceCupPutOut(List(1, 2, 3))
-        controller.diceCup.getLocked should be(List())
-        ui.diceCupPutIn(List(1, 2))
-        controller.diceCup.getLocked should be(List())
+        ui.diceCupPutOut(List())
+        ui.getController.getDicecup.getLocked should be(List())
+        ui.diceCupPutIn(List())
+        ui.getController.getDicecup.getLocked should be(List())
       }
     }
     "the player writes down a number" should {
       ui.writeDown(Move("2", 0, 0))
       "set the number into the field and trigger a new round" in {
-        controller.diceCup.getLocked should be (List())
-        controller.diceCup.getInCup should be (List())
-        controller.field.getMatrix.cell(0, 0) should be("2")
-        controller.field.getMatrix.cell(0, 6) should be ("2")
-        controller.field.getMatrix.cell(0, 7) should be ("0")
-        controller.field.getMatrix.cell(0, 8) should be ("2")
-        controller.field.getMatrix.cell(0, 16) should be ("0")
-        controller.field.getMatrix.cell(0, 17) should be ("2")
-        controller.field.getMatrix.cell(0, 18) should be ("2")
-        controller.game.getPlayerID should be (1)
+        ui.getController.getDicecup.getLocked should be (List())
+        ui.getController.getDicecup.getInCup should be (List())
+        ui.getController.getField.getMatrix.cell(0, 0) should be("2")
+        ui.getController.getField.getMatrix.cell(0, 6) should be ("2")
+        ui.getController.getField.getMatrix.cell(0, 7) should be ("0")
+        ui.getController.getField.getMatrix.cell(0, 8) should be ("2")
+        ui.getController.getField.getMatrix.cell(0, 16) should be ("0")
+        ui.getController.getField.getMatrix.cell(0, 17) should be ("2")
+        ui.getController.getField.getMatrix.cell(0, 18) should be ("2")
+        ui.getController.getGame.getPlayerID should be(1)
       }
     }
   }

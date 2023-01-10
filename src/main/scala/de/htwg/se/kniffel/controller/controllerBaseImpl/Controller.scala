@@ -6,11 +6,16 @@ import model.Move
 import model.dicecupComponent.IDiceCup
 import model.fieldComponent.IField
 import model.gameComponent.IGame
-import util.{Event, UndoManager}
+import util.{Event, Observable, UndoManager}
+import Config.given
+import model.fileIOComponent.IFileIO
+import model.fileIOComponent.fileIOXmlImpl.FileIO
 
-case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController :
+class Controller(using var field: IField, var diceCup: IDiceCup, var game: IGame) extends IController :
 
   val undoManager = new UndoManager[IGame, IField]
+
+  val file:IFileIO = new FileIO
 
   def undo(): Unit = {
     diceCup = diceCup.nextRound()
@@ -67,3 +72,17 @@ case class Controller(var field: IField, var diceCup: IDiceCup, var game: IGame)
   def getGame: IGame = game
 
   override def toString: String = field.toString
+
+  def save: Unit = {
+    file.saveGame(game)
+    file.saveField(field, field.getMatrix)
+    file.saveDiceCup(diceCup)
+    notifyObservers(Event.Save)
+  }
+
+  def load: Unit = {
+    field = file.loadField
+    game = file.loadGame
+    diceCup = file.loadDiceCup
+    notifyObservers(Event.Load)
+  }

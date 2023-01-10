@@ -38,4 +38,7 @@ trait IController extends Observable {
 
   def getGame: IGame
 
+  def save: Unit
+
+  def load: Unit
 }

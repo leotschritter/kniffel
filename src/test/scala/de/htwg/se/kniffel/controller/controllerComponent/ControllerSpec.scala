@@ -8,14 +8,16 @@ import model.dicecupComponent.dicecupBaseImpl.DiceCup
 import model.fieldComponent.fieldBaseImpl.Field
 import model.gameComponent.gameBaseImpl.{Game, Player}
 import util.{Event, Observer}
+import Config.given
+
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
-    val controller = Controller(new Field(2), new DiceCup(), new Game(4))
-    val controller2 = Controller(new Field(1), new DiceCup(), new Game(1))
+    val controller = Controller()
+    val controller2 = Controller()
 
     "notify its observers on change" in {
       class TestObserver(controller: Controller) extends Observer :
@@ -60,7 +62,7 @@ class ControllerSpec extends AnyWordSpec {
     "set a new Game object" when {
       "finishing a move" in {
         controller2.next()
-        controller2.game should be(Some(Game(List(Player(0, "Player 1")), Player(0, "Player 1"), 12, List(List(0, 0, 0, 0, 0, 0)))).get)
+        controller2.game should be (Game(List(Player(0,"Player 1"), Player(1,"Player 2")),Player(1,"Player 2"),25,List(List(0, 0, 0, 0, 0, 0), List(0, 0, 0, 0, 0, 0))))
       }
     }
     "after a Move" when {
@@ -73,10 +75,10 @@ class ControllerSpec extends AnyWordSpec {
     }
     "when toString is called" should {
       "toString" in {
-        controller.toString should be(controller.field.toString())
+        controller.toString should be(controller.field.toString)
       }
     }
-    "when undo/redo/put is called" should {
+    "when undo/redo/put/save/load is called" should {
       "put" in {
         controller.put(Move("11", 0, 0))
         controller.field.getMatrix.cell(0, 0) should be("11")
@@ -88,6 +90,12 @@ class ControllerSpec extends AnyWordSpec {
       "redo" in {
         controller.redo()
         controller.field.getMatrix.cell(0, 0) should be("11")
+      }
+      "save and loaded" in {
+        controller.diceCup = DiceCup(List(), List(1, 2, 3, 4, 5), 2)
+        controller.save
+        controller.load
+        controller.diceCup should be (DiceCup(List(), List(1, 2, 3, 4, 5), 2))
       }
     }
     "when game quit" should {

@@ -1,0 +1,11 @@
+<dicecup remainingDices="1">
+    <locked quantity="3">
+        <dice> 5 </dice>
+        <dice> 5 </dice>
+        <dice> 5 </dice>
+    </locked>
+    <incup quantity="2">
+        <dice> 1 </dice>
+        <dice> 3 </dice>
+    </incup>
+</dicecup>

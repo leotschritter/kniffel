@@ -10,12 +10,13 @@ import scala.swing.ListView.*
 import util.Event
 import util.Observer
 import aview.UI
+import Config.given
 
 import java.awt.Toolkit
 import javax.swing.{ImageIcon, SpringLayout}
 import javax.swing.border.Border
 
-class GUI(controller: IController) extends Frame, UI(controller) :
+class GUI(using controller: IController) extends Frame, UI(controller) :
   controller.add(this)
   title = "Kniffel"
   iconImage = toolkit.getImage("src/main/resources/6.png")
@@ -55,7 +56,7 @@ class GUI(controller: IController) extends Frame, UI(controller) :
 
   def update(e: Event): Unit = e match
     case Event.Quit => this.dispose()
-    case Event.Move =>
+    case _ =>
       contents = new BorderPanel {
         add(new Label {
           opaque = true

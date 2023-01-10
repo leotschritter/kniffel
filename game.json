@@ -1,0 +1,21 @@
+{
+  "game" : {
+    "nestedList" : "0,0,0,0,0,0;0,0,0,0,0,0;0,0,0,0,0,0;0,0,0,0,0,0",
+    "remainingMoves" : 52,
+    "currentPlayerID" : 0,
+    "currentPlayerName" : "Player1",
+    "players" : [ [ {
+      "id" : 0,
+      "name" : "Player1"
+    }, {
+      "id" : 1,
+      "name" : "Player2"
+    }, {
+      "id" : 2,
+      "name" : "Player3"
+    }, {
+      "id" : 3,
+      "name" : "Player4"
+    } ] ]
+  }
+}

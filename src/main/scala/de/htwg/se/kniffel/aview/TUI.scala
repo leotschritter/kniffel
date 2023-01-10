@@ -9,8 +9,10 @@ import model.Move
 import scala.util.{Failure, Success, Try}
 import scala.io.StdIn.readLine
 import util.{Event, Observer}
+import Config.given
+import de.htwg.se.kniffel.model.fileIOComponent.fileIOJsonImpl.FileIO
 
-class TUI(controller: IController) extends UI(controller) :
+class TUI(using controller: IController) extends UI(controller) with Observer :
   controller.add(this)
   var continue = true
 
@@ -21,7 +23,7 @@ class TUI(controller: IController) extends UI(controller) :
   def update(e: Event): Unit =
     e match {
       case Event.Quit => continue = false
-      case Event.Move => println(controller.getField.toString + "\n" + controller.getDicecup.toString() + controller.getGame.getPlayerName + " ist an der Reihe.")
+      case _ => println(controller.getField.toString + "\n" + controller.getDicecup.toString + controller.getGame.getPlayerName + " ist an der Reihe.")
     }
 
 
@@ -41,6 +43,8 @@ class TUI(controller: IController) extends UI(controller) :
       case "d" => controller.doAndPublish(controller.dice()); None
       case "u" => controller.undo(); None
       case "r" => controller.redo(); None
+      case "s" => controller.save; None
+      case "l" => controller.load; None
       case "wd" =>
         invalidInput(list) match {
           case Success(f) => val posAndDesc = list.tail.head
@@ -55,5 +59,6 @@ class TUI(controller: IController) extends UI(controller) :
         println("Falsche Eingabe!"); None
 
   def invalidInput(list: List[String]): Try[String] = Try(list.tail.head)
-
+  
+  def getController: IController = controller
          
