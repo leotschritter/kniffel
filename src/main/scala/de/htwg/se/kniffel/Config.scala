@@ -2,8 +2,8 @@ package de.htwg.se.kniffel
 
 import controller.IController
 import controller.controllerBaseImpl.Controller
-import de.htwg.se.kniffel.model.fileIOComponent.IFileIO
-import de.htwg.se.kniffel.model.fileIOComponent.fileIOXmlImpl.FileIO
+import model.fileIOComponent.IFileIO
+import model.fileIOComponent.fileIOXmlImpl.FileIO
 import model.gameComponent.IGame
 import model.gameComponent.gameBaseImpl.Game
 import model.dicecupComponent.IDiceCup

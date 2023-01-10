@@ -8,7 +8,6 @@ import model.fieldComponent.fieldBaseImpl.{Field, Matrix}
 import model.fieldComponent.{IField, IMatrix}
 import model.gameComponent.IGame
 import model.fileIOComponent.IFileIO
-
 import scala.xml.{Elem, NodeSeq, PrettyPrinter}
 
 class FileIO extends IFileIO {

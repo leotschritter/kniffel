@@ -7,7 +7,7 @@ import model.dicecupComponent.IDiceCup
 import model.fieldComponent.IField
 import model.gameComponent.IGame
 import util.{Event, Observable, UndoManager}
-import Config.{dicecup, given}
+import Config.given
 import model.fileIOComponent.IFileIO
 import model.fileIOComponent.fileIOXmlImpl.FileIO
 
