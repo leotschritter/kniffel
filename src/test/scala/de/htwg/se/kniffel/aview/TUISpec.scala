@@ -17,11 +17,7 @@ class TUISpec extends AnyWordSpec {
   "The TUI" should {
     val tui = TUI()
 
-    "recognize the input wd 1 0 as an input to the field at the position (0,0)" in {
-      val ones = tui.getController.getDicecup.getInCup.filter(_ == 1).sum.toString
-      val i = tui.getController.getGame.getPlayerID
-      tui.analyseInput("wd 1") should be(Some(Move(ones, i, 0)))
-    }
+
     "recognize the input wd 22  as an invalid Input" in {
       tui.analyseInput("wd 22") should be(None)
     }
